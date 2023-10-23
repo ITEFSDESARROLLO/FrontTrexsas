@@ -1,0 +1,23 @@
+.itemnav{
+    padding-left: 10;
+}
+.logo{
+    margin-right: 5;
+}
+.boton{
+    padding: 12px;
+}
+#cabecera {
+  position: fixed;
+  background-color: lightskyblue;
+  height: 100px;
+  width: 100%;
+}
+
+#boton{
+  background-color: #004790;
+  color :#39D5FF;
+}
+.disable_ripple:hover{
+  background: #004790;
+  }

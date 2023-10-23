@@ -1,0 +1,185 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.pasajero}}</h3>
+                        <p *ngIf="!edit && !view">Convertir a {{labels?.pasajero}}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                                    {{msm}}
+                                </div>
+                                <form [formGroup]="Formulario" [hidden]="ocultar">
+                                    <div class="row" [hidden]="view || edit">
+                                                
+                                        <label class="col-md-2 col-form-label font-italic">{{labels?.usuario}}:</label>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.usuario}}" (keyup)="filtrarPas()"  formControlName="pas" type="text" required>
+                                                <mat-error *ngIf="Formulario.get('pas').errors?.required">digite el valor del pasajero</mat-error>
+                                                <mat-error *ngIf="Formulario.get('pas').errors?.notexist">Este usuario no existe</mat-error>
+                                                <mat-error *ngIf="Formulario.get('pas').errors?.notselect">Selecciona al pasajero</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-2"><button *ngIf="iduser!=-1" type="button" (click)="reestablecer()" class="btn btn-secondary">Reestablecer</button></div>
+                                        <div class="col-md-5"></div>
+                                        
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let pas of selectnopasArray">
+                                            <div class="card_book">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <p>
+                                                            <img class="img-fluid rounded-circle" width="100" src="assets/user.png" alt="">
+                                                        </p>
+                                                        <h4 routerLink="#" class="card-title">{{pas.nombrePersona}} {{pas.apellidoPersona}}</h4>
+                                                        
+                                                        <div>
+                                                            <p class="badge">
+                                                                Documento:
+                                                            </p>
+                                                            <span class="badge badge-pill badge-warning">{{pas.documentoPersona}}</span>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <span *ngIf="iduser==pas.idPersona" class="badge badge-pill badge-success">PASAJERO A CONVERTIR</span>
+                                                        </div>
+                        
+                                                        <button [disabled]="iduser==pas.idPersona" type="button" (click)="elegirPas(pas.idPersona)" class="btn btn-block btn-primary">Elegir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="iduser!=-1" class="alert alert-warning" role="alert">
+                                        POR FAVOR CONFIRMA LA INFORMACIÓN DEL USUARIO A CONVERTIR EN PASAJERO
+                                    </div>
+                                    <div *ngIf="iduser!=-1 || idpas!=-1" class="form-group row">
+                                        <div class="col-md-4 mb-3">
+                                            <mat-label>Estado </mat-label><br>
+                                            Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.nombres}}" readonly formControlName="nompas" type="text" >
+                                                <mat-error >digite los nombres</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.apellidos}}" readonly formControlName="apepas" type="text" >
+                                                <mat-error >digite los apellidos</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Tipo de Documento</mat-label>
+                                                <mat-select formControlName="tipodocpas" readonly name="selecttipodoc" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let tipodoc of tipodocs"  [value]="tipodoc.id" >
+                                                    {{tipodoc.value}}
+                                                </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.document}}" readonly formControlName="numdocpas" type="text" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.ciudad_expedicion}}" readonly formControlName="ciudadepas" type="text" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.email}}" readonly formControlName="correopas" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.celular_uno}}" readonly formControlName="tel1pas" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.celular_dos}}" readonly formControlName="tel2pas" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.direccion}}" readonly formControlName="direccionpas" type="text">
+                                                <mat-error >digite la direccion</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.ciudad}}" readonly formControlName="ciudadpas" type="text">
+                                                <mat-error >digite la ciudad</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_nacimiento}}" readonly formControlName="fechaN" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.idioma}}" readonly formControlName="idioma" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="!edit && !view" class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.usuario}}" readonly formControlName="usucuenta" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_registro}}" readonly formControlName="fechaR" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_actualizacion}}" readonly formControlName="fechaA" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                        <label>Documento Cara 1:</label>
+                                            <div *ngIf="!(docuno=='' || docuno=='null')" class="input-group-prepend">
+                                                <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadCC(docuno)" type="button" >Descargar</button>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Documento Cara 2:</label>
+                                            <div *ngIf="!(docdos=='' || docdos=='null')" class="input-group-prepend">
+                                                <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadCC(docdos)" type="button" >Descargar</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Foto </label><br>
+                                            <div *ngIf="fotoper!=null || fotoper=='null'" class="input-group-prepend">
+                                                <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadFoto(fotoper)" type="button" >Descargar</button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center">
+                                        <button-component buttonClass="btn btn-info pull-right btn-round" type="button" [hidden]="view" text="{{labels?.guardar}}" (click)="guardar()"></button-component>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+    </div>
+</div>

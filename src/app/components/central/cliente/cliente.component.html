@@ -1,0 +1,165 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" style="background-color: #004790; color: #39d5ff; height: 100px;">
+                        <h3 style="font-weight: bold; text-align: center;">
+                          NUEVO CLIENTE
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                                    {{msm}}
+                                </div>
+                                <form [formGroup]="Formulario" [hidden]="ocultar">
+
+                                    <div class="form-group row">
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                              <label for="">{{labels?.razon_social}}</label>
+                                                <input matInput formControlName="razon" type="text" required>
+                                                <mat-error >digite la razon social del cliente</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                              <label for="">Nit/Cédula</label>
+                                                <input matInput formControlName="nit" type="text" required>
+                                                <mat-error *ngIf="Formulario.get('nit').errors?.required" >digite el nit del cliente</mat-error>
+                                                <mat-error *ngIf="Formulario.get('nit').errors?.pattern" >Solo numeros</mat-error>
+                                                <mat-hint align="end">Digite el NIT sin puntos ni digito de verificacion</mat-hint>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                              <label for="">{{labels?.direccion}}</label>
+                                                <input matInput formControlName="direccion" type="text" required>
+                                                <mat-error >digite la direccion del cliente</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3" *ngIf="edit==true">
+                                          <label for="">Envio programación</label>
+                                            <br>
+                                            No <mat-slide-toggle  formControlName="enviop"></mat-slide-toggle> Si
+                                        </div>
+                                        <div class="col-md-4 mb-3" *ngIf="edit==true">
+                                            <label for="">Estado</label><br>
+                                            Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                                        </div>
+                                        <div class="col-md-4 mb-3" *ngIf="edit==true">
+                                            <label for="">Finalizar Servicio</label><br>
+                                            Deslizar <mat-slide-toggle  formControlName="fins"></mat-slide-toggle> Codigo QR
+                                        </div>
+                                        <div class="col-md-4 mb-3" >
+                                            <mat-form-field class="example-full-width">
+                                              <label for="">{{labels?.ciudad}}</label>
+                                                <input matInput formControlName="selectedC" type="text" autocomplete="off" (keyup)="cambioC()" (focus)="vfocus()" required>
+
+                                                <div *ngIf="listoC" class="list-group-CO">
+                                                    <a class="list-group-item list-group-item-action py-1" (click)="selectC(ciudad.idCiudad,ciudad.ciudad)" *ngFor="let ciudad of ciudadesC" >{{ciudad.ciudad}}</a>
+                                                </div>
+                                                <mat-error *ngIf="Formulario.get('selectedC').errors?.validC">escoja una ciudad que este en el listado</mat-error>
+                                                <mat-error *ngIf="Formulario.get('selectedC').errors?.required">digite la ciudad de origen</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Logo </label><br>
+                                            <div class="input-group mb-3">
+                                                <div *ngIf="(edit || view)&& fotoper!=null" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadFoto(fotoper)" type="button" >Descargar</button>
+                                                </div>&nbsp;&nbsp;
+                                                <div [hidden]="view" class="custom-file">
+                                                    <input formControlName="archlogo" type="file" name="fichero" id="formFileFoto" lang="es-ES" accept="image/*" (change)="cambioFoto($event)" value="null">
+                                                    <label class="custom-file-label" for="formFileFoto" data-browse="Elegir">{{archnomFoto}}</label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                              <label for="">{{labels?.email}}</label>
+                                                <input matInput formControlName="correo" type="text" required>
+                                                <mat-error *ngIf="Formulario.get('correo').errors?.required">digite el email del cliente</mat-error>
+                                                <mat-error *ngIf="Formulario.get('correo').errors?.email">Email no valido</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                              <label for="">{{labels?.celular_uno}}</label>
+                                                <input matInput  formControlName="tel1" type="text" required>
+                                                <mat-error *ngIf="Formulario.get('tel1').errors?.required">digite el primer celular del cliente</mat-error>
+                                                <mat-error *ngIf="Formulario.get('tel1').errors?.nottel">No cumple con las cifras de un numero de telefono</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                              <label for="">{{labels?.celular_dos}}</label>
+                                                <input matInput formControlName="tel2" type="text" >
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="alertpen && !Formulario.valid"  class="col-md-12 alert alert-danger alert-with-icon">
+                                        <i class="material-icons" data-notify="icon">error_outline</i>
+                                        <span data-notify="message">
+                                            <b>Error:</b> Aun existen campos pendientes, revisa el formulario en busca de campos subrayados en rojo.</span>
+                                    </div>
+                                    <div class="col-md-12 mb-3" *ngIf="cliente!=undefined">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <div>
+                                                            <label for="">
+                                                                Registrado por: {{cliente.cuenta.registradoPorCuenta?.nombrePersona}} {{cliente.cuenta.registradoPorCuenta?.apellidoPersona}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Fecha: {{cliente.cuenta?.fechaRegistroCuenta | date}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Contacto: {{cliente.cuenta.registradoPorCuenta?.celularUnoPersona}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <div>
+                                                            <label for="">
+                                                                <label for="">
+                                                                    Actualizado por: {{cliente.cuenta.actualizadoPorCuenta?.nombrePersona}} {{cliente.cuenta.actualizadoPorCuenta?.apellidoPersona}}
+                                                                </label>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Fecha: {{cliente.cuenta.fechaActualizacionCuenta | date}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Contacto: {{cliente.cuenta.actualizadoPorCuenta?.celularUnoPersona}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center">
+                                        <button class="btn btn-round" style="background-color: #004790; color: white;" (click)="guardar()">{{labels?.guardar}}</button>
+                                      </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

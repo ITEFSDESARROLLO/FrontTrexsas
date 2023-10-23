@@ -1,0 +1,79 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+                      <h2 style="font-weight:bold">
+                          Lista de Capacitaciones
+                      </h2>
+                  </div>
+                  <div class="card-body">
+                      <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                          {{msm}}
+                      </div>
+                      <form [formGroup]="Formulario">
+                          <div class="form-row">
+
+                              <div class="col-md-7 mb-3">
+                                  <div>
+                                      <mat-form-field class="example-full-width" >
+                                          <input matInput placeholder="{{labels?.nombre_capacitacion}}" formControlName="txtNombre" type="text" required>
+                                          <mat-error *ngIf="Formulario.get('txtNombre').errors?.required">digite el nombre de la capacitación</mat-error>
+                                      </mat-form-field>
+                                  </div>
+                                  <div>
+                                      <mat-form-field class="example-full-width" >
+                                          <mat-label>Descripción de la Capacitación</mat-label>
+                                          <textarea matInput formControlName="txtDescripcion" type="text" required></textarea>
+                                          <mat-error *ngIf="Formulario.get('txtDescripcion').errors?.required">digite la {{labels?.descripcion_capacitacion}}</mat-error>
+                                      </mat-form-field>
+                                  </div>
+                              </div>
+                              <div class="col-md-5 mb-3">
+                                  <div>
+                                      <mat-form-field appearance="fill">
+                                          <mat-label>{{labels?.fecha_inicio_inscripcion_capacitacion}}</mat-label>
+                                          <input matInput [matDatepicker]="picker" formControlName="txtFechaInicioInscripciones">
+                                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker></mat-datepicker>
+                                      </mat-form-field>
+                                  </div>
+                                  <div>
+                                      <mat-form-field appearance="fill">
+                                          <mat-label>{{labels?.fecha_fin_inscripcion_capacitacion}}</mat-label>
+                                          <input matInput [matDatepicker]="picker1" formControlName="txtFechaFinInscripciones">
+                                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker1></mat-datepicker>
+                                      </mat-form-field>
+                                  </div>
+                                  <div>
+                                      <mat-form-field appearance="fill">
+                                          <mat-label>{{labels?.fecha_inicio_capacitacion}}</mat-label>
+                                          <input matInput [matDatepicker]="picker2" formControlName="txtFechaInicio">
+                                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker2></mat-datepicker>
+                                      </mat-form-field>
+                                  </div>
+                                  <div>
+                                      <mat-form-field appearance="fill">
+                                          <mat-label>{{labels?.fecha_fin_capacitacion}}</mat-label>
+                                          <input matInput [matDatepicker]="picker3" formControlName="txtFechaFin">
+                                          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker3></mat-datepicker>
+                                      </mat-form-field>
+                                  </div>
+                              </div>
+                          </div>
+                          <div style="text-align: center">
+                              <button [hidden]="view" pButton pRipple type="button" class="p-button-rounded" style="font-weight:bold" (click)="guardar()">Finalizar</button>
+                              <!--<button [hidden]="view" class="btn btn-info btn-round" (click)="guardar()" type="button" >Finalizar</button>-->
+                          </div>
+                      </form>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="main-content">
+    <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.perfil}}</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                          <h3>
+                            Nombre Perfil
+                          </h3>
+                        </div>
+
+                        <div class="col-md-9 col-sm-12" style="display: block;">
+                          <form [formGroup]="Formulario" [hidden]="ocultar">
+                                  <input placeholder="{{labels?.nombre}}" formControlName="nom" type="text" style="width: 100%;" required>
+                                  No Disponible<mat-slide-toggle  formControlName="swest"></mat-slide-toggle>Disponible
+                          </form>
+                        </div>
+
+                        <div class="col-md-12">
+                          <ol>
+                            <div class="card" *ngFor="let per of listaURLSistema">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-3">
+                                    <label for="" style="text-align: center;font-weight: bold; color: black;">{{per.descripcionUriPadre}}</label>
+                                  </div>
+                                  <div class="col-9">
+                                      <div class="row">
+                                        <div class="col"  *ngFor="let hijo of per.urisHijas">
+                                          <label for="">{{hijo.descripcionUriHija}}</label>
+                                          <input type="checkbox" [checked]="hijo.permiso" (change)="cambiarEstado(per.idUriPadre,hijo.idUriHija)" [disabled]="hijo.disable"
+                                          style="width: 10px;height: 10px;">
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ol>
+                        </div>
+                        <div class="col-md-12">
+                          <button class="btn btn-primary" (click)="guardar()">
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>

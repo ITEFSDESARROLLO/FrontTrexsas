@@ -1,0 +1,299 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-3">
+                <h2 style="font-weight: bold;">{{labels?.title_table_vehiculos}}</h2>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-3">
+                <button class="btn" (click)="mostrarDialogoSubida()" style="background-color: #22A7F0;">
+                  <i class="bi bi-upload"></i>
+                    Importar
+                </button>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-3">
+                <button class="btn" (click)="exportexcel()" style="background-color: #22A7F0;">
+                    Exportar
+                </button>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-3">
+              <label style="color: #39d5ff" for="">BUSCAR:</label>
+              <input #box type="text" name="" id="" (keyup)="filtrar(box.value)">
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-xl">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Código Interno
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Placa
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+
+                    <th scope="col">Clase de vehiculo
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Nombre Propietario
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Estado
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of vehiculosFiltrados">
+                    <td>{{r.codigoInternoVehiculo}}</td>
+                    <td >{{r.placaVehiculo}}</td>
+                    <td >{{r.clase.clase}}</td>
+                    <td >{{r.nombrePersona}} {{r.apellidoPersona}}</td>
+                    <td >
+                      <p-tag styleClass="p-mr-2" *ngIf="r.estadoVehiculo==0" severity="warning" value="DESHABILITADO"></p-tag>
+                      <p-tag styleClass="p-mr-2" *ngIf="r.estadoVehiculo==1" severity="success" value="HABILITADO"></p-tag>
+                      <p-tag styleClass="p-mr-2" *ngIf="r.estadoVehiculo==2" severity="primary" value="ELIMINADO"></p-tag>
+                      <p-tag styleClass="p-mr-2" *ngIf="r.estadoVehiculo==6" severity="danger" value="POR LEGALIZAR"></p-tag>
+                    <td>
+                      <button pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-primary" pTooltip="VER INFORMACIÓN AUTOMÓVIL" *ngIf="consult('/vehiculos','/ver')" routerLink="{{'ver'+r.idVehiculo}}">
+                      </button>
+                      <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-info" pTooltip="MODIFICAR" *ngIf="r.estadoVehiculo==0 && consult('/vehiculos','/editar')" routerLink="{{'editar'+r.idVehiculo}}">
+                      </button>
+                      <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-info" pTooltip="MODIFICAR" *ngIf="r.estadoVehiculo==1 && consult('/vehiculos','/editar')" routerLink="{{'editar'+r.idVehiculo}}">
+                      </button>
+                      <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-info" pTooltip="MODIFICAR" *ngIf="r.estadoVehiculo==2 && consult('/vehiculos','/editar')" routerLink="{{'editar'+r.idVehiculo}}">
+                      </button>
+                      <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-info" pTooltip="MODIFICAR" *ngIf="r.estadoVehiculo==6 && consult('/vehiculos','/editar')" routerLink="{{'editar'+r.idVehiculo}}">
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerVehiculos(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index "><a class="page-link" style="cursor:pointer;"  (click)="ObtenerVehiculos(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerVehiculos(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>
+
+<p-dialog [(visible)]="displayCargaMasiva" [modal]="true" [style]="{width: '100vw'}" [draggable]="false" [resizable]="true" [closable]="false">
+    <div style="height: 1000px; width: 100%;">
+        <div class="row" >
+          <input type="file" class="form-control" (change)="leerExcel($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        </div>
+        <div class="row">
+              <p-table [value]="vehiculosExcel" dataKey="id" editMode="row">
+                <ng-template pTemplate="header">
+                    <tr >
+
+                        <th>Id</th>
+                        <th>Codigo Interno</th>
+                        <th>Placa</th>
+                        <th># Pasajeros</th>
+                        <th>Combustible</th>
+                        <th>Marca</th>
+                        <th>Color</th>
+                        <th>modelo</th>
+                        <th>Cilindraje</th>
+                        <th>Propietatio</th>
+                        <th>Número Licencia Tránsito</th>
+                        <th>Fecha Matrícula</th>
+                        <th>Número Motor</th>
+                        <th>Número Chasís</th>
+                        <th>Número Serie</th>
+                        <th alignFrozen="right" pFrozenColumn [frozen]="true">Acciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                  <tr [pEditableRow]="product" [ngStyle]="{'background-color':product.correcto == 1 ? '#8effc1' : '#FF6C5C' }">
+                    <td>
+                      {{product.id}}
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.cod_interno">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.cod_interno}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.placa">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.placa}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.pasajeros">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.pasajeros}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete [(ngModel)]="product.tip_combustible" [showEmptyMessage]="true" [suggestions]="combustiblesFiltrados" (completeMethod)="filtrarCombustible($event)" field="tipoCombustible" [minLength]="1"></p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.tip_combustible}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete [(ngModel)]="product.marca" [showEmptyMessage]="true" [suggestions]="marcasFiltradas" (completeMethod)="filtrarMarcas($event)" field="marca" [minLength]="1"></p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.marca}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete [(ngModel)]="product.color" [showEmptyMessage]="true" [suggestions]="coloresFiltrados" (completeMethod)="filterColores($event)" field="descripcionColor" [minLength]="1"></p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.color}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.modelo">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.modelo}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.cilindraje">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.cilindraje}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                          <p-autoComplete [(ngModel)]="product.propietario" [showEmptyMessage]="true" [suggestions]="propietariosFiltrados" (completeMethod)="filterPropietarios($event)" field="nombrePersona" [minLength]="1"></p-autoComplete>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.propietario}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.num_licencia_transito">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.num_licencia_transito}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.fecha_matricula">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.fecha_matricula}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.num_motor">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.num_motor}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.chasis">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.chasis}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.serie_Motor">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.serie_Motor}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </td>
+                <td style="text-align:center" alignFrozen="right" [frozen]="true" pFrozenColumn>
+                  <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)" class="p-button-rounded p-button-text" ></button>
+                  <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                  <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                </td>
+              </tr>
+              </ng-template>
+            </p-table>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" (click)="displayCargaMasiva = false">Cerrar</button>
+            <button class="btn btn-primary" (click)="crearVehiculosCargaExcel()">Guardar</button>
+        </div>
+    </div>
+</p-dialog>

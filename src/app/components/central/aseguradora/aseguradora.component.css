@@ -1,0 +1,21 @@
+
+.example-full-width {
+  width: 100%;
+}
+#lienzo{
+  height: 100%;
+}
+.estpos{
+  margin: 0px 39px 0px 0px;
+}
+.switch{
+  padding: 0px 0px 0px 0px;
+}
+.pildora{
+  background-color: #1A1B39;
+  color: #ffffff;
+  padding-top: 0px;
+}
+#boton{
+background-color:#0057A0;
+}

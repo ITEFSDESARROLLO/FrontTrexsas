@@ -1,0 +1,401 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.contrato_ocasional}}</h3>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="Formulario">
+                            <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                                {{msm}}
+                            </div>
+                            <div *ngIf="resveh.placa==undefined" [hidden]="ocultar" class="form-row">
+                                    
+                                <div class="col-md-4 mb-3" >
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.placa}}" (keyup)="mayus('pl')" autocomplete="off" formControlName="pl" type="text" required>
+                                        <mat-error *ngIf="Formulario.get('pl').errors?.required" >digite la placa del vehiculo</mat-error>
+                                        <mat-error *ngIf="Formulario.get('pl').hasError('minlength')" >campo minimo de 6 digitos</mat-error>
+                                    </mat-form-field>
+                                    <div *ngIf="alertveh" class="alert alert-danger" role="alert">
+                                        Este vehiculo, no se encuentra dentro de los vehiculos actuales habilitados.
+                                    </div>
+                                    <button [disabled]="!Formulario.get('pl')?.valid" class="btn btn-info mb-2 btn-round" type="button" (click)="fijar()">Buscar</button>
+                                </div>
+                                
+                                
+                            </div>
+                            <div *ngIf="resveh.placa!=undefined" [hidden]="ocultar">
+                                <div class="card" *ngIf="!view">
+                                    <div class="card-header card-header-info">
+                                        <h4 class="card-title">Información del vehiculo</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3" >
+                                                <h6>Placa</h6>
+                                                <p>{{resveh.placa}}</p>
+                                            </div>
+                                            <div class="col-md-3" >
+                                                <h6>Cilindraje</h6>
+                                                <p>{{resveh.cilindraje}}</p>
+                                            </div>
+                                            <div class="col-md-3" >
+                                                <h6>Convenio</h6>
+                                                <p>{{resveh.convenio}}</p>
+                                            </div>
+                                            <div class="col-md-3" >
+                                                <h6>Tarjeta de operación</h6>
+                                                <p>{{resveh.tarjop}}</p>
+                                            </div>
+                                        </div>
+                                        <h5>Fechas de Vencimiento</h5><hr>
+                                        <div class="row">
+                                            <div [ngClass]="{'col-md-3':true, 'text-danger': resveh.validto }">
+                                                <h6>Tarjeta operación</h6>
+                                                <p>{{resveh.fechtarjop | date}}</p>
+                                            </div>
+                                            <div [ngClass]="{'col-md-3':true, 'text-danger': resveh.validrevtec }">
+                                                <h6>Revisión Técnico-Mecánica</h6>
+                                                <p>{{resveh.fechrevtec | date}}</p>
+                                            </div>
+                                            <div [ngClass]="{'col-md-3':true, 'text-danger': resveh.validSOAT }">
+                                                <h6>SOAT</h6>
+                                                <p>{{resveh.fechSOAT | date}}</p>
+                                            </div>
+                                            <div [ngClass]="{'col-md-3':true, 'text-danger': resveh.validpolcontr }">
+                                                <h6>Poliza contractual</h6>
+                                                <p>{{resveh.fechpolcontr | date}}</p>
+                                            </div>
+                                            <div [ngClass]="{'col-md-3':true, 'text-danger': resveh.validpolex }">
+                                                <h6>Poliza Extracontractual</h6>
+                                                <p>{{resveh.fechpolex | date}}</p>
+                                            </div>
+                                            <div [ngClass]="{'col-md-3':true, 'text-danger': resveh.validconv }">
+                                                <h6>Convenio</h6>
+                                                <p>{{resveh.fechconv | date}}</p>
+                                            </div>
+                                            <div [ngClass]="{'col-md-3':true, 'text-danger': resveh.validrevprev }">
+                                                <h6>Revisión preventiva</h6>
+                                                <p>{{resveh.fechrevprev | date}}</p>
+                                            </div>
+                                            <div *ngFor="let r of resveh.cond; let i = index" class="col-md-12 m-0">
+                                                <h5>Conductor {{i+1}} {{r.nom}} </h5><hr>
+                                                <div class="row">
+                                                    <div [ngClass]="{'col-md-3':true, 'text-danger': r.validarl }">
+                                                        <h6>ARL</h6>
+                                                        <p>{{r.fecharl | date}}</p>
+                                                    </div>
+                                                    <div [ngClass]="{'col-md-3':true, 'text-danger': r.valideps }">
+                                                        <h6>EPS</h6>
+                                                        <p>{{r.fecheps | date}}</p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <div class="card-header card-header-icon card-header-info">
+                                        <div class="card-icon">
+                                            <i class="material-icons"><span class="material-icons-outlined">
+                                                subject
+                                                </span></i>
+                                        </div>
+                                        <h4 class="card-title">Información respecto al contrato a generar</h4>
+                                    </div>
+                                    
+                                    <mat-tab-group>
+                                        <mat-tab label="Información del Contrato">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.numero_contrato}}"  formControlName="numcont" type="text" required>
+                                                            <mat-error *ngIf="Formulario.get('numcont').errors?.required" >digite el numero del contrato</mat-error>
+                                                            <mat-error *ngIf="Formulario.get('numcont').errors?.pattern" >solo se aceptan valores numericos</mat-error>
+                                                            <mat-error *ngIf="Formulario.get('numcont').errors?.minlength" >campo minimo de 4 digitos</mat-error>
+                                                            <mat-error *ngIf="Formulario.get('numcont').hasError('maxlength')" >campo maximo de 4 digitos</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.valor_contrato}}"  formControlName="valcont" type="number" required>
+                                                            <mat-error *ngIf="Formulario.get('valcont').errors?.required" >digite el valor del contrato</mat-error>
+                                                            <mat-error *ngIf="Formulario.get('valcont').errors?.pattern" >No se admiten negativos</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field >
+                                                            <mat-label>Objeto Contrato</mat-label>
+                                                            <mat-select formControlName="objc" required>
+                                                                <mat-option>--</mat-option>
+                                                                <mat-option *ngFor="let obj of objcontratos" [value]="obj.idObjetoContrato" >
+                                                                    {{obj.objetoContrato}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error >Escoja un Objeto de Contrato</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field >
+                                                            <mat-label>Cliente</mat-label>
+                                                            <mat-select formControlName="cli" required>
+                                                                <mat-option>--</mat-option>
+                                                                <mat-option *ngFor="let cli of clientes" [value]="cli.idCliente" >
+                                                                    {{cli.nitCliente}} | {{cli.razonSocialCliente}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error >Escoja un cliente</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field >
+                                                            <mat-label>Ciudad</mat-label>
+                                                            <mat-select formControlName="ciudad" required>
+                                                                <mat-option>--</mat-option>
+                                                                <mat-option *ngFor="let ciu of ciudades" [value]="ciu.idCiudad" >
+                                                                    {{ciu.ciudad}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error >Escoja una ciudad</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <h6>Responsable</h6><hr>
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3" >
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.document}}" (keyup)="cambioDoc()" formControlName="doc" type="number" required>
+                                                            <mat-error >digite el numero de documento</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.nombre_responsable}}"  formControlName="nomres" type="text" required>
+                                                            <mat-error >digite el nombre completo del responsable</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.telefono_responsable}}"  formControlName="telres" type="number" required>
+                                                            <mat-error >digite el telefono del responsable</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.direccion_responsable}}"  formControlName="dirres" type="text" required>
+                                                            <mat-error >digite la direccion del responsable</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-tab>
+                                        <mat-tab label="Información de FUEC" *ngIf="!view">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.fecha_inicio}}" min="{{stract}}" max="{{strini}}" formControlName="fechaini" type="date" required>
+                                                            <mat-error *ngIf="Formulario.get('fechaini').errors?.required">digite la fecha de inicio</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.fecha_fin}}" min="{{strinifin}}" max="{{strfin}}" formControlName="fechafin" type="date" required>
+                                                            <mat-error *ngIf="Formulario.get('fechafin').errors?.required" >digite la fecha fin</mat-error>
+                                                            <mat-error *ngIf="Formulario.get('fechafin').errors?.checkfech" >La fecha es invalida, escoja una dentro de las disponibles</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <mat-form-field >
+                                                            <mat-label>Ruta</mat-label>
+                                                            <mat-select formControlName="ruta" required>
+                                                                <mat-option>--</mat-option>
+                                                                <mat-option *ngFor="let rut of rutas" [value]="rut.idRuta" >
+                                                                    Ciudad Origen: {{rut.ciudadOrigen}} | Ciudad Destino: {{rut.ciudadDestino}} | {{rut.regresoRuta==1?"IDA Y REGRESO":"SOLO IDA"}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error >Escoja una ruta</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h5 class="col-md-12">Conductores </h5>
+                                                    <mat-form-field [hidden]="view">
+                                                        <mat-label>Conductor</mat-label>
+                                                        <mat-select formControlName="conduc" >
+                                                            <mat-option>--</mat-option>
+                                                            <mat-option *ngFor="let cond of selectcond" [value]="cond.idConductor" >
+                                                                {{cond.persona.documentoPersona}} {{cond.persona.nombrePersona}} {{cond.persona.apellidoPersona}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <mat-error >Escoja un conductor</mat-error>
+                                                    </mat-form-field>
+                                                    <button type="button" class="btn btn-primary btn-round" [hidden]="view || cond.length==conductores.length" (click)="onagregarcond()">Agregar Conductor</button>
+                                                    <!--
+                                                    <mat-card class="col-md-12" formArrayName="cond">
+                                                        <div class="col-md-4 mb-3" *ngFor="let ctrl of Formulario.controls.cond.controls; let i = index" [formGroupName]="i" >
+                                                            <mat-form-field >
+                                                                <mat-label>Conductor</mat-label>
+                                                                <mat-select formControlName="conduc" (change)="condm(i)">
+                                                                    <mat-option>--</mat-option>
+                                                                    <mat-option *ngFor="let cond of selectcond[i]" [value]="cond.idConductor" >
+                                                                        {{cond.persona.documentoPersona}} {{cond.persona.nombrePersona}} {{cond.persona.apellidoPersona}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                                <mat-error >Escoja un conductor</mat-error>
+                                                            </mat-form-field>
+                                                            <button class="btn btn-danger btn-round" type="button" [hidden]="view" (click)="removercond(i)">Eliminar</button>
+                                                        </div>
+                                                    </mat-card>-->
+                                                    <table class="table">
+                                                        <thead>
+                                                        <th>Documento</th>
+                                                        <th>Nombre de Conductor</th>
+                                                        <th>Apellido de Conductor</th>
+                                                        <th>Opciones de Conductor</th>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr *ngFor="let p of cond; let i = index">
+                                                            <td>{{p.persona.documentoPersona}}</td>
+                                                            <td>{{p.persona.nombrePersona}}</td>
+                                                            <td>{{p.persona.apellidoPersona}}</td>
+                                                            <td><button class="btn btn-danger" type="button" [hidden]="view" (click)="removercond(i)">Eliminar</button></td>
+                                                        </tr>
+                                                        
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </mat-tab>
+                                        <mat-tab label="Pasajeros"> 
+                                            <mat-form-field [hidden]="view">
+                                                <mat-label>Pasajero</mat-label>
+                                                <mat-select formControlName="pasaj" >
+                                                    <mat-option>--</mat-option>
+                                                    <mat-option *ngFor="let pasa of selectpas" [value]="pasa.idPasajero" >
+                                                        {{pasa.documentoPersona}} | {{pasa.nombrePersona}} {{pasa.apellidoPersona}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja un pasajero</mat-error>
+                                            </mat-form-field><button class="btn btn-primary btn-round" type="button" [hidden]="view || pas.length==pasajeros.length" (click)="onagregarpas()">Agregar Pasajero</button>
+                                            <!--<mat-card class="col-md-12" formArrayName="pas">
+                                                <div class="col-md-4 mb-3" *ngFor="let ctrl of Formulario.controls.pas.controls; let i = index" [formGroupName]="i" >
+                                                    
+                                                    <button class="btn btn-danger btn-round" type="button" [hidden]="view" (click)="removerpas(i)">Eliminar</button>
+                                                </div>
+                                            </mat-card>-->
+                                            <table class="table">
+                                                <thead>
+                                                <th>Documento</th>
+                                                <th>Nombre de Pasajero</th>
+                                                <th>Apellido de Pasajero</th>
+                                                <th>Opciones de Pasajero</th>
+                                                </thead>
+                                                <tbody>
+                                                <tr *ngFor="let p of pas; let i = index">
+                                                    <td>{{p.documentoPersona}}</td>
+                                                    <td>{{p.nombrePersona}}</td>
+                                                    <td>{{p.apellidoPersona}}</td>
+                                                    <td><button class="btn btn-danger" type="button" [hidden]="view" (click)="removerpas(i)">Eliminar</button></td>
+                                                </tr>
+                                                
+                                                </tbody>
+                                            </table>
+                                        </mat-tab>
+                                        <mat-tab label="Pertenencias">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3" >
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.nombre}}"  formControlName="nompert" type="text">
+                                                            <mat-error >digite el nombre de la pertenencia</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3" >
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="{{labels?.valor}}"  formControlName="valpert" type="number">
+                                                            <mat-error >digite el valor de la pertenencia</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3" >
+                                                        <button type="button" class="btn btn-primary btn-round" [hidden]="view" (click)="agregarpert()">Agregar Pertenencia</button>
+                                                    </div>
+                                                    <div *ngIf="pertenencias.length!=0" class="col-md-12 mb-3" >
+                                                        <div class="card">
+                                                            <div class="card-header card-header-info" >
+                                                            <h4 class="card-title">Pertenencias</h4>
+                                                            </div>
+                                                            <div class="card-content table-responsive table-full-width">
+                                                            <table class="table">
+                                                                <thead>
+                                                                <th>Nombre de Pertenencia</th>
+                                                                <th>Valor de Pertenencia</th>
+                                                                <th>Opciones de Pertenencia</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr *ngFor="let per of pertenencias; let i = index">
+                                                                    <td>{{per.nompert}}</td>
+                                                                    <td>${{per.valpert | number}}</td>
+                                                                    <td><button class="btn btn-danger" type="button" [hidden]="view" (click)="removerpert(i)">Eliminar</button></td>
+                                                                </tr>
+                                                                
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--<button class="btn btn-primary" [hidden]="view" (click)="onagregarpertenencias()">Agregar Pertenencia</button>
+                                            
+                                            <ng-container class="form-row" formArrayName="perten">
+                                                    <div  *ngFor="let ctrl of Formulario.get('perten')!.value; let i = index"
+                                                    [formGroupName]="i" >
+                                                        <div class="col-md-6 mb-3" >
+                                                            <label >Costo</label>
+                                                            <input type="text" id="cost" formControlName="costo" placeholder="Costo"  autocomplete="off" [ngClass]="{'form-control':true, 'is-invalid': getValiditypertenenciascost(i)}">
+                                                            
+                                                        </div>
+                                                        <div class="col-md-6 mb-3" >
+                                                            <label >Nombre</label>
+                                                            <input type="text" id="nom" formControlName="nombre" placeholder="Nombre"  autocomplete="off" [ngClass]="{'form-control':true, 'is-invalid': getValiditypertenenciasnom(i)}">
+                                                            
+                                                        </div>
+                                                    <button class="btn btn-danger" type="button" [hidden]="view" (click)="removerpertenencias(i)">Eliminar</button>
+                                                    </div>
+                                                
+                                            </ng-container>-->
+                                        </mat-tab>
+                                    </mat-tab-group>
+                                    <div *ngIf="Formulario.hasError('validcond')&& (Formulario.get('conduc').touched || Formulario.get('conduc').dirty)"  class="alert alert-danger" role="alert">
+                                        CONDUCTOR NO VALIDO
+                                    </div>
+                                    <div *ngIf="Formulario.hasError('validveh')&& (Formulario.get('pl').touched || Formulario.get('pl').dirty)"  class="alert alert-danger" role="alert">
+                                        ESTE VEHICULO TIENE DOCUMENTOS VENCIDOS
+                                    </div>
+                                    <div *ngIf="Formulario.hasError('validltcond')&& (Formulario.get('conduc').touched || Formulario.get('conduc').dirty)"  class="alert alert-danger" role="alert">
+                                        NO HAY CONDUCTORES
+                                    </div>
+                                    <div *ngIf="Formulario.hasError('validltpas')&& (Formulario.get('pasaj').touched || Formulario.get('pasaj').dirty)"  class="alert alert-danger" role="alert">
+                                        NO HAY PASAJEROS
+                                    </div>
+                                    <div style="text-align: center">
+                                        <button [hidden]="view" class="btn btn-info btn-round" (click)="guardar()" type="button" >Finalizar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>

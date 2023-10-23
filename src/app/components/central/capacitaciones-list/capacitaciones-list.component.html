@@ -1,0 +1,93 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+                      <h2 style="font-weight:bold">
+                          Lista de Capacitaciones
+                      </h2>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive-x1">
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                    <th scope="col" style="font-weight:bold">Nombre</th>
+                                    <th scope="col" style="font-weight:bold">Descripción</th>
+                                    <th scope="col" style="font-weight:bold">Publicado el</th>
+                                    <th scope="col" style="font-weight:bold">Inscripción Desde </th>
+                                    <th scope="col" style="font-weight:bold">Inscrpción Hasta</th>
+                                    <th scope="col" style="font-weight:bold">Inicio</th>
+                                    <th scope="col" style="font-weight:bold">Fin </th>
+                                    <th scope="col" style="font-weight:bold">Acción</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let capacitacion of res">
+                                      <td>{{capacitacion.nombreCapacitacion}}</td>
+                                      <td>{{capacitacion.descripcionCapacitacion}}</td>
+                                      <td>{{capacitacion.fechaPublicacion | date}}</td>
+
+                                      <td *ngIf="capacitacion.fechaInicioInscripcion!=undefined; else pendiente">
+                                          {{capacitacion.fechaInicioInscripcion | date}}
+                                      </td>
+                                      <td *ngIf="capacitacion.fechaInicioInscripcion==undefined; else pendiente">
+                                          FECHA POR DEFINIR
+                                      </td>
+                                      <td *ngIf="capacitacion.fechaFinInscripcion!=undefined">
+                                          {{capacitacion.fechaFinInscripcion | date}}
+                                      </td>
+                                      <td *ngIf="capacitacion.fechaFinInscripcion==undefined">
+                                          FECHA POR DEFINIR
+                                      </td>
+                                      <td *ngIf="capacitacion.fechaInicioCapacitacion!=undefined">
+                                          {{capacitacion.fechaInicioCapacitacion | date}}
+                                      </td>
+                                      <td *ngIf="capacitacion.fechaInicioCapacitacion==undefined">
+                                          FECHA POR DEFINIR
+                                      </td>
+                                      <td *ngIf="capacitacion.fechaFinCapacitacion!=undefined">
+                                          {{capacitacion.fechaFinCapacitacion | date}}
+                                      </td>
+                                      <td *ngIf="capacitacion.fechaFinCapacitacion==undefined">
+                                          FECHA POR DEFINIR
+                                      </td>
+                                      <td>
+                                        <div class="dropdown">
+                                             <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" routerLink="{{'editar'+capacitacion.idCapacitacion}}" class="p-button-rounded p-button-pimary"></button>
+                                              <button pButton pRipple type="button" icon="pi pi-times" pTooltip="Eliminar" tooltipPosition="top" (click)="eliminarCapacitacion(capacitacion.idCapacitacion)" class="p-button-rounded p-button-danger"></button>
+                                              <!--<button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm btn-round" data-toggle="dropdown" aria-expanded="false">
+                                                  <span class="visually-hidden"></span>
+                                              </button>
+                                              <ul class="dropdown-menu">
+                                                  <li><a class="dropdown-item" routerLink="{{'editar'+capacitacion.idCapacitacion}}">Editar</a></li>
+                                                  <li><a class="dropdown-item" (click)="eliminarCapacitacion(capacitacion.idCapacitacion)">Eliminar</a></li>
+                                              </ul>-->
+                                        </div>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="obtenerCapacitaciones(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="obtenerCapacitaciones(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="obtenerCapacitaciones(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

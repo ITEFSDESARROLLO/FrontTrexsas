@@ -1,0 +1,288 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+              <div class="row">
+                <div class="col-8">
+                  <h2 style="font-weight: bold; text-align: center;">
+                    LISTADO DE SERVICIOS
+                  </h2>
+                </div>
+                <div class="col-4">
+                  <p-button type="button" icon="pi pi-file-excel" (click)="exportexcel()" pTooltip="Descargar Servicios"></p-button>
+                  <p-button type="button" (click)="mostrarFiltroColumnas()" icon="pi pi-list" pTooltip="Modificar Tabla" style="margin: 20px;"></p-button>
+                  <p-button type="button" (click)="mostrarDatosColumnasFiltrar()" icon="pi pi-filter" pTooltip="Filtros Avanzados"></p-button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive-xl">
+                <table class="table" id="servicios">
+                  <thead>
+                    <tr>
+                      <th scope="col" id="titulo" *ngIf="verColumnaCliente">
+                        Cliente
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaPasajero">Pasajero
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaFechaSalida">Fecha Salida
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaOrigen">Origen
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaDestino">Destino
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaObservaciones">
+                        Observaciones
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaEstado">Estado
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaConductor">Conductor
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                      <th scope="col" id="titulo" *ngIf="verColumnaVehiculo">Vehículo
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                      <th scope="col" id="titulo">Acción
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of filtradosServicios">
+                      <td *ngIf="verColumnaCliente">{{r.cliente}}</td>
+                      <td *ngIf="verColumnaPasajero">{{r.nombrePasajero}} {{r.apellidoPasajero}}</td>
+                      <td *ngIf="verColumnaFechaSalida">{{r.fechaInicioReserva | date}} {{r.hora}}</td>
+                      <td *ngIf="verColumnaOrigen">{{r.direccionOrigenReserva}}</td>
+                      <td *ngIf="verColumnaDestino">{{r.direccionDestinoReserva}}</td>
+                      <td *ngIf="verColumnaObservaciones">{{r.observaciones}}</td>
+                      <td *ngIf="verColumnaEstado">
+                        <p-tag *ngIf="r.estadoReserva==1" styleClass="p-mr-2" severity="danger" value="Pendiente"></p-tag>
+                        <p-tag *ngIf="r.estadoReserva==2" styleClass="p-mr-2" severity="info" value="Cancelado"></p-tag>
+                        <p-tag *ngIf="r.estadoReserva==3" styleClass="p-mr-2" severity="success" value="Aceptado"></p-tag>
+                        <p-tag *ngIf="r.estadoReserva==4" styleClass="p-mr-2" severity="warning" value="En Ruta"></p-tag>
+                        <p-tag *ngIf="r.estadoReserva==5" styleClass="p-mr-2" severity="help" value="Finalizado"></p-tag>
+                        <p-tag *ngIf="r.estadoReserva==6" styleClass="p-mr-2" severity="secondary" value="Rechazado"></p-tag>
+                      </td>
+                      <td *ngIf="verColumnaConductor">{{r.nombreConductor}} {{r.apellidoConductor}}</td>
+                      <td *ngIf="verColumnaVehiculo">{{r.placaVehiculo}}</td>
+                      <td>
+                        <div class="dropdown" *ngIf="r.estadoReserva!=2 && r.estadoReserva!=6 ">
+                          <button type="button" class="btn dropdown-toggle dropdown-toggle-split btn-sm btn-round" style="background-color: #004790;" data-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden"></span>
+                          </button>
+                          <ul class="dropdown-menu" *ngIf="r.estadoReserva==1">
+                            <li><a class="dropdown-item" routerLink="{{'ver'+r.idReserva}}" *ngIf="consult('/reservas','/ver')">ver</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'editar'+r.idReserva}}" *ngIf="consult('/reservas','/editar')">Editar</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'duplicar'+r.idReserva}}" *ngIf="consult('/reservas','/duplicar')">Duplicar</a></li>
+                            <li *ngIf="r.idOrdenServicio==null"><a class="dropdown-item" routerLink="{{'../ordenesservicio/'+r.idReserva}}" *ngIf="consult('/reservas','/editar')">Generar Orden de servicio</a></li>
+                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,2)" *ngIf="consult('/reservas','/editar')">Cancelar</a></li>
+                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,3)" *ngIf="consult('/reservas','/editar')">Aceptar</a></li>
+                   <!--     <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,6)" *ngIf="consult('/reservas','/editar')">Rechazar</a></li> -->
+                            <li><a class="dropdown-item" (click)="dialogoReplicar(r.idReserva)" *ngIf="consult('/reservas','/editar')">Replicar</a></li>
+                          </ul>
+                          <ul class="dropdown-menu" *ngIf="r.estadoReserva==3">
+                            <li><a class="dropdown-item" routerLink="{{'ver'+r.idReserva}}"*ngIf="consult('/reservas','/ver')">ver</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'editar'+r.idReserva}}" *ngIf="consult('/reservas','/editar')">Editar</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'duplicar'+r.idReserva}}" *ngIf="consult('/reservas','/duplicar')">Duplicar</a></li>
+                            <li *ngIf="r.idOrdenServicio==null"><a class="dropdown-item" routerLink="{{'../ordenesservicio/'+r.idReserva}}" *ngIf="consult('/reservas','/editar')">Generar Orden de servicio</a></li>
+                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,2)" *ngIf="consult('/reservas','/editar')">Cancelar</a></li>
+                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,3)" *ngIf="consult('/reservas','/editar')">Aceptar</a></li>
+                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,5)" *ngIf="consult('/reservas','/editar')">Finalizar</a></li>
+                            <li><a class="dropdown-item" (click)="dialogoReplicar(r.idReserva)" *ngIf="consult('/reservas','/editar')">Replicar</a></li>
+
+                          </ul>
+                          <ul class="dropdown-menu" *ngIf="r.estadoReserva==5">
+                            <li><a class="dropdown-item" routerLink="{{'ver'+r.idReserva}}" *ngIf="consult('/reservas','/ver')">ver</a></li>
+                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,3)" *ngIf="consult('/reservas','/editar')">Aceptar</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'duplicar'+r.idReserva}}" *ngIf="consult('/reservas','/duplicar')">Duplicar</a></li>
+                            <li *ngIf="r.idOrdenServicio==null"><a class="dropdown-item" routerLink="{{'../ordenesservicio/'+r.idReserva}}" *ngIf="consult('/reservas','/editar')">Generar Orden de servicio</a></li>
+                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,2)" *ngIf="consult('/reservas','/editar')">Cancelar</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'editar'+r.idReserva}}" *ngIf="consult('/reservas','/editar')">Editar</a></li>
+                            <li><a class="dropdown-item" (click)="dialogoReplicar(r.idReserva)" *ngIf="consult('/reservas','/editar')">Replicar</a></li>
+                          </ul>
+                          <ul class="dropdown-menu" *ngIf="r.estadoReserva==4">
+                            <li><a class="dropdown-item" routerLink="{{'ver'+r.idReserva}}" *ngIf="consult('/reservas','/ver')">ver</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'duplicar'+r.idReserva}}" *ngIf="consult('/reservas','/duplicar')">Duplicar</a></li>
+                            <li *ngIf="r.idOrdenServicio==null"><a class="dropdown-item" routerLink="{{'../ordenesservicio/'+r.idReserva}}" *ngIf="consult('/reservas','/editar')">Generar Orden de servicio</a></li>
+                            <li><a class="dropdown-item" (click)="dialogoReplicar(r.idReserva)" *ngIf="consult('/reservas','/editar')">Replicar</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <p-dialog [(visible)]="displayFiltroColumnas" [style]="{width: '15vw'}" [closable]="false">
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-10" >
+        Observaciones
+      </div>
+      <div class="col-2">
+        <input type="checkbox" [(ngModel)]="verColumnaObservaciones">
+      </div>
+      <div class="col-10" >
+        Pasajero
+      </div>
+      <div class="col-2">
+        <input type="checkbox" [(ngModel)]="verColumnaPasajero">
+      </div>
+      <div class="col-10" >
+        Fecha Salida
+      </div>
+      <div class="col-2">
+        <input type="checkbox" [(ngModel)]="verColumnaFechaSalida">
+      </div>
+      <div class="col-10" >
+        Origen
+      </div>
+      <div class="col-2" >
+        <input type="checkbox" [(ngModel)]="verColumnaOrigen">
+      </div>
+      <div class="col-10" >
+        Destino
+      </div>
+      <div class="col-2" >
+        <input type="checkbox" [(ngModel)]="verColumnaDestino">
+      </div>
+      <div class="col-10" >
+        Estado
+      </div>
+      <div class="col-2">
+        <input type="checkbox" [(ngModel)]="verColumnaEstado">
+      </div>
+      <div class="col-10" >
+        Conductor
+      </div>
+      <div class="col-2" >
+        <input type="checkbox" [(ngModel)]="verColumnaConductor">
+      </div>
+      <div class="col-10" >
+        Vehículo
+      </div>
+      <div class="col-2" >
+        <input type="checkbox" [(ngModel)]="verColumnaVehiculo">
+      </div>
+      <div class="col-10" >
+        Cliente
+      </div>
+      <div class="col-2" >
+        <input type="checkbox" [(ngModel)]="verColumnaCliente">
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn btn-primary" (click)="mostrarFiltroColumnas()" style="width: 100%;">Cerrar</button>
+    </div>
+  </p-dialog>
+
+  <p-dialog [(visible)]="displayFiltroDatosColumnas" [style]="{width: '25vw'}" [closable]="false">
+    <div class="row">
+      <div class="col-4" *ngIf="verColumnaPasajero">
+        Pasajero
+      </div>
+      <div class="col-8" *ngIf="verColumnaPasajero">
+        <input type="text" [(ngModel)]="nombrePasajeroFiltro" name="" id="" (keyup)="filtrar($event)">
+      </div>
+      <div class="col-4" *ngIf="verColumnaFechaSalida">
+        Fecha Salida
+      </div>
+      <div class="col-8" *ngIf="verColumnaFechaSalida">
+        <input type="date" [(ngModel)]="inicioFiltro" (change)="filtrar($event)">
+        <input type="date" [(ngModel)]="finFiltro" (change)="filtrar($event)">
+      </div>
+      <div class="col-4" *ngIf="verColumnaOrigen">
+        Origen
+      </div>
+      <div class="col-8" *ngIf="verColumnaOrigen">
+        <input type="text" [(ngModel)]="origenFiltro" name="" id="" (keyup)="filtrar($event)">
+      </div>
+      <div class="col-4" *ngIf="verColumnaDestino">
+        Destino
+      </div>
+      <div class="col-8" *ngIf="verColumnaDestino">
+        <input type="text" [(ngModel)]="destinoFiltro" name="" id="" (keyup)="filtrar($event)">
+      </div>
+      <div class="col-4" *ngIf="verColumnaConductor">
+        Conductor
+      </div>
+      <div class="col-8" *ngIf="verColumnaConductor">
+        <input [(ngModel)]="conductorFiltro" type="text" name="" id="" (keyup)="filtrar($event)">
+      </div>
+      <div class="col-4" *ngIf="verColumnaVehiculo">
+        Vehículo
+      </div>
+      <div class="col-8" *ngIf="verColumnaVehiculo">
+        <input [(ngModel)]="placaFiltro" type="text" name="" id="" (keyup)="filtrar($event)">
+      </div>
+      <div class="col-4" *ngIf="verColumnaCliente">
+        Cliente
+      </div>
+      <div class="col-8" *ngIf="verColumnaCliente">
+        <input [(ngModel)]="clienteFiltro" type="text" name="" id="" (keyup)="filtrar($event)">
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn btn-primary" (click)="mostrarDatosColumnasFiltrar()" style="width: 100%;">Cerrar</button>
+      <button class="btn btn-primary" (click)="limpiar()" style="width: 100%;">Limpiar</button>
+
+    </div>
+  </p-dialog>
+
+  <p-dialog [(visible)]="displayReplicarServicio" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}" [closable]="false" [modal]="true">
+    <div class="row">
+      <div class="col-12"  id="ex">
+        <ol>
+          <li  *ngFor="let fecha of fechasReplicados">
+            <div class="row">
+
+              <div class="col-5">
+                <input type="datetime-local" style="width: 100%;"  (change)="modificarFecha(fecha.id,$event.target.value)">
+              </div>
+              <div class="col-5">
+                <h3 style="font-size: medium;">
+                  {{fecha.fecha | date:'medium'}}
+                </h3>
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary" (click)="borrarFecha(fecha.id)" style="width: 100%; background-color: #003780;">Borrar</button>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <div class="col-12">
+        <div class="row">
+            <div class="col">
+              <button class="btn btn-primary" (click)="crearServiciosReplicados()" style="width: 100%; float: left; background-color: #003780;">Guardar</button>
+            </div>
+            <div class="col">
+              <button class="btn btn-primary" (click)="dialogoReplicar()" style="width: 100%;float: left; background-color: #003780;">Cancelar</button>
+            </div>
+            <div class="col">
+              <button class="btn btn-primary" (click)="agregarFecha()" style="width: 100%; float: center; background-color: #003780;">agregar</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+  </p-dialog>

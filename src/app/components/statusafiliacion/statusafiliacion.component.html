@@ -1,0 +1,86 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-info">
+            <h4 class="card-title">Vinculación</h4>
+            <p class="card-category">Estado de Vinculación</p>
+        </div>
+        <div *ngIf="res.mensaje!=3" class="card-body">
+            
+            
+            <div class="container padding-bottom-3x mb-1">
+        <div class="card mb-3">
+          <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">VINCULACIÓN PARA LA PLACA - </span><span class="text-medium text-uppercase">{{res.placaAfiliacion}}</span></div>
+          <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+            <div class="w-100 text-center py-1 px-2"><span class="text-medium">Estado: </span> <span *ngIf="res.estadoAfiliacion==0">Registrado</span><span *ngIf="res.estadoAfiliacion==2">En Revisión</span><span *ngIf="res.estadoAfiliacion==1">Aprobada</span><span *ngIf="res.estadoAfiliacion==3">Rechazada</span></div>
+            <div class="w-100 text-center py-1 px-2"><span class="text-medium">Ultima Actualización:</span> <span *ngIf="res.observacionAfiliacionList!=undefined"> {{res.observacionAfiliacionList.fechaRegistroObservacion | date}}</span></div>
+          </div>
+          <div class="card-body">
+            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                    <div [ngClass]="{'step':true,'completed':res.estadoAfiliacion==0 || res.estadoAfiliacion==1 || res.estadoAfiliacion==2 || res.estadoAfiliacion==3}" >
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="material-icons" style="font-size: 31px;">
+                                    pending_actions
+                                </i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Registrado</h4>
+                    </div>
+                    <div [ngClass]="{'step':true,'completedrev':res.estadoAfiliacion==2 || res.estadoAfiliacion==1  || res.estadoAfiliacion==3}" >
+                        <div class="step-icon-wrap">
+                        <div class="step-icon">
+                            <i class="material-icons" style="font-size: 31px;">
+                                rule
+                            </i>
+                        </div>
+                        </div>
+                        <h4 class="step-title">En Revisión</h4>
+                    </div>
+                    <div *ngIf="res.estadoAfiliacion==0 || res.estadoAfiliacion==2" class="step">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="material-icons" style="font-size: 31px;" >
+                                        error_outline
+                                </i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Confirmación</h4>
+                    </div>
+                    <div *ngIf="res.estadoAfiliacion==1" [ngClass]="{'step':true,'completedcor':res.estadoAfiliacion==1}">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="material-icons" style="font-size: 31px;" >
+                                    done_outline
+                                </i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Aprobada</h4>
+                    </div>
+                    <div *ngIf="res.estadoAfiliacion==3" [ngClass]="{'step':true,'completed':res.estadoAfiliacion==3}">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon">
+                                <i class="material-icons" style="font-size: 30px;" >
+                                    dangerous
+                                </i>
+                            </div>
+                        </div>
+                        <h4 class="step-title">Rechazada</h4>
+                    </div>
+                    
+                    </div>
+                </div>
+                </div>
+            </div>
+            <span *ngIf="res.observacionAfiliacionList!=undefined">Las Notas Del Operador Fueron: {{res.observacionAfiliacionList.observacionAfiliacion}} </span>
+            
+        </div>
+        <div *ngIf="res.mensaje==3" class="card-body">
+            <div class="alert alert-danger alert-with-icon">
+                <i class="material-icons" data-notify="icon">error_outline</i>
+                <span data-notify="message">
+                    <b>Error :</b> Este registro no se ha podido encontrar! Contactate con TREX SAS para validar tu registro!</span>
+            </div>
+            
+        </div>
+    </div>
+</div>

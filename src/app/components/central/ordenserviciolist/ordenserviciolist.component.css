@@ -1,0 +1,40 @@
+.btnp{
+    padding: 2px;
+}
+
+#titulo
+{
+    background-color: lightblue;
+    border: solid;
+    border-width: 1px;
+    text-align: center;
+}
+
+#formato
+{
+    border: solid;
+    border-width: 1px;
+}
+
+#tabla
+{
+    border: solid;
+    border-width: 1px;
+}
+
+#observaciones
+{
+    border: solid;
+    border-width: 1px;
+    text-align: center;
+}
+text{
+    text-align: center;
+}
+
+#valor
+{
+    border: solid;
+    border-width: 1px;
+    
+}

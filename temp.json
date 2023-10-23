@@ -1,0 +1,138 @@
+{
+    "idVehiculo": 1,
+    "codigoInternoVehiculo": "F1651",
+    "placaVehiculo": "NKR596",
+    "estadoVehiculo": 1,
+    "disponibilidad": 1,
+    "pignoradoVehiculo": null,
+    "modelo": "1998-01-01",
+    "cilindraje": 5000,
+    "numeroPasajerosVehiculo": 6,
+    "numeroMotorVehiculo": null,
+    "serieMotorVehiculo": null,
+    "chasisVehiculo": null,
+    "fechaRegistroVehiculo": "2021-03-17 10:01:36",
+    "fechaActualizacionVehiculo": "2021-03-24 13:35:56",
+    "colorVehiculo": "azul",
+    "registradoPorVehiculo": {
+        "idPersona": 1,
+        "nombrePersona": "Julian Parmenio",
+        "apellidoPersona": "Pianda",
+        "documentoPersona": "311565123"
+    },
+    "actualizadoPorVehiculo": {
+        "idPersona": 1,
+        "nombrePersona": "Julian Parmenio",
+        "apellidoPersona": "Pianda",
+        "documentoPersona": "311565123"
+    },
+    "lineaVehiculo": null,
+    "tarjetaPropiedadUnoVehiculo": null,
+    "tarjetaPropiedadDosVehiculo": null,
+    "frenteVehiculo": null,
+    "ladoVehiculo": null,
+    "fechaInicioExtintorVehiculo": "2020-10-29 00:00:00",
+    "fechaFinExtintorVehiculo": "2021-10-30 00:00:00",
+    "traseraVehiculo": null,
+    "clase": {
+        "idClase": 1,
+        "clase": "Volqueta",
+        "estadoClase": 1
+    },
+    "marca": {
+        "idMarca": 1,
+        "marca": "Abarth",
+        "estadoMarca": 1
+    },
+    "tipoCombustible": {
+        "idTipoCombustible": 1,
+        "tipoCombustible": "Gasolina",
+        "estadoTipoCombustible": 1
+    },
+    "tipoVehiculo": {
+        "idTipoVehiculo": 1,
+        "tipoVehiculo": "Cerrada",
+        "estadoTipoVehiculo": 1
+    },
+    "propietario": {
+        "idPropietario": 1,
+        "estadoPropietario": 1,
+        "fechaRegistroPropietario": "2021-03-17 09:59:05",
+        "fechaActualizacionPropietario": "2021-03-24 13:32:47",
+        "registradoPorPropietario": {
+            "idPersona": 1,
+            "nombrePersona": "Julian Parmenio",
+            "apellidoPersona": "Pianda",
+            "documentoPersona": "311565123"
+        },
+        "actualizadoPorPropietario": {
+            "idPersona": 1,
+            "nombrePersona": "Julian Parmenio",
+            "apellidoPersona": "Pianda",
+            "documentoPersona": "311565123"
+        },
+        "persona": {
+            "idPersona": 2,
+            "nombrePersona": "Alberto",
+            "apellidoPersona": "Carranza",
+            "tipoDocPersona": "CC",
+            "documentoPersona": "10236475892",
+            "ciudadPersona": {
+                "idCiudad": 1,
+                "ciudad": "ABEJORRAL"
+            },
+            "direccionPersona": "carrera 8",
+            "observacionesPersona": null,
+            "fechaNacimientoPersona": "1990-12-25 00:00:00",
+            "correoPersona": "james.valencia167@gmail.com",
+            "celularUnoPersona": "3145523698",
+            "celularDosPersona": null,
+            "telefonoPersona": null,
+            "ciudadExpedicionPersona": {
+                "idCiudad": 1,
+                "ciudad": "ABEJORRAL"
+            },
+            "documentoUnoPersona": "nada.png",
+            "documentoDosPersona": "nada.png",
+            "fotoPersona": "nada.png",
+            "idioma": {
+                "idIdioma": 1,
+                "idioma": "Español"
+            }
+        }
+    },
+    "documentoVehiculo": null,
+    "revisionTecnicomecanicaList": [
+        {
+            "idRevisionTecnicomecanica": 1,
+            "fechaRevisionTecnicomecanica": "2020-11-03 00:00:00",
+            "fechaVencimientoRevisionTecnicomecanica": "2021-11-03 00:00:00",
+            "revisionTecnicomecanica": "campo foto"
+        }
+    ],
+    "polizaContractualList": [],
+    "tarjetaOperacionList": [],
+    "revisionPreventivaList": [
+        {
+            "idRevisionPreventiva": 1,
+            "fechaInicioRevisionPreventiva": "2020-11-03 00:00:00",
+            "fechaVencimientoRevisionPreventiva": "2021-11-03 00:00:00",
+            "revisionPreventiva": "campo foto 1"
+        }
+    ],
+    "soatList": [],
+    "polizaExtracontractualList": [
+        {
+            "idPolizaExtracontractual": 1,
+            "fechaInicioPolizaExtracontractual": "2020-11-03 00:00:00",
+            "fechaVencimientoPolizaExtracontractual": "2021-11-03 00:00:00",
+            "numeroPolizaExtracontractual": "16516581631",
+            "polizaExtracontractual": "campo foto",
+            "aseguradora": {
+                "idAseguradora": 1,
+                "nombreAseguradora": "SBS Seguros Colombia S.A",
+                "estadoAseguradora": 1
+            }
+        }
+    ]
+}

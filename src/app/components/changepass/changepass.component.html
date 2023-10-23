@@ -1,0 +1,22 @@
+<div class="main text-center overflow-auto">
+    <form [formGroup]="Formulario" class="form-signin rounded" >
+        <a href="https://trexsas.com.co/" target="_blank"><img class="mb-4 rounded img-fluid" src="assets/Nuevo.png" alt=""></a>
+        <h1 class="h3 mb-3 font-weight-normal">Cambiemos la Contraseña</h1>
+        <div *ngIf="msgsuccess" class="alert alert-success" role="alert">
+            ¡Contraseña cambiada correctamente!, Regresa para acceder a tu cuenta
+        </div>
+        <label for="inputPassword" class="sr-only">Contraseña</label>
+        <input formControlName="pass" type="text" [ngClass]="{'form-control':true, 'is-invalid': Formulario.get('pass')?.invalid && (Formulario.get('pass')?.touched || Formulario.get('pass')?.dirty)}" type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+        <label for="inputPassword2" class="sr-only">Confirmar Contraseña</label>
+        <input formControlName="pass1" type="text" [ngClass]="{'form-control':true, 'is-invalid': Formulario.get('pass1')?.invalid  && (Formulario.get('pass1')?.touched || Formulario.get('pass1')?.dirty) || (Formulario.get('pass1')?.dirty && Formulario.hasError('notSame'))}" type="password" id="inputPassword2" class="form-control" placeholder="Confirmar Contraseña" required>
+        <div *ngIf="msgnotfound" class="alert alert-danger" role="alert">
+            ¡Lo siento! ¡La sesión no existe!
+        </div>
+        <div *ngIf="Formulario.get('pass1')?.dirty && Formulario.hasError('notSame')" class="alert alert-danger" role="alert">
+            CONTRASEÑA NO COINCIDE
+        </div>
+        <button (click)="ingresar()" class="btn btn-lg btn-primary btn-block mt-3" [disabled]="Formulario.invalid || Formulario.hasError('notSame') || msgnotfound || msgsuccess" >Enviar</button>
+        <button type="button" class="btn btn-outline-dark mt-3 badge badge-pill p-2" routerLink=""><img src="assets/atras.png" class="img-fluid mr-2" alt="Responsive image" width="20" height="20">Volver</button>
+        <p class="mt-5 mb-3 "><a href="https://trexsas.com.co/" class="text-dark" target="_blank">&copy; TREX SAS Transportes Exclusivos 2021</a></p>
+    </form>
+</div>

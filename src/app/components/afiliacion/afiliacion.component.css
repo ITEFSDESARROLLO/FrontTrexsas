@@ -1,0 +1,21 @@
+#lienzo{
+    height: 100%;
+}
+.estpos{
+    margin: 0px 39px 0px 0px;
+}
+.switch{
+    padding: 0px 0px 0px 0px;
+}
+.pildora{
+    background-color: #1A1B39;
+    color: #ffffff;
+    padding-top: 0px;
+}
+.card-icon{
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    margin: 3px;
+}

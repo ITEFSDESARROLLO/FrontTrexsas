@@ -1,0 +1,784 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+
+                        <h2 style="font-weight: bold; text-align: center;">NUEVO USUARIO</h2>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                                    {{msm}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3" *ngIf="edit==false">
+                            <h5>Seleccione Perfil del Usuario</h5>
+                            <p-dropdown [options]="perf" [(ngModel)]="perfilSeleccionado" placeholder="Perfil del usuario" optionLabel="nombrePerfil" [showClear]="false" (click)="ver()"></p-dropdown>
+                        </div>
+                        <div class="row">
+
+                            <form [formGroup]="Formulario" [hidden]="ocultar">
+                                <div class="form-group row">
+                                    <div class="col-md-4 mb-3" *ngIf="edit==true">
+                                        <mat-label>Estado</mat-label><br>
+                                        Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                                    </div>
+                                    <div class="col-md-4 mb-3" >
+                                      <mat-label>Tipo Persona</mat-label><br>
+                                      Jurídica <mat-slide-toggle  formControlName="tipoPersona"></mat-slide-toggle> Natural
+                                  </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="{{labels?.nombres}}" formControlName="nom" (keyup)="mayus('nom')" type="text" required>
+                                            <mat-error >digite los nombres</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="{{labels?.apellidos}}" formControlName="ape" (keyup)="mayus('ape')" type="text">
+
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>Tipo Documento</mat-label>
+                                            <mat-select formControlName="tipodoc" required>
+                                            <mat-option [value]="null">--</mat-option>
+                                            <mat-option *ngFor="let tipodoc of tipodocs" [value]="tipodoc.id" >
+                                                {{tipodoc.value}}
+                                            </mat-option>
+                                            </mat-select>
+                                            <mat-error >Escoja un tipo de documento</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="numdoc" type="number" placeholder="{{labels?.document}}" required>
+                                            <mat-error *ngIf="Formulario.get('numdoc').errors?.required">digite el numero de documento</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <!--<div class="col-md-4 mb-3" >
+                                         <h5>Ciudades Expedición</h5>
+                                        <p-autoComplete formControlName="ciudade" [suggestions]="ciudadesFiltradasExpedicion" (completeMethod)="filtrarCiudadesExpedicion($event)" field="ciudad" [dropdown]="true">
+
+                                        </p-autoComplete>
+
+                                            <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="{{labels?.ciudad_expedicion}}" formControlName="ciudade" type="text" (keyup)="cambioC(0)" (focus)="vfocus(0)">
+
+                                            <div *ngIf="listoc[0]" class="list-group-CO">
+                                                <a class="list-group-item list-group-item-action py-1" (click)="selectC(ciudad.idCiudad,ciudad.ciudad,0)" *ngFor="let ciudad of ciudadesE" >{{ciudad.ciudad}}</a>
+                                            </div>
+                                            <mat-error *ngIf="Formulario.get('ciudade').errors?.validC">escoja una ciudad que este en el listado</mat-error>
+                                                <mat-error *ngIf="Formulario.get('ciudade').errors?.required">digite la ciudad de origen</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    -->
+
+
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="{{labels?.direccion}}" formControlName="direccion" type="text" required>
+                                            <mat-error >digite la direccion del usuario</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <textarea matInput  rows="3" formControlName="obsv"  placeholder="{{labels?.observaciones}}"></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="fechaN" type="date" placeholder="{{labels?.fecha_nacimiento}}" >
+
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="correo" type="text" placeholder="{{labels?.email}}" required>
+                                            <mat-error *ngIf="Formulario.get('correo').errors?.required">digite el correo</mat-error>
+                                            <mat-error *ngIf="Formulario.get('correo').errors?.email">digite una direccion de correo valida</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="tel1" type="text" placeholder="{{labels?.celular_uno}}" required>
+                                            <mat-error *ngIf="Formulario.get('tel1').errors?.required">Ingrese el celular</mat-error>
+                                            <mat-error *ngIf="Formulario.get('tel1').errors?.nottel">No cumple con las cifras de un numero de telefono</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="tel2" type="text" placeholder="{{labels?.celular_dos}}" >
+                                            <mat-error *ngIf="Formulario.get('tel2').errors?.nottel">No cumple con las cifras de un numero de telefono</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                               <!--     <div class="col-md-4 mb-3">
+                                        <h5>Ciudades Residencia</h5>
+                                        <label *ngIf="edit">{{resedit.persona?.ciudadPersona.ciudad}}</label>
+                                        <p-autoComplete formControlName="selectedC" [suggestions]="ciudadesFiltradasResidencia" (completeMethod)="filtrarCiudadesResidencia($event)" field="ciudad" [dropdown]="true">
+                                        </p-autoComplete>
+                                    </div>
+                                    -->
+                                    <div class="col-md-12 mb-3" *ngIf="edit==true">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput formControlName="usucuenta" type="text" placeholder="Usuario" >
+                                                            <mat-error *ngIf="Formulario.get('usucuenta').errors?.uniqueUsu">Este usuario ya existe! Intenta con otro por favor</mat-error>
+                                                            <mat-error *ngIf="Formulario.get('usucuenta').errors?.minLength" >Minimo 4 caracteres</mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col" style="float: right;">
+                                                      <p-button (click)="cambiocontrasena()" label="Cambio Contraseña" icon="pi pi-key" ></p-button>
+                                                      <p-dialog header="Solicitud envío de contraseña nueva" [(visible)]="displayCambioContrasenha" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+                                                        <p>Se envíara un E-mail con los datos de la nueva contraseña</p>
+                                                        <ng-template pTemplate="footer">
+                                                            <p-button icon="pi pi-check" (click)="enviocontrasena()" label="Envíar" styleClass="p-button-text"></p-button>
+                                                            <p-button icon="pi pi-times" (click)="displayCambioContrasenha=false" label="Cancelar"></p-button>
+                                                        </ng-template>
+                                                      </p-dialog>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12"></div>
+                                        <div class="col-md-6" >
+                                            <div class="card text-white bg-primary mb-3" *ngIf="resedit.cuenta?.registradoPorCuenta!=undefined">
+                                                <div class="card-header">Creado por:</div>
+                                                <div class="card-body">
+                                                <h5 class="card-title" >{{resedit.cuenta.registradoPorCuenta?.nombrePersona}} {{resedit.cuenta.registradoPorCuenta?.apellidoPersona}} </h5>
+                                                <p class="card-text">{{resedit.cuenta.registradoPorCuenta?.documentoPersona}}</p>
+                                                <small> {{resedit.cuenta?.fechaRegistroCuenta | date:'medium'}} </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card bg-light bg-success mb-3" *ngIf="resedit.cuenta?.actualizadoPorCuenta!=undefined">
+                                                <div class="card-header">Actualizado por:
+
+                                                </div>
+                                                <div class="card-body">
+                                                <h5 class="card-title">{{resedit.cuenta.actualizadoPorCuenta?.nombrePersona}} {{resedit.cuenta.actualizadoPorCuenta?.apellidoPersona}}</h5>
+                                                <p class="card-text">{{resedit.cuenta.actualizadoPorCuenta?.documentoPersona}}</p>
+                                                <small> {{resedit.cuenta?.fechaActualizacionCuenta | date:'medium'}} </small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                </div>
+
+                                    <div class="card" *ngIf="edit">
+                                        <div class="card-header card-header-icon card-header-info">
+                                          <div class="card-icon">
+                                            Perfiles Asignados
+                                          </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div  class="col-sm-12">
+                                                <div class="alert alert-warning alert-with-icon">
+                                                    <i class="material-icons" data-notify="icon">warning</i>
+                                                    <span data-notigy="message">
+                                                        <b>Cuidado:</b> Los cambios que hagas respecto a los perfiles se haran efectivos sin guardarlos! </span>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-10">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput formControlName="filterperf" type="text" id="filtercond" (keyup)="filtrarPerf()" placeholder="Perfil">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-10">
+                                                        <div class="list-group" id="list-tab" role="tablist">
+                                                          <a *ngFor="let cond of perfselect" (click)="elegirPerf(cond)" class="list-group-item list-group-item-action">{{cond.nombrePerfil}}</a>
+                                                        </div>
+                                                      </div>
+                                                      <div class="card-content table-responsive table-full-width">
+                                                        <table class="table">
+                                                          <thead >
+                                                            <th>Nombre del Perfil</th>
+                                                            <th>Observaciones del Perfil</th>
+                                                            <th>Acción</th>
+                                                          </thead>
+                                                          <tbody>
+                                                            <tr *ngFor="let cond of perfileslist">
+                                                              <td>{{cond.nombrePerfil}}</td>
+                                                              <td>{{cond.observacionesPerfil}}</td>
+                                                              <td class="text-danger"><button mat-raised-button class="btn btn-danger btn-sm"  (click)="quitarPerf(cond.idPerfil)">Quitar</button></td>
+                                                            </tr>
+
+                                                          </tbody>
+                                                        </table>
+                                                      </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                        <div class="row" *ngIf="edit" [hidden]="ocultar">
+                            <div class="col-md-10 mb-3">
+                                Documento de Identidad {{docuno}}
+                                <br>
+                                <input class="form-control" type="file" (change)="cambiarDocumentoIdentidadUsuario($event)" accept="image/*,.pdf">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button *ngIf="docuno!=''" pButton pRipple type="button"icon="pi pi-download" pTooltip="Descargar Documento" tooltipPosition="top" class="p-button-text" (click)="descargarDocumentoIdentidadConductor()"></button>
+                            </div>
+                            <div class="col-md-10 mb-3">
+                                Foto {{fotoper}}
+                                <br>
+                                <input class="form-control" type="file" (change)="cambiarFotoUsuario($event)" accept="image/*,.pdf">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button *ngIf="fotoper!='' && fotoper!=null" pButton pRipple type="button"icon="pi pi-download" pTooltip="Descargar Foto" tooltipPosition="top" class="p-button-text" (click)="descargarFotoUsuario()"></button>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!edit" [hidden]="ocultar">
+                            <div class="col-md-6 mb-3">
+                                Documento de Identidad
+                                <br>
+                                <input class="form-control" type="file" (change)="guardarArchivoCedulaUsuario($event)" accept="image/*,.pdf">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                Foto
+                                <br>
+                                <input class="form-control" type="file" (change)="guardarArchivoFotoUsuario($event)" accept="image/*,.pdf">
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="nuevoConductorEditar == true" [hidden]="ocultar">
+
+                            <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+
+                                <h4 style="font-weight: bold; text-align: center;">DATOS CONDUCTOR</h4>
+                            </div>
+
+                            <div class="card-body">
+                                <form [formGroup]="formularioConductor">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Estado Civil</mat-label>
+                                                <mat-select formControlName="estadoCivil">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let te of tipoestadoc" [value]="te.idEstadoCivil" >
+                                                    {{te.estadoCivil}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja una ARL</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Tipo Sangre</mat-label>
+                                                <mat-select formControlName="tipoSangre">
+
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let rh of tiporh"  [value]="rh.id" >
+                                                    {{rh.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Sexo:</mat-label>
+                                                <mat-select formControlName="genero">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tp of tipogenero"  [value]="tp.id" >
+                                                    {{tp.value}}
+                                                    </mat-option>
+                                                    </mat-select>
+                                                <mat-error >Escoja un genero</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Categoria Licencia:</mat-label>
+                                                <mat-select formControlName="categoriaLicencia" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tipolic of categorialicveh"  [value]="tipolic.value" >
+                                                      {{tipolic.value}}
+                                                    </mat-option>
+                                                  </mat-select>
+                                                  <mat-error >Escoja un tipo de licencia</mat-error>
+                                                <mat-error >Escoja un genero</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaInicioLicencia" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                                <mat-error *ngIf="formularioConductor.get('fechaInicioLicencia').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaFinLicencia" type="date" placeholder="Fecha Fin" required>
+                                                <mat-error *ngIf="formularioConductor.get('fechaFinLicencia').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>EPS</mat-label>
+                                                <mat-select formControlName="eps">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let ep of tipoeps" [value]="ep.idEps" >
+                                                    {{ep.eps}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaInicioEps" type="date" placeholder="{{labels?.fecha_inicio}}" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaFinEps" type="date" placeholder="{{labels?.fecha_fin}}">
+                                                <mat-error *ngIf="formularioConductor.get('fechaFinEps').errors?.checkfech">La fecha de inicio es mayor a la final</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>ARL</mat-label>
+                                                <mat-select formControlName="arl">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let a of tipoarl" [value]="a.idArl" >
+                                                    {{a.arl}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaInicioArl" type="date" placeholder="{{labels?.fecha_inicio}}" >
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaFinArl" type="date" placeholder="{{labels?.fecha_fin}}" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Caja de Compensacion </mat-label>
+                                                <mat-select formControlName="cajaCompensacion">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tc of tipocaja"  [value]="tc.idCajaCompensacion" >
+                                                    {{tc.cajaCompensacion}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Fondo de Pensiones</mat-label>
+                                                <mat-select formControlName="fondoPensiones">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let fp of tipofondo" [value]="fp.idFondoPensiones" >
+                                                    {{fp.fondoPensiones}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja un tipo de fondo de pensiones. </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+                    <div class="row" *ngIf="perfilSeleccionado?.idPerfil == 2 && nuevoConductorEditar==true">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-10 mb-3">
+                                    Licencia :
+                                    <br>
+                                    <input class="form-control" type="file" (change)="guardarLicenciaConductor($event)" accept="image/*,.pdf">
+                                </div>
+                                <div class="col-md-10 mb-3">
+                                    Exámenes
+                                    <br>
+                                    <input class="form-control" type="file" (change)="guardarExamenesConductor($event)" accept="image/*,.pdf">
+                                </div>
+                                <div class="col-md-10 mb-3">
+                                    Planilla
+                                    <br>
+                                    <input class="form-control" type="file" (change)="guardarPlanillaConductor($event)" accept="image/*,.pdf">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row" *ngIf="edit == true && esConductor==true" [hidden]="ocultar">
+                            <div class="card-header" id="cabecera">
+                                Datos de Conductor 2
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="formularioConductor">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Estado Civil</mat-label>
+                                                <mat-select formControlName="estadoCivil" >
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let te of tipoestadoc" [value]="te.idEstadoCivil" >
+                                                    {{te.estadoCivil}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Tipo Sangre</mat-label>
+                                                <mat-select formControlName="tipoSangre" >
+
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let rh of tiporh"  [value]="rh.id" >
+                                                    {{rh.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Sexo:</mat-label>
+                                                <mat-select formControlName="genero">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tp of tipogenero"  [value]="tp.id" >
+                                                    {{tp.value}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Categoria Licencia:</mat-label>
+                                                <mat-select formControlName="categoriaLicencia">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tipolic of categorialicveh"  [value]="tipolic.value" >
+                                                      {{tipolic.value}}
+                                                    </mat-option>
+                                                  </mat-select>
+                                                  <mat-error >Escoja un tipo de licencia</mat-error>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaInicioLicencia" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                                <mat-error *ngIf="formularioConductor.get('fechaInicioLicencia').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaFinLicencia" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                                <mat-error *ngIf="formularioConductor.get('fechaFinLicencia').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>EPS</mat-label>
+                                                <mat-select formControlName="eps">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let ep of tipoeps" [value]="ep.idEps" >
+                                                    {{ep.eps}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaInicioEps" type="date" placeholder="{{labels?.fecha_inicio}}">
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaFinEps" type="date" placeholder="{{labels?.fecha_fin}}">
+
+                                                <mat-error *ngIf="formularioConductor.get('fechaFinEps').errors?.checkfech">La fecha de inicio es mayor a la final</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>ARL</mat-label>
+                                                <mat-select formControlName="arl">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let a of tipoarl" [value]="a.idArl" >
+                                                    {{a.arl}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaInicioArl" type="date" placeholder="{{labels?.fecha_inicio}}">
+
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="fechaFinArl" type="date" placeholder="{{labels?.fecha_fin}}">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Caja de Compensacion </mat-label>
+                                                <mat-select formControlName="cajaCompensacion">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tc of tipocaja"  [value]="tc.idCajaCompensacion" >
+                                                    {{tc.cajaCompensacion}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Fondo de Pensiones</mat-label>
+                                                <mat-select formControlName="fondoPensiones">
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let fp of tipofondo" [value]="fp.idFondoPensiones" >
+                                                    {{fp.fondoPensiones}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="edit==true && esConductor==true" [hidden]="ocultar">
+                            <div class="col-md-10 mb-3">
+                                Licencia : {{nombreArchivoLicencia}}
+                                <br>
+                                <input  class="form-control" type="file" (change)="cambiarArchivoLicenciaConductor($event)" accept="image/*,.pdf">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button *ngIf="nombreArchivoLicencia!=''" pButton pRipple type="button"icon="pi pi-download" pTooltip="Descargar Foto" tooltipPosition="top" class="p-button-text" (click)="descargarArchivoLicenciaConductor()"></button>
+                            </div>
+                            <div class="col-md-10 mb-3">
+                                Exámenes : {{conductorUsuarioPerfil?.examenesMedicosConductor}}
+                                <br>
+                                <input class="form-control" type="file" (change)="cambiarArchivoExamenesConductor($event)" accept="image/*,.pdf">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button *ngIf="nombreArchivoExamenesEditar!=''" pButton pRipple type="button"icon="pi pi-download" pTooltip="Descargar Foto" tooltipPosition="top" class="p-button-text" (click)="descargarArchivoExamenes()"></button>
+                            </div>
+                            <div class="col-md-10 mb-3">
+                                Planilla : {{conductorUsuarioPerfil?.planillaAportesConductor}}
+                                <br>
+                                <input class="form-control" type="file" (change)="cambiarArchivoPlanilla($event)" accept="image/*,.pdf">
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button *ngIf="nombreAarchivoPlanillaEditar!=''" pButton pRipple type="button"icon="pi pi-download" pTooltip="Descargar Foto" tooltipPosition="top" class="p-button-text" (click)="descargarArchivoPlanilla()"></button>
+                            </div>
+                        </div>
+                        <div class="row" [hidden]="ocultar">
+                            <div style="text-align: center">
+
+                                <button class="btn btn-round" style="background-color: #004790;" (click)="guardar2()">{{labels?.guardar}}</button>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <p-dialog [(visible)]="displayCreacionConductor" [modal]="true" [style]="{width: '50vw'}"[draggable]="false" [resizable]="false" [closable]="false">
+                    <div class="card">
+                        <div class="card-header" id="cabecera">
+                            Datos de Conductor 1
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="formularioConductor">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>Estado Civil</mat-label>
+                                            <mat-select formControlName="estadoCivil" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let te of tipoestadoc" [value]="te.idEstadoCivil" >
+                                                {{te.estadoCivil}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error >Escoja una ARL</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>Tipo Sangre</mat-label>
+                                            <mat-select formControlName="tipoSangre" required>
+
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let rh of tiporh"  [value]="rh.id" >
+                                                {{rh.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>Sexo:</mat-label>
+                                            <mat-select formControlName="genero" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let tp of tipogenero"  [value]="tp.id" >
+                                                {{tp.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error >Escoja una Opción</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>Categoria Licencia:</mat-label>
+                                            <mat-select formControlName="categoriaLicencia" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let tipolic of categorialicveh"  [value]="tipolic.value" >
+                                                  {{tipolic.value}}
+                                                </mat-option>
+                                              </mat-select>
+                                              <mat-error >Escoja un tipo de licencia</mat-error>
+                                            <mat-error >Escoja un genero</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="fechaInicioLicencia" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                            <mat-error *ngIf="formularioConductor.get('fechaInicioLicencia').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="fechaFinLicencia" type="date" placeholder="{{labels?.fecha_fin}}" required>
+                                            <mat-error *ngIf="formularioConductor.get('fechaFinLicencia').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>EPS</mat-label>
+                                            <mat-select formControlName="eps" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let ep of tipoeps" [value]="ep.idEps" >
+                                                {{ep.eps}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error >Escoja una EPS</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="fechaInicioEps" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                            <mat-error *ngIf="formularioConductor.get('fechaInicioEps').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="fechaFinEps" type="date" placeholder="{{labels?.fecha_fin}}" required>
+                                            <mat-error *ngIf="formularioConductor.get('fechaFinEps').errors?.required">Ingrese la fecha fin</mat-error>
+                                            <mat-error *ngIf="formularioConductor.get('fechaFinEps').errors?.checkfech">La fecha de inicio es mayor a la final</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>ARL</mat-label>
+                                            <mat-select formControlName="arl" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let a of tipoarl" [value]="a.idArl" >
+                                                {{a.arl}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error >Escoja una ARL</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="fechaInicioArl" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput formControlName="fechaFinArl" type="date" placeholder="{{labels?.fecha_fin}}" required>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>Caja de Compensacion </mat-label>
+                                            <mat-select formControlName="cajaCompensacion" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let tc of tipocaja"  [value]="tc.idCajaCompensacion" >
+                                                {{tc.cajaCompensacion}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error >Escoja una caja de compensacion</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <mat-form-field >
+                                            <mat-label>Fondo de Pensiones</mat-label>
+                                            <mat-select formControlName="fondoPensiones" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let fp of tipofondo" [value]="fp.idFondoPensiones" >
+                                                {{fp.fondoPensiones}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error >Escoja un fondo de pensiones</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10 mb-3">
+                                            Licencia :
+                                            <br>
+                                            <input class="form-control" type="file" (change)="guardarLicenciaConductor($event)" accept="image/*,.pdf">
+                                        </div>
+                                        <div class="col-md-10 mb-3">
+                                            Exámenes
+                                            <br>
+                                            <input class="form-control" type="file" (change)="guardarExamenesConductor($event)" accept="image/*,.pdf">
+                                        </div>
+                                        <div class="col-md-10 mb-3">
+                                            Planilla
+                                            <br>
+                                            <input class="form-control" type="file" (change)="guardarPlanillaConductor($event)" accept="image/*,.pdf">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <button-component buttonClass="btn btn-info pull-right btn-round" type="button" [hidden]="view" text="{{labels?.guardar}}" (click)="crearPerfilConductor()"></button-component>
+                            <button-component buttonClass="btn btn-info pull-left btn-round" type="button" [hidden]="view" text="cancelar" (click)="limpiarFormulario()"></button-component>
+                        </div>
+                </div>
+            </p-dialog>
+            </div>
+        </div>
+    </div>
+</div>

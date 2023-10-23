@@ -1,0 +1,59 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" style="background-color: #004790;text-align: center">
+                      <h3 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.ultimo_ingreso}}</h3>
+                      <p class="card-category" style="color :#39D5FF" *ngIf="!edit && !view">{{labels?.crear_ultimo_ingreso}}</p>
+                      <p class="card-category" style="color :#39D5FF" *ngIf="view">{{labels?.ver_ultimo_ingreso}}</p>
+                      <p class="card-category" style="color :#39D5FF" *ngIf="edit">{{labels?.actualizar_ultimo_ingreso}}</p>
+                  </div>
+                  <div class="card-body">
+                      <form [formGroup]="Form" [hidden]="ocultar">
+                          <div class="form-row">
+                              <div class="col-md-6 mb-3">
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="{{labels?.fecha_ingreso}}" formControlName="fechaUltimoIngreso" type="datetime">
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-6 mb-3" >
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Ip" formControlName="ip" type="text">
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="col-md-12 mb-3" >
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="{{labels?.navegador}}" formControlName="navegador" type="text">
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="col-md-3 mb-3" >
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="{{labels?.usuario}}" formControlName="usuario" type="text">
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-5 mb-3">
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="{{labels?.nombre}}" formControlName="nombre" type="text">
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="{{labels?.document}}" formControlName="documento" type="text">
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                      </form>
+                      <div style="text-align: center" >
+                          <button class="btn" id="boton" type="button"  routerLink="../">Regresar</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">{{labels?.buscar_perfil}}</h4>
+            <p class="card-category">{{labels?.perfil_category}}</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.codigo}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.nombre}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.observaciones}}">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div  style="text-align: right">
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.clean}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.search}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round" routerLink="nuevo" text="{{labels?.crear_perfil}}"></button-component>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title ">{{labels?.title_table_perfiles}}</h4>
+          </div>
+          <div class="card-body text-center">
+            <div class="table-responsive-xl">
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Codigo
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(1)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-1)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Nombre
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Observaciones
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Fecha Registro
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Estado</th>
+                      <th scope="col">Accion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of res">
+                      <td ><button  type="button" class="btn btn-info btn-sm btn-round" routerLink="{{'ver'+r.idPerfil}}">{{r.idPerfil}}</button></td>
+                      <td >{{r.nombrePerfil}}</td>
+                      <td >{{r.observacionesPerfil}}</td>
+                      <td >{{r.fechaRegistroPerfil}}</td>
+                      <td >
+                        <!--
+                              <button *ngIf="r.estadoPerfil==0" type="button" class="btn btn-warning btn-sm btn-round" routerLink="{{'editar'+r.idPerfil}}">DESHABILITADO</button>
+                        <button [disabled]="!consult('/perfiles','/editar')" *ngIf="r.estadoPerfil==1" type="button" class="btn btn-success btn-sm btn-round" routerLink="{{'editar'+r.idPerfil}}">HABILITADO</button>
+                        <button [disabled]="!consult('/perfiles','/editar')" *ngIf="r.estadoPerfil==2" type="button" class="btn btn-danger btn-sm btn-round" routerLink="{{'editar'+r.idPerfil}}">ELIMINADO</button> </td>
+                        -->
+
+                      <td>
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm btn-round" data-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" (click)="elimin(r.idPerfil)">Eliminar</a></li>
+                            <li><a class="dropdown-item" routerLink="{{'editar'+r.idPerfil}}">Editar</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerPerfiles(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="ObtenerPerfiles(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerPerfiles(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

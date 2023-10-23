@@ -1,0 +1,69 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.orden_servicio}}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                            {{msm}}
+                        </div>
+                        <form [formGroup]="Formulario" [hidden]="ocultar">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3" >
+                                    <mat-form-field >
+                                        <mat-label>{{labels?.vehiculo}}</mat-label>
+                                        <mat-select formControlName="slcVehiculo" (selectionChange)="selectVehiculo($event.value)" required>
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let v of vehiculos" [value]="v" >
+                                                    {{v.placaVehiculo}} | {{v.codigoInternoVehiculo}} | {{v.nombrePersona}} {{v.apellidoPersona}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error >Escoja un {{labels?.vehiculo}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3" >
+
+                                    <mat-form-field >
+                                        <mat-label>{{labels?.conductor}}</mat-label>
+                                        <mat-select formControlName="slcConductor"  required>
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let c of conductores" [value]="c.idConductor" >
+                                                Nombre: {{c.nombrePersona}} {{c.apellidoPersona}} | Doc. {{c.documentoPersona}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error >Escoja un {{labels?.conductor}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3" >
+                                    <mat-form-field class="example-full-width" >
+                                        <input matInput placeholder="{{labels?.valor_conductor}}" formControlName="txtValorConductor" type="number" required>
+                                        <mat-error *ngIf="Formulario.get('txtValorConductor').errors?.required">digite el {{labels?.valor_conductor}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3" >
+                                    <mat-form-field class="example-full-width" >
+                                        <input matInput placeholder="{{labels?.valor_facturar}}" formControlName="txtValorFacturar" type="number" required>
+                                        <mat-error *ngIf="Formulario.get('txtValorFacturar').errors?.required">digite el {{labels?.valor_facturar}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-12 mb-3" >
+                                    <mat-form-field class="example-full-width">
+                                        <textarea matInput placeholder="{{labels?.observaciones}}"  formControlName="txtObservaciones"></textarea>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <div style="text-align: center">
+                                <button [hidden]="view" class="btn btn-info btn-round" (click)="guardar()" type="button" >Finalizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

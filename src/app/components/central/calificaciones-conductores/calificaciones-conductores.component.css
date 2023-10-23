@@ -1,0 +1,73 @@
+#fondo
+{
+    height: 700px;
+}
+
+#barra_busqueda
+{
+    border-radius: 10px;
+    height: 70px;
+    width: 95%;
+    margin-left: 20px;
+    background-color: #baffea;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
+
+#cuerpo_busqueda
+{
+    border: solid;
+    border-radius: 10px;
+    border-color: #eaeceb;
+    height: 560px;
+    width: 95%;
+    margin-left: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
+
+#entrada_documento
+{
+    width: 250px;
+    height: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+#contenedor
+{
+    margin-left: 20px;
+}
+
+#orden_servicio
+{
+    border: solid;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-color: #eaeceb;
+    background-color: #cdffd0;
+}
+
+#encuesta_servicio
+{
+    border: solid;
+    border-radius: 10px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+    border-color: #eaeceb;
+    background-color: #cdffd0;
+}
+
+#respuestas
+{
+    border: solid;
+    border-radius: 10px;
+    margin: 2px;
+    border-color: #eaeceb;
+    background-color: #fbffcd;
+}

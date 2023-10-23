@@ -1,0 +1,77 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+              <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+                <h2  style="font-weight: bold; text-align: center; ">{{labels?.orden_servicio}}</h2>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive-xl">
+                  <table class="table">
+                    <tbody>
+                      <tr *ngFor="let r of res">
+                          <div class="card" id="carta_reserva">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-9">
+                                  <div class="row">
+                                    <div class="col-1" id="codigo_pasajero">
+                                      {{r.idReserva}}
+                                    </div>
+                                    <div class="col-8" id="nombre_pasajero">
+                                      Pasajero: {{r.nombrePasajero}} {{r.apellidoPasajero}}
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div id="info_reserva">
+                                      <ul>
+                                        <li>FECHA: {{r.fechaInicioReserva | date}}</li>
+                                        <li>HORA: </li>
+                                        <li>ORIGEN: {{r.direccionOrigenReserva}}</li>
+                                        <li>DESTINO: {{r.direccionDestinoReserva}} </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-3">
+                                  <div id="contenedor_acciones">
+                                    <div id="sub_contenedor">
+                                      <div *ngIf="r.estadoReserva!=2 && r.estadoReserva!=6 && r.estadoReserva!=5 && r.estadoReserva!=4">
+                                        <button pButton pRipple type="button" pTooltip="INICIAR" icon="pi pi-play" class="p-button-rounded p-button-raised p-button-warning" (click)="estadoReserva(r.idReserva,4)" id="boton_accion">
+
+                                        </button>
+                                        <br>
+                                        <button pButton pRipple type="button" pTooltip="CANCELAR" icon="pi pi-times" class="p-button-rounded p-button-raised p-button-info" (click)="estadoReserva(r.idReserva,2)" id="boton_accion">
+
+                                        </button>
+                                      </div>
+                                      <div *ngIf="r.estadoReserva==4">
+                                        <button pButton pRipple type="button" pTooltip="FINALIZAR" icon="pi pi-check-circle" class="p-button-rounded p-button-raised p-button-info" (click)="estadoReserva(r.idReserva,5)">
+
+                                        </button>
+                                      </div>
+                                      <div *ngIf="r.estadoReserva==2">
+                                        Cancelado
+                                      </div>
+                                      <div *ngIf="r.estadoReserva==5">
+                                        Finalizado
+                                      </div>
+                                      <div *ngIf="r.estadoReserva==6">
+                                        Rechazado
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,114 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790;text-align: center">
+            <h4 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.buscar_empresa_convenio}}</h4>
+            <p class="card-category" style="color :#39D5FF">{{labels?.category_empresa_convenio}}</p>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione Criterio de Búsqueda</mat-label>
+                  <mat-select [(value)]="criterioFiltro">
+                    <mat-option value="ce">CÓDIGO</mat-option>
+                    <mat-option value="ee">Estado Empresa Convenio</mat-option>
+                    <mat-option value="nit">NIT CONVENIO</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <div *ngIf="criterioFiltro!=''">
+                  <div *ngIf="criterioFiltro == 'ce'">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>CÓDIGO</mat-label>
+                      <input matInput type="text" [(ngModel)]="valorFiltro" name="valorCriterio">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="criterioFiltro == 'nit'">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>NIT</mat-label>
+                    <input matInput type="text" [(ngModel)]="valorFiltro" name="valorCriterio">
+                  </mat-form-field>
+              </div>
+            <div *ngIf="criterioFiltro == 'ee'">
+              <mat-form-field appearance="fill">
+                <mat-label>Seleccionar Estado Empresa Convenio</mat-label>
+                <mat-select [(value)]="valorFiltro" name="valorCriterio">
+                  <mat-option value="1">HABILITADO</mat-option>
+                  <mat-option value="2">DESHABILITADO</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+                </div>
+              </div>
+              <div class="col">
+                <button class="btn pull-right" id="boton" (click)="Obtener(0)">{{labels?.clean}}</button>
+                <button class="btn pull-right" id="boton" (click)="filtrar()">{{labels?.search}}</button>
+		            <button class="btn pull-right" id="boton" routerLink="nuevo" >nuevo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790;text-align: center">
+            <h4 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.title_table_empresa_convenio}}</h4>
+          </div>
+          <div class="card-body text-center">
+            <div class="table-responsive-xl">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Empresa</th>
+                        <th scope="col">Nit</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Accion</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let r of res">
+                        <td ><button type="button" class="btn btn-info btn-sm btn-round" id="boton" routerLink="{{'ver'+r.idEmpresaConvenio}}">{{r.idEmpresaConvenio}}</button></td>
+                        <td >{{r.nombreEmpresaConvenio}}</td>
+                        <td >{{r.nitEmpresaConvenio}}</td>
+                        <td ><button *ngIf="r.estadoEmpresaConvenio==0" type="button" class="btn btn-warning btn-sm" routerLink="{{'editar'+r.idEmpresaConvenio}}">DESHABILITADO</button> <button *ngIf="r.estadoEmpresaConvenio==1" type="button" class="btn btn-success btn-sm" routerLink="{{'editar'+r.idEmpresaConvenio}}">HABILITADO</button> <button *ngIf="r.estadoEmpresaConvenio==2" type="button" class="btn btn-danger btn-sm" routerLink="{{'editar'+r.idEmpresaConvenio}}">ELIMINADO</button> </td>
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm btn-round" id="boton" data-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" (click)="eliminar(r.idEmpresaConvenio)">Eliminar</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="Obtener(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="Obtener(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="Obtener(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

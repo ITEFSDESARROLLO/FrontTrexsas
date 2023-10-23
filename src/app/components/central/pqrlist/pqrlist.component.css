@@ -1,0 +1,11 @@
+#redactor_pqr
+{
+    width: 100%;
+}
+
+#descripcion_pqr
+{
+    height: 300px;
+    width: 200px;
+    font-size: large;
+}

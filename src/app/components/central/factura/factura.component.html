@@ -1,0 +1,225 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+                      <h2 style="font-weight:bold">{{labels?.factura}}</h2>
+                  </div>
+                  <div class="card-body">
+
+                    <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                      {{msm}}
+                  </div>
+                  <form [formGroup]="Formulario" [hidden]="ocultar">
+                  </form>
+
+                    <div class="row" >
+                      <div class="col-md-4 col-sm-12">
+                        <label >Cliente:</label>
+                        <select [(ngModel)]="desplegableCliente" id="seleccliente"  (change)="agregarcliente()">
+                          <option [value]="" selected>Seleccione un Cliente:</option>
+                          <option [value]="clientes" [ngValue]="clientes" *ngFor="let clientes of clienteSeleccionado">{{clientes.razonSocialCliente}}</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4 col-sm-12">
+                        <label for="fechaini">Fecha Inicial:</label>
+                        <input type="date" id="fechaini" formControlName="fechaInicio">
+                      </div>
+
+                      <div class="col-md-3 col-sm-12">
+                        <label for="fechafin">Fecha Fin:</label>
+                        <input type="date" id="fechafin" name="fechafin" [(ngModel)]="fechaFin">
+                      </div>
+
+                      <div class="col-md-1 col-sm-12">
+                        <button pButton type="button" label="Buscar" (click)="obtenerfacturas()" class="p-button-info"></button>
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+              <div class="card" *ngIf="facturas.length > 0">
+                <div class="card-body">
+                  <div class="table-responsive-xl">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col" style="font-weight:bold">Id Orden Servicio</th>
+                            <th scope="col" style="font-weight:bold">Fecha Inicio</th>
+                            <th scope="col" style="font-weight:bold">Pasajero</th>
+                            <th scope="col" style="font-weight:bold">Voucher</th>
+                            <th scope="col" style="font-weight:bold">Conductor</th>
+                            <th scope="col" style="font-weight:bold">Placa</th>
+                            <th scope="col" style="font-weight:bold">Valor a Facturar</th>
+                            <th scope="col" style="font-weight:bold">Valor al Conductor</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let factura of facturas">
+                            <td >{{factura.idOrdenServicio}}</td>
+                            <td >{{factura.fechaInicioReserva|date}}</td>
+                            <td >{{factura.nombrePasajero}} {{factura.apellidoPasajero}}</td>
+                            <td >{{factura.numeroVoucher}}</td>
+                            <td >{{factura.nombreConductor}} {{factura.apellidoConductor}}</td>
+                            <td >{{factura.placaVehiculo}}</td>
+                            <td >{{factura.valorFacturar}}</td>
+                            <td >{{factura.valorConductor}}</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                  </div>
+                  <div class="card-row">
+                    <div class="row" style="background-color:#ECF0F1;">
+                      <div class="col-md-6">
+                        <label for="col" id="total">Total a Facturar:</label>
+                      </div>
+                      <div class="col-lg-6" id="totalconductor">${{total}}</div>
+                    </div>
+                  </div>
+                  <div class="row" >
+                    <div class="col-md-1">
+                      <label id="textconcepto">Concepto:</label>
+                    </div>
+                    <div class="col-lg-5">
+                      <textarea [(ngModel)]="dato" id="inputconcepto" aria-label="With textarea"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                      <label id="textconcepto">Dato:</label>
+                    </div>
+                    <div class="col-lg-5">
+                      <textarea [(ngModel)]="concepto"  id="inputconcepto" aria-label="With textarea"></textarea>
+                    </div>
+                  </div>
+                  <div class="row" >
+                    <div class="col-5">
+                    </div>
+                    <div class="col-2" id="rowbutton">
+                      <button pButton pRipple type="button" label="Prefactura" (click)="generarprefactura()" class="p-button-raised"></button>
+                    </div>
+                    <div class="col-5">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!--
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.factura}}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                            {{msm}}
+                        </div>
+                        <form [formGroup]="FormularioFechas" [hidden]="ocultar">
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3" >
+                                    <mat-form-field >
+                                        <mat-label>{{labels?.contrato_permanente}}</mat-label>
+                                        <mat-select formControlName="slcContrato" required>
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let c of contratos" [value]="c.idCliente" >
+                                                Cliente: {{c.razonSocialCliente}} | No. Contrato: {{c.numeracionContrato}} | {{c.fechaInicioContratoPermanente | date}} - {{c.fechaFinContratoPermanente | date}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error >Escoja un {{labels?.contrato_permanente}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3" >
+                                    <mat-form-field class="example-full-width" >
+                                        <input matInput placeholder="{{labels?.fecha_inicio}}" formControlName="txtFechaInicio" type="date" required>
+                                        <mat-error *ngIf="FormularioFechas.get('txtFechaInicio').errors?.required">digite la {{labels?.fecha_inicio}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3" >
+                                    <mat-form-field class="example-full-width" >
+                                        <input matInput placeholder="{{labels?.fecha_fin}}" formControlName="txtFechaFin" type="date" required>
+                                        <mat-error *ngIf="FormularioFechas.get('txtFechaFin').errors?.required">digite la {{labels?.fecha_fin}}</mat-error>
+                                        <mat-error *ngIf="FormularioFechas.get('txtFechaFin').errors?.checkfech">la fecha fin no puede ser inferior a la de inicio</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <button  class="btn btn-info btn-round" (click)="buscarReservas()" type="button" >Buscar Reservas</button>
+                            </div>
+                        </form>
+                        <div *ngIf="resReservasCumplidas.total!=undefined && resReservasCumplidas.reservas.length==0"  class="alert alert-danger" role="alert">
+                            No hay reservas a cobrar entre esas fechas
+                        </div>
+                        <form [formGroup]="Formulario" [hidden]="resReservasCumplidas.total==undefined || resReservasCumplidas.reservas.length==0 || ocultar">
+                            <div *ngIf="fechaInicio!='' && fechaFin!=''">
+                                <blockquote class="blockquote">
+                                    <label >Periodo:</label>
+                                    <p class="mb-0">{{fechaInicio | date}} - {{fechaFin | date}}</p>
+                                </blockquote>
+                            </div>
+                            <mat-tab-group>
+                                <mat-tab label="{{labels?.informacion_factura}}">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3" >
+                                                <mat-form-field class="example-full-width" >
+                                                    <input matInput placeholder="fecha" formControlName="txtFecha" type="date" required>
+                                                    <mat-error *ngIf="Formulario.get('txtFecha').errors?.required">digite la fecha para el cobro</mat-error>
+                                                    <mat-error *ngIf="Formulario.get('txtFecha').errors?.checkfech">la fecha no puede ser inferior a la de hoy</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6 mb-3" ></div>
+                                            <div class="col-md-6 mb-3" >
+                                                <mat-form-field class="example-full-width">
+                                                    <textarea matInput placeholder="{{labels?.concepto}}"  formControlName="txtConcepto"></textarea>
+                                                    <mat-error *ngIf="Formulario.get('txtConcepto').errors?.required">digite el {{labels?.concepto}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                                <mat-tab label="{{labels?.informacion_reservas}}">
+                                    <div class="card-body">
+                                        <div class="row" >
+                                            <div class="col-md-6 mb-3" *ngFor="let c of resReservasCumplidas.reservas" >
+                                                <blockquote class="blockquote">
+                                                    <label >Pasajero</label>
+                                                    <p class="mb-0">{{c.nombrePasajero}} {{c.apellidoPasajero}}</p>
+                                                    <label >Conductor</label>
+                                                    <p class="mb-0">{{c.nombreConductor}} {{c.apellidoConductor}}</p>
+                                                    <label >Vehiculo</label>
+                                                    <p class="mb-0">{{c.placaVehiculo}}</p>
+                                                    <footer class="blockquote-footer"><cite title="Source Title">No. Orden: </cite> {{c.idOrdenServicio}}</footer>
+                                                    <footer class="blockquote-footer"><cite title="Source Title">Fecha: </cite> {{c.fechaInicioReserva}}</footer>
+                                                    <footer class="blockquote-footer"><cite title="Source Title">Valor a facturar: </cite> {{c.valorFacturar}}</footer>
+                                                    <footer class="blockquote-footer"><cite title="Source Title">Valor a conductor: </cite> {{c.valorConductor}}</footer>
+                                                    <label >Estado</label>
+                                                    <p class="mb-0">Cumplido</p>
+                                                </blockquote>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                            <blockquote class="blockquote">
+                                <label >Total:</label>
+                                <p class="mb-0">{{resReservasCumplidas.total}}</p>
+                            </blockquote>
+                            <div style="text-align: center">
+                                <button [hidden]="view" class="btn btn-info btn-round" (click)="guardar()" type="button" >Finalizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+-->

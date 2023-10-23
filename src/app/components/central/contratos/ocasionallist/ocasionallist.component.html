@@ -1,0 +1,183 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row" >
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-info">
+              <h4 class="card-title">{{labels?.buscar_contrato_ocasional}}</h4>
+              <p class="card-category">{{labels?.contrato_ocasional_category}}</p>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{labels?.numero_contrato}}">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{labels?.nit}}">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{labels?.numero_contrato}}">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{labels?.nombre_responsable}}">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{labels?.cedula_responsable}}">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="{{labels?.telefonoResponsableContrato}}">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div  style="text-align: right">
+                  <button-component buttonClass="btn btn-info pull-right btn-round" (click)="LimpiarContrato()" text="{{labels?.clean}}"></button-component>
+                  <button-component buttonClass="btn btn-info pull-right btn-round" (click)="BuscarContrato()" text="{{labels?.search}}"></button-component>
+                  <button-component buttonClass="btn btn-info pull-right btn-round" routerLink="nuevo" text="{{labels?.crear_contrato_ocasional}}"></button-component>
+                </div>
+                <div class="clearfix"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-info">
+              <h4 class="card-title ">{{labels?.title_table_contratos}}</h4>
+              <p class="card-category">{{labels?.subtitle_table_contratos_o}}</p>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-secondary">
+                    <th scope="col">No. Contrato
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(1)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-1)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Vehiculo
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Razon Social
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Nit
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Valor
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Nombre
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(6)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-6)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Cédula Responsable
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(7)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-7)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Teléfono
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(8)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-8)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Accion</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of res">
+                      <td ><button type="button" class="btn btn-info btn-sm btn-round" routerLink="{{'ver'+r.idContratoOcasional}}">{{r.numeracionContrato}}</button></td>
+                      <td >{{r.placaVehiculo}}</td>
+                      <td >{{r.razonSocialCliente}}</td>
+                      <td >{{r.nitCliente}}</td>
+                      <td >{{r.valorContrato}}</td>
+                      <td >{{r.nombreResponsableContrato}}</td>
+                      <td >{{r.cedulaResponsableContrato}}</td>
+                      <td >{{r.telefonoResponsableContrato}}</td>
+                      <td >
+                          <div *ngIf="r.estadoContrato==0">
+                            <div class="alert alert-danger alert-sm">
+                                <b>Cancelado</b>
+                            </div>
+                          </div>
+                          <div *ngIf="r.estadoContrato==1">
+                            <div class="alert alert-success alert-sm" >
+                                <b>Aprobado</b>
+                            </div>
+                          </div>
+                          <div *ngIf="r.estadoContrato==2">
+                            <div class="alert alert-danger alert-sm" >
+                                <b>Rechazado</b>
+                            </div>
+                          </div>
+                      <td>
+                        <div class="dropdown">
+                            <button href="#" class="btn dropdown-toggle btn-round" data-toggle="dropdown" aria-expanded="true" >
+                                <b class="caret"></b>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li *ngIf="r.contratoOcasional==null"><a class="dropdown-item btn-sm btn-danger" type="button" >PDF no disponible</a></li>
+                                <li *ngIf="r.contratoOcasional!=null"><a class="dropdown-item btn-sm btn-danger" type="button" (click)="download(r.contratoOcasional)">PDF</a></li>
+                                <li><a class="dropdown-item" >Rechazar Contrato</a></li>
+                                <li><a class="dropdown-item" >Aprobar Contrato</a></li>
+                                <li><a class="dropdown-item" >Cancelar Contrato</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav aria-label="Page navigation example" >
+    <ul class="pagination justify-content-center">
+      <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+        <a class="page-link"  (click)="ObtenerContratos(pagact-1)" style="cursor:pointer;">Anterior</a>
+      </li>
+      <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index "><a class="page-link" style="cursor:pointer;"  (click)="ObtenerContratos(i)">{{i+1}}</a></li>
+      <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+        <a class="page-link"  (click)="ObtenerContratos(pagact+1)" style="cursor:pointer;">Siguiente</a>
+      </li>
+    </ul>
+  </nav>
+

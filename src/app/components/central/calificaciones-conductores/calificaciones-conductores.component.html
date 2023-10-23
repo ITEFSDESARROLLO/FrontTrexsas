@@ -1,0 +1,56 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" id="fondo">
+                    <div class="card-body">
+                        <div class="row" id="barra_busqueda">
+                            <div class="col-6">
+                                <input type="text" id="entrada_documento" [(ngModel)]="documentoConductor"/>
+                                <button pButton pRipple type="button" label="BUSCAR" class="p-button-rounded p-button-raised p-button-success" (click)="buscarCalificacionesConductor()"></button>
+                            </div>
+                            <div class="col-6">
+                                <label style="font-size: 20px; margin-top: 20px; color: black; font-weight: bold; margin-left: 30px">
+                                    Calificaciones de: {{nombreConductor}}</label>
+                            </div>
+                        </div>
+                        <div class="row" id="cuerpo_busqueda">
+                            <div *ngIf="calificaciones.length > 0">
+                                <div class="table-responsive-xl">
+                                    <p-table [value]="calificaciones" [scrollable]="true" scrollHeight="550px">
+                                        <ng-template pTemplate="body" let-calificacion>
+                                            <tr>
+                                                <div class="card" >
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-2" id="orden_servicio">
+                                                                <label for="" style="font-weight: bold; color: black;">ORDEN SERVICIO: {{calificacion.numeroServicio}}</label>
+                                                            </div>
+                                                            <div class="col-4" id="encuesta_servicio">
+                                                                <label for="" style="font-weight: bold; color: black;">ENCUESTA RESPONDIDA: {{calificacion.encuestaAsignada}}</label>
+                                                            </div>
+                                                            <div class="col-6" id="encuesta_servicio">
+                                                                <label for="" style="font-weight: bold; color: black;">Fecha del Servicio: {{calificacion.fechaServicio}}</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" id="respuestas">
+                                                            <ol>
+                                                                <li *ngFor="let pregunta of calificacion.arreglo" style="font-weight: bold; color: black;">
+                                                                    {{pregunta.pregunta}}   {{pregunta.opcion}}
+                                                                </li>
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

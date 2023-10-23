@@ -1,0 +1,83 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title">{{labels?.title_table_reservas}}</h4>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsivex1">
+                              <table class="table">
+                                  <thead>
+                                    <tr>
+                                        <th scope="col">Codigo
+                                        </th>
+                                        <th scope="col">Fecha Salida
+                                          </th>
+                                        <th scope="col">Origen
+                                          </th>
+                                        <th scope="col">Destino
+                                          </th>
+                                        <th scope="col">Estado
+                                          
+                                        </th>
+                                        <th scope="col">Conductor
+                                          
+                                        </th>
+                                        <th scope="col">Vehiculo
+                                          
+                                        </th>
+                                        <th scope="col">Accion</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let r of reservasPasajero">
+                                      <td ><button type="button" class="btn btn-info btn-sm btn-round" routerLink="{{'ver'+r.idReserva}}">{{r.idReserva}}</button></td>
+                                      <td >{{r.fechaInicioReserva | date:'MMM d, y, h:mm:ss a'}}</td>
+                                      <td >{{r.direccionOrigenReserva}}</td>
+                                      <td >{{r.direccionDestinoReserva}}</td>
+                                      <td >
+                                        <button *ngIf="r.estadoReserva==1" pButton pRipple type="button" pTooltip="Pendiente" icon="pi pi-info" class="p-button-rounded p-button-raised p-button-danger">
+                                            
+                                        </button>
+                                        <button *ngIf="r.estadoReserva==2" pButton pRipple type="button" pTooltip="Cancelado" icon="pi pi-times" class="p-button-rounded p-button-raised p-button-info">
+                                            
+                                        </button>
+                                        <button *ngIf="r.estadoReserva==3" pButton pRipple type="button" pTooltip="Aceptado" icon="pi pi-check" class="p-button-rounded p-button-raised p-button-success">
+                                            
+                                        </button>
+                                        <button *ngIf="r.estadoReserva==4" pButton pRipple type="button" pTooltip="En ruta" icon="pi pi-angle-double-right" class="p-button-rounded p-button-raised p-button-warning">
+                                            
+                                        </button>
+                                        <button *ngIf="r.estadoReserva==5" pButton pRipple type="button" pTooltip="Finalizado" icon="pi pi-check-circle" class="p-button-rounded p-button-raised p-button-help">
+                                           
+                                        </button>
+                                        <button *ngIf="r.estadoReserva==6" pButton pRipple type="button" pTooltip="rechazado" icon="pi pi-times-circle" class="p-button-rounded p-button-raised p-button-secondary">
+                                            
+                                        </button>
+                                        
+                                      </td>
+                                      <td >{{r.nombreConductor}} {{r.apellidoConductor}}</td>
+                                      <td >{{r.placaVehiculo}}</td>
+                                      <td> 
+                                        <div class="dropdown" *ngIf="r.estadoReserva!=2 && r.estadoReserva!=6 ">
+                                          <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm btn-round" data-toggle="dropdown" aria-expanded="false">
+                                              <span class="visually-hidden"></span>
+                                          </button>
+                                          <ul class="dropdown-menu" *ngIf="r.estadoReserva==1 || r.estadoReserva==3">
+                                            <li><a class="dropdown-item" (click)="estadoReserva(r.idReserva,2)">Cancelar</a></li>
+                                          </ul>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

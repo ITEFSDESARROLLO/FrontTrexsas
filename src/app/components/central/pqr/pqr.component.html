@@ -1,0 +1,57 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">Nueva PQR</h3>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                            {{msm}}
+                        </div>
+                        <form [formGroup]="Formulario">
+                            <div *ngIf="view || edit">
+                                <blockquote class="blockquote">
+                                    <label >Fecha:</label>
+                                    <p class="mb-0">{{fecha | date}}</p>
+                                </blockquote>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3" >
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Tipo de PQR</mat-label>
+                                        <mat-select [(value)]="pqrSeleccionada">
+                                          <mat-option value="1">Petición</mat-option>
+                                          <mat-option value="2">Queja</mat-option>
+                                          <mat-option value="3">Reclamo</mat-option>
+                                          <mat-option value="4">Comentario</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3" >
+                                    <mat-label>REGISTRAR CON SU NOMBRE</mat-label>
+                                    <br>
+                                    NO<mat-slide-toggle [(ngModel)]="isChecked" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>SÍ
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 mb-3" >
+                                    <mat-form-field class="example-full-width" >
+                                        <mat-label>Descripción</mat-label>
+                                        <textarea matInput formControlName="txtDescripcion" type="text" required></textarea>
+                                        <mat-error *ngIf="Formulario.get('txtDescripcion').errors?.required">digite el {{labels?.name}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <button [hidden]="view" class="btn btn-info btn-round" (click)="guardar()" type="button" >Finalizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

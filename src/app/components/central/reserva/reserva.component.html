@@ -1,0 +1,151 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+                        <h2 style="font-weight: bold; text-align: center;" >NUEVO SERVICIO</h2>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                            {{msm}}
+                        </div>
+                        <form [formGroup]="Formulario" [hidden]="ocultar">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3" >
+                                    <div class="form-row">
+                                        <div class="col-md-12 mb-3" >
+                                            <mat-form-field >
+                                                <mat-label>Contrato</mat-label>
+                                                <mat-select formControlName="slcContrato" (selectionChange)="selectContrato($event.value)" required [disabled]="disponibilidadCambioUsuario==false">
+                                                    <mat-option>--</mat-option>
+                                                    <mat-option *ngFor="let c of contratos" [value]="c" >
+                                                        {{c.razonSocialCliente}} No.{{c.numeracionContrato}} [{{c.fechaInicioContrato | date}}, {{c.fechaFinContrato | date}}]
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja un {{labels?.contrato_permanente}}</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-12 mb-3" *ngIf="disponibilidadCambioUsuario">
+                                            <mat-form-field>
+                                                <mat-label>{{labels?.pasajero}}</mat-label>
+                                                <mat-select formControlName="slcPasajero"  required [disabled]="">
+                                                    <mat-option>--</mat-option>
+                                                    <mat-option *ngFor="let p of pasajeros" [value]="p.idPasajero" >
+                                                        Nombre: {{p.nombrePersona}} {{p.apellidoPersona}} | Doc. {{p.documentoPersona}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja un {{labels?.pasajero}}</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-12 mb-3" *ngIf="!disponibilidadCambioUsuario">
+                                            <mat-label>
+                                                {{reserva?.pasajero.persona.nombrePersona}} {{reserva?.pasajero.persona.apellidoPersona}} {{reserva?.pasajero.persona.documentoPersona}}
+                                            </mat-label>
+                                        </div>
+
+
+                                        <div class="col-md-6 mb-3" >
+                                            <mat-form-field class="example-full-width" >
+                                                <input matInput placeholder="{{labels?.voucher}}" formControlName="txtNoVoucher" type="text">
+                                                <mat-error *ngIf="Formulario.get('txtNoVoucher').errors?.maxlength">el campo maximo de 15 caracteres</mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3" [hidden]="view">
+                                            <mat-label>Estado </mat-label><br>
+                                            Ida <mat-slide-toggle  formControlName="swIyR" (change)="changeSwIyR($event)"></mat-slide-toggle> Ida y regreso
+                                        </div>
+
+                                        <div class="col-md-6 mb-3" [hidden]="view">
+                                        <label for="name">Folio</label>
+                                        <input type="text" id="name" name="name" required
+                                          minlength="4" maxlength="8" size="10">
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="time">Fecha Salida</label>
+                                            <p-calendar placeholder="{{labels?.fecha_salida}}" dateFormat="dd-mm-yy" formControlName="txtFechaSalida" [showTime]="true" inputId="time"></p-calendar>
+                                            <mat-error *ngIf="Formulario.get('txtFechaSalida').errors?.required" >digite la {{labels?.fecha_salida}}</mat-error>
+                                            <mat-error *ngIf="Formulario.get('txtFechaSalida').errors?.checkfech">la fecha de salida no puede ser inferior a la de este momento</mat-error>
+                                        </div>
+                                        <div class="col-md-6 mb-3" >
+                                            <div *ngIf="ocultarFR">
+                                                <label for="time">Fecha Regreso</label>
+                                                <p-calendar placeholder="{{labels?.fecha_regreso}}" dateFormat="dd-mm-yy" formControlName="txtFechaRegreso" [showTime]="true" inputId="time"></p-calendar>
+                                                <mat-error *ngIf="Formulario.get('txtFechaRegreso').errors?.required" >digite la {{labels?.fecha_regreso}}</mat-error>
+                                                <mat-error *ngIf="Formulario.get('txtFechaRegreso').errors?.checkfech">la fecha de regreso no puede ser inferior a la de salida</mat-error>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3" >
+                                            <mat-form-field class="example-full-width" >
+                                                <input matInput placeholder="{{labels?.origen}}" (keydown.enter)="$event.preventDefault()" formControlName="txtOrigen" type="text" autocorrect="off" autocapitalize="off" spellcheck="off" #searchOrigen required>
+                                                <mat-error *ngIf="Formulario.get('txtOrigen').errors?.required">digite el {{labels?.origen}}</mat-error>
+                                                <mat-error *ngIf="Formulario.get('txtOrigen').errors?.maxlength">el campo maximo de 100 caracteres</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-12 mb-3" >
+                                            <mat-form-field class="example-full-width" >
+                                                <input matInput placeholder="{{labels?.destino}}" (keydown.enter)="$event.preventDefault()" formControlName="txtDestino" type="text" autocorrect="off" autocapitalize="off" spellcheck="off" #searchDestino required>
+                                                <mat-error *ngIf="Formulario.get('txtDestino').errors?.required">digite el {{labels?.destino}}</mat-error>
+                                                <mat-error *ngIf="Formulario.get('txtDestino').errors?.maxlength">el campo maximo de 100 caracteres</mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3" >
+                                            <mat-form-field class="example-full-width">
+                                                <textarea matInput placeholder="{{labels?.observaciones}}"  formControlName="txtObservaciones"></textarea>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3" *ngIf="distancia!=null">
+                                            <blockquote  class="blockquote">
+                                                <label >Distancia:</label>
+                                                <p class="mb-0">{{(""+distancia/1000).substring(0,6)}} Km</p>
+                                            </blockquote>
+                                        </div>
+                                        <div class="col-md-6 mb-3" *ngIf="duracion!=null">
+                                            <blockquote  class="blockquote">
+                                                <label >Duracion:</label>
+                                                <p class="mb-0">{{duracion}}</p>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12" >
+                                   <!--<agm-map [latitude]="lat" [longitude]="lng" >
+                                        <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng" (markerClick)="clickedMarker(m.lng, m.lat)">
+
+                                        </agm-marker>
+                                    </agm-map>-->
+                                      <agm-map [latitude]="latO" [longitude]="lngO" >
+                                        <agm-direction *ngIf="mostrarRuta" [origin]="origin" [destination]="destination" ></agm-direction>
+                                      </agm-map>
+                                </div>
+                            </div>
+                            <div style="text-align: center">
+                                <button [hidden]="view" class="btn btn-round" style="background-color: #004790;" (click)="guardar()" type="button" >Finalizar</button>
+                            </div>
+                            <div *ngIf="reserva!=undefined">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <label for="">Última Modificación</label>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="">Usuario: {{reserva.modificado.nombrePersona}} {{reserva.modificado.apellidoPersona}}</label>
+                                        <br>
+                                        <label for="">El día: {{reserva.fechaModificado | date}}</label>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="">Acción: {{reserva.accion}}</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

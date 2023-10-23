@@ -1,0 +1,440 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.conductor}}</h3>
+                        <p *ngIf="!edit && !view">Convertir a {{labels?.conductor}}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                                    {{msm}}
+                                </div>
+                                <form [formGroup]="Formulario" [hidden]="ocultar">
+                                    <div class="form-group row" [hidden]="view || edit">
+                                                
+                                        <label class="col-md-2 col-form-label font-italic">{{labels?.usuario}}:</label>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.conductor}}" (keyup)="filtrarCond()"  formControlName="cond" type="text">
+                                                <mat-error *ngIf="Formulario.get('cond').errors?.required">digite el valor del conductor</mat-error>
+                                                <mat-error *ngIf="Formulario.get('cond').errors?.notexist">Este usuario no existe</mat-error>
+                                                <mat-error *ngIf="Formulario.get('cond').errors?.notselect">Selecciona al conductor</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-2"><button *ngIf="iduser!=-1" type="button" (click)="reestablecer()" class="btn btn-secondary btn-round">Reestablecer</button></div>
+                                        <div class="col-md-5"></div>
+                                        
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let cond of selectnoCondArray">
+                                            <div class="card_book">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <p>
+                                                            <img class="img-fluid rounded-circle" width="100" src="assets/user.png" alt="">
+                                                        </p>
+                                                        <h4 routerLink="#" class="card-title">{{cond.nombrePersona}} {{cond.apellidoPersona}}</h4>
+                                                        
+                                                        <div>
+                                                            <p class="badge">
+                                                                Documento:
+                                                            </p>
+                                                            <span class="badge badge-pill badge-warning">{{cond.documentoPersona}}</span>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <span *ngIf="iduser==cond.idPersona" class="badge badge-pill badge-success">CONDUCTOR A CONVERTIR</span>
+                                                        </div>
+                        
+                                                        <button [disabled]="iduser==cond.idPersona" type="button" (click)="elegirCond(cond.idPersona)" class="btn btn-block btn-primary">Elegir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="iduser!=-1" class="alert alert-warning" role="alert">
+                                        POR FAVOR CONFIRMA LA INFORMACIÓN DEL USUARIO A CONVERTIR EN CONDUCTOR
+                                    </div>
+                                    <div *ngIf="iduser!=-1 || idcond!=-1" class="form-group row">
+                                        <div *ngIf="edit || view" class="col-md-4 mb-3">
+                                            <mat-label>Estado </mat-label><br>
+                                            Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.nombres}}" readonly formControlName="nomcond" type="text" >
+                                                <mat-error >digite los nombres</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.apellidos}}" readonly formControlName="apecond" type="text" >
+                                                <mat-error >digite los apellidos</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Tipo de Documento</mat-label>
+                                                <mat-select formControlName="tipodoccond" readonly name="selecttipodoc" >
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tipodoc of tipodocs"  [value]="tipodoc.id" >
+                                                    {{tipodoc.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.document}}" readonly formControlName="numdoccond" type="text" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.ciudad_expedicion}}" readonly formControlName="ciudadecond" type="text" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.email}}" formControlName="correocond" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.celular_uno}}" formControlName="tel1cond" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.celular_dos}}" formControlName="tel2cond" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.direccion}}" formControlName="direccioncond" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.ciudad}}" readonly formControlName="ciudadcond" type="text">
+                                                <mat-error >digite la ciudad</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_nacimiento}}" readonly formControlName="fechaN" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.idioma}}" readonly formControlName="idioma" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="!edit && !view" class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.usuario}}" readonly formControlName="usucuenta" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_registro}}" readonly formControlName="fechaR" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_actualizacion}}" readonly formControlName="fechaA" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Documento Cara 1:</label>
+                                            <div class="input-group mb-3">
+                                                <div *ngIf="!(docuno=='' || docuno=='null' || docuno==null)" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadCC(docuno)" type="button" > Descargar</button>
+                                                </div>&nbsp;&nbsp;
+                                                <div [hidden]="view" class="custom-file">
+                                                    <input formControlName="archCC" type="file" name="fichero" id="formFile15" lang="es-ES" accept="image/*" (change)="cambioCC($event,0)"
+                                                    [ngClass]="{'custom-file-input':true, 'is-invalid': !Formulario.get('archCC').valid && (Formulario.get('archCC').touched || Formulario.get('archCC').dirty)}" value="null">
+                                                    <label class="custom-file-label" for="formFile15" data-browse="Elegir">{{archnomCC[0]}}</label>
+                                                    <div *ngIf="Formulario.get('archCC').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen.
+                                                    </div>
+                                                    <div *ngIf="Formulario.get('archCC').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Documento Cara 2:</label>
+                                            <div class="input-group mb-3">
+                                                <div *ngIf="!(docdos=='' || docdos=='null' || docdos==null)" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadCC(docdos)" type="button" > Descargar</button>
+                                                    
+                                                </div>&nbsp;&nbsp;
+                                                <div [hidden]="view" class="custom-file">
+                                                    <input formControlName="archCC1" type="file" name="fichero" id="formFile16" lang="es-ES" accept="image/*" (change)="cambioCC($event,1)"
+                                                    [ngClass]="{'custom-file-input':true, 'is-invalid': !Formulario.get('archCC1').valid && (Formulario.get('archCC1').touched || Formulario.get('archCC1').dirty)}" value="null">
+                                                    <label class="custom-file-label" for="formFile16" data-browse="Elegir">{{archnomCC[1]}}</label>
+                                                    <div *ngIf="Formulario.get('archCC1').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen.
+                                                    </div>
+                                                    <div *ngIf="Formulario.get('archCC1').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                    </div>
+                                                </div>
+
+                                            </div>  
+                                        </div>
+                                        
+                                        <div *ngIf="!(fotoper=='' || fotoper=='null' || fotoper==null)" class="col-md-4 mb-3">
+                                            <label>Foto <span class="text-danger">*</span> </label><br>
+                                            <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadFoto(fotoper)" type="button" >Descargar</button>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Examenes Medicos:</label>
+                                            <div class="input-group mb-3">
+                                                <div *ngIf="!(antExMed=='' || antExMed=='null' || antExMed==null)" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadEx(antExMed)" type="button" >Descargar</button>
+                                                    
+                                                </div>&nbsp;&nbsp;
+                                                <div [hidden]="view" class="custom-file">
+                                                    <input formControlName="archEx" type="file" name="fichero" id="formFileEX" lang="es-ES" accept="image/*" (change)="cambioExMed($event)"
+                                                    [ngClass]="{'custom-file-input':true, 'is-invalid': !Formulario.get('archEx').valid && (Formulario.get('archEx').touched || Formulario.get('archEx').dirty)}" value="null">
+                                                    <label class="custom-file-label" for="formFileEX" data-browse="Elegir">{{archnomExMed}}</label>
+                                                    <div *ngIf="Formulario.get('archEx').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen.
+                                                    </div>
+                                                    <div *ngIf="Formulario.get('archEx').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                    </div>
+                                                </div>
+
+                                            </div>  
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Planilla:</label>
+                                            <div class="input-group mb-3">
+                                                <div *ngIf="!(antPlanApo=='' || antPlanApo=='null' || antPlanApo==null)" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadPlan(antPlanApo)" type="button" >Descargar</button>
+                                                    
+                                                </div>&nbsp;&nbsp;
+                                                <div [hidden]="view" class="custom-file">
+                                                    <input formControlName="archPlan" type="file" name="fichero" id="formFilePlan" lang="es-ES" accept="image/*" (change)="cambioPlanApo($event)"
+                                                    [ngClass]="{'custom-file-input':true, 'is-invalid': !Formulario.get('archPlan').valid && (Formulario.get('archPlan').touched || Formulario.get('archPlan').dirty)}" value="null">
+                                                    <label class="custom-file-label" for="formFilePlan" data-browse="Elegir">{{archnomPlanApo}}</label>
+                                                    <div *ngIf="Formulario.get('archPlan').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen.
+                                                    </div>
+                                                    <div *ngIf="Formulario.get('archPlan').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                    </div>
+                                                </div>
+
+                                            </div>  
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Tipo RH</mat-label>
+                                                <mat-select formControlName="rh" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let rh of tiporh"  [value]="rh.id" >
+                                                    {{rh.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja un tipo de RH</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Genero</mat-label>
+                                                <mat-select formControlName="genero" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tp of tipogenero"  [value]="tp.id" >
+                                                    {{tp.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja un genero</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Caja de Compensacion </mat-label>
+                                                <mat-select formControlName="cajaCompensacion" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let tc of tipocaja"  [value]="tc.idCajaCompensacion" >
+                                                    {{tc.cajaCompensacion}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja una caja de compensacion</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Fondo de Pensiones</mat-label>
+                                                <mat-select formControlName="fondoPensiones" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let fp of tipofondo" [value]="fp.idFondoPensiones" >
+                                                    {{fp.fondoPensiones}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja un fondo de pensiones</mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-sm-12 row pr-0">
+                                            <div class="col-md-4 mb-3">
+                                                <mat-form-field >
+                                                    <mat-label>Tipo Licencia</mat-label>
+                                                    <mat-select formControlName="catlic" required>
+                                                      <mat-option [value]="null">--</mat-option>
+                                                      <mat-option *ngFor="let tipolic of categorialicveh"  [value]="tipolic.value" >
+                                                        {{tipolic.value}}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                    <mat-error >Escoja un tipo de licencia</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput formControlName="fechainiLC" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                                    <mat-error *ngIf="Formulario.get('fechainiLC').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput formControlName="fechafinLC" type="date" placeholder="{{labels?.fecha_fin}}" >
+                                                    <mat-error *ngIf="Formulario.get('fechafinLC').errors?.required">Ingrese la fecha fin</mat-error>
+                                                    <mat-error *ngIf="Formulario.get('fechafinLC').errors?.checkfech">La fecha de inicio es mayor a la final</mat-error>
+                                                </mat-form-field>
+                                                
+                                            </div>
+                                            <div class="col-md-6">
+                                                    <label>Licencia Cara 1:</label>
+                                                <div class="input-group mb-3">
+                                                <div *ngIf="!(archnomeditvehLC[0]=='' || archnomeditvehLC[0]=='null')" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadVehLC(archnomeditvehLC[0])" type="button" >Descargar</button>
+                                                    
+                                                </div>&nbsp;&nbsp;
+                                                    <div [hidden]="view" class="custom-file">
+                                                        <input formControlName="archLC" type="file" name="fichero" id="formFile13" lang="es-ES" accept="image/*" (change)="cambioVehLC($event,0)"
+                                                        [ngClass]="{'custom-file-input':true,'is-invalid': !Formulario.get('archLC').valid && (Formulario.get('archLC').touched || Formulario.get('archLC').dirty)}" value="null">
+                                                        <label class="custom-file-label" for="formFile13" data-browse="Elegir">{{archnomvehLC[0]}}</label>
+                                                        <div *ngIf="Formulario.get('archLC').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                            Por favor selecciona una imagen.
+                                                        </div>
+                                                        <div *ngIf="Formulario.get('archLC').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                            Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                    <label>Licencia Cara 2:</label>
+                                                <div class="input-group mb-3">
+                                                <div *ngIf="!(archnomeditvehLC[1]=='' || archnomeditvehLC[1]=='null')" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadVehLC(archnomeditvehLC[1])" type="button" >Descargar</button>
+                                                    
+                                                </div>&nbsp;&nbsp;
+                                                    <div [hidden]="view" class="custom-file">
+                                                        <input formControlName="archLC1" type="file" name="fichero" id="formFile14" lang="es-ES" accept="image/*" (change)="cambioVehLC($event,1)"
+                                                        [ngClass]="{'custom-file-input':true,'is-invalid': !Formulario.get('archLC1').valid && (Formulario.get('archLC1').touched || Formulario.get('archLC1').dirty)}" value="null">
+                                                        <label class="custom-file-label" for="formFile14" data-browse="Elegir">{{archnomvehLC[1]}}</label>
+                                                        <div *ngIf="Formulario.get('archLC1').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                            Por favor selecciona una imagen.
+                                                        </div>
+                                                        <div *ngIf="Formulario.get('archLC1').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                            Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>EPS</mat-label>
+                                                <mat-select formControlName="eps" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let ep of tipoeps" [value]="ep.idEps" >
+                                                    {{ep.eps}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja una EPS</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="inicioEpsConductor" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                                <mat-error *ngIf="Formulario.get('inicioEpsConductor').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="finEpsConductor" type="date" placeholder="{{labels?.fecha_fin}}" required>
+                                                <mat-error *ngIf="Formulario.get('finEpsConductor').errors?.required">Ingrese la fecha fin</mat-error>
+                                                <mat-error *ngIf="Formulario.get('finEpsConductor').errors?.checkfech">La fecha de inicio es mayor a la final</mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>ARL</mat-label>
+                                                <mat-select formControlName="arl" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let a of tipoarl" [value]="a.idArl" >
+                                                    {{a.arl}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja una ARL</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="inicioArlConductor" type="date" placeholder="{{labels?.fecha_inicio}}" required>
+                                                <mat-error *ngIf="Formulario.get('inicioArlConductor').errors?.required">Ingrese la fecha de inicio</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput formControlName="finArlConductor" type="date" placeholder="{{labels?.fecha_fin}}" required>
+                                                <mat-error *ngIf="Formulario.get('finArlConductor').errors?.required">Ingrese la fecha fin</mat-error>
+                                                <mat-error *ngIf="Formulario.get('finArlConductor').errors?.checkfech">La fecha de inicio es mayor a la final</mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Estado Civil</mat-label>
+                                                <mat-select formControlName="estadoCivil" required>
+                                                    <mat-option [value]="null">--</mat-option>
+                                                    <mat-option *ngFor="let te of tipoestadoc" [value]="te.idEstadoCivil" >
+                                                    {{te.estadoCivil}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja una ARL</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="alertpen && !Formulario.valid"  class="col-md-12 alert alert-danger alert-with-icon">
+                                        <i class="material-icons" data-notify="icon">error_outline</i>
+                                        <span data-notify="message">
+                                            <b>Error:</b> Aun existen campos pendientes, revisa el formulario en busca de campos subrayados en rojo.</span>
+                                    </div>
+                                    <div style="text-align: center">
+                                        <button-component buttonClass="btn btn-info pull-right btn-round" type="button" [hidden]="view"  text="{{labels?.guardar}}" (click)="guardar()"></button-component>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

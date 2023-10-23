@@ -1,0 +1,140 @@
+
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">{{labels?.buscar_pasajero}}</h4>
+            <p class="card-category">{{labels?.pasajero_category}}</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.nombres}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.apellidos}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.document}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.direccion}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.telefono}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-label>Estado </mat-label><br>
+                    Inactivo <mat-slide-toggle  ></mat-slide-toggle> Activo
+                </div>
+              </div>
+              <div  style="text-align: center">
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.clean}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.search}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round" routerLink="nuevo" text="{{labels?.crear_pasajero}}"></button-component>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">{{labels?.title_table_pasajeros}}</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-xl">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Codigo
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(1)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-1)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Nombre
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Apellido
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Documento
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Telefono
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Estado</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let r of res">
+                        <td ><button [disabled]="!consult('/pasajeros','/ver')" type="button" class="btn btn-info btn-sm btn-round" routerLink="/../{{'central/pasajero/ver'+r.idPasajero}}">{{r.idPasajero}}</button></td>
+                        <td >{{r.nombrePersona}}</td>
+                        <td >{{r.apellidoPersona}}</td>
+                        <td >{{r.documentoPersona}}</td>
+                        <td >{{r.telefonoPersona}}</td>
+                        <td ><button [disabled]="!consult('/pasajeros','/editar')" *ngIf="r.estadoPasajero==0" type="button" class="btn btn-warning btn-sm btn-round" routerLink="/../{{'central/pasajero/editar'+r.idPasajero}}">DESHABILITADO</button> <button [disabled]="!consult('/pasajeros','/editar')" *ngIf="r.estadoPasajero==1" type="button" class="btn btn-success btn-sm btn-round" routerLink="/../{{'central/pasajero/editar'+r.idPasajero}}">HABILITADO</button> </td>
+                        <td> 
+                          <div class="dropdown">
+                            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm btn-round" data-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" (click)="elimin(r.idPasajero)">Eliminar</a></li>
+                            </ul>
+                          </div>  
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerPasajeros(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="ObtenerPasajeros(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerPasajeros(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

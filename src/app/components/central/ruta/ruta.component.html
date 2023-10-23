@@ -1,0 +1,120 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.ruta}}</h3>
+                        <!--<h5><span *ngIf="!edit && !view">Nueva</span>  Ruta</h5>-->
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                                    {{msm}}
+                                </div>
+                                <form [formGroup]="Formulario" [hidden]="ocultar">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="{{labels?.codigo_ruta}}" formControlName="cod" type="number" required>
+                                                    <mat-error >digite el valor del codigo de la ruta</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4 mb-3" >
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="{{labels?.ciudad_origen}}" formControlName="selectedCO" type="text" autocomplete="off" (keyup)="cambioC(0)" (focus)="vfocus(0)" required>
+                                                    
+                                                    <div *ngIf="listoc[0]" class="list-group-CO">
+                                                        <a class="list-group-item list-group-item-action py-1" (click)="selectC(ciudad.idCiudad,ciudad.ciudad,0)" *ngFor="let ciudad of ciudadesO" >{{ciudad.ciudad}}</a>
+                                                    </div>
+                                                    <mat-error *ngIf="Formulario.get('selectedCO').errors?.validC">escoja una ciudad que este en el listado</mat-error>
+                                                    <mat-error *ngIf="Formulario.get('selectedCO').errors?.required">digite la ciudad de origen</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="{{labels?.ciudad_destino}}"  formControlName="selectedCD" type="text" autocomplete="off" (keyup)="cambioC(1)" (focus)="vfocus(1)" required>
+                                                    
+                                                    <div *ngIf="listoc[1]" class="list-group-CD">
+                                                        <a class="list-group-item list-group-item-action py-1" (click)="selectC(ciudad.idCiudad,ciudad.ciudad,1)" *ngFor="let ciudad of ciudadesD" >{{ciudad.ciudad}}</a>
+                                                    </div>
+                                                    <mat-error *ngIf="Formulario.get('selectedCD').errors?.validC">escoja una ciudad que este en el listado</mat-error>
+                                                    <mat-error *ngIf="Formulario.get('selectedCD').errors?.required">digite la ciudad de origen</mat-error>
+                                                </mat-form-field>
+                                        </div>
+                                            <div class="col-md-6 mb-3">
+                                                <mat-form-field class="example-full-width">
+                                                    <textarea matInput  rows="3" formControlName="descripcion"  placeholder="{{labels?.descripcion}}"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-3 mb-3" *ngIf="edit==true">
+                                                <mat-label>Estado </mat-label><br>
+                                                Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                                            </div>
+                                            <div class="col-md-3" *ngIf="edit==true">
+                                                <mat-label>¿viaje ida y regreso? </mat-label><br>
+                                                Solo ida <mat-slide-toggle  formControlName="regreso"></mat-slide-toggle> Ida y regreso
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3" *ngIf="ruta!=undefined">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <div>
+                                                            <label for="">
+                                                                Registrado por: {{ruta.registradoPorRuta.nombrePersona}} {{ruta.registradoPorRuta.apellidoPersona}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Fecha: {{ruta.fechaRegistroRuta | date}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Contacto: {{ruta.registradoPorRuta.celularUnoPersona}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <div>
+                                                            <label for="">
+                                                                <label for="">
+                                                                    Actualizado por: {{ruta.actualizadoPorRuta?.nombrePersona}} {{ruta.actualizadoPorRuta?.apellidoPersona}}
+                                                                </label>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Fecha: {{ruta.fechaActualizacionRuta | date}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Contacto: {{ruta.actualizadoPorRuta?.celularUnoPersona}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center">
+                                        <button-component buttonClass="btn btn-info pull-right btn-round" [hidden]="view" type="submit" text="{{labels?.guardar}}" (click)="guardar()"></button-component>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,168 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+            <div class="row">
+              <div class="col-5">
+                <h2 style="font-weight: bold; text-align: center;">{{labels?.title_table_usuarios}}</h2>
+              </div>
+              <div class="col-2" style="float: right;" >
+                <button type="button" class="btn"(click)="mostrarCargaMasiva()" icon="pi pi-info-circle" label="Show" style="background-color: #22A7F0;">CARGA MASIVA</button>
+              </div>
+
+              <div class="col-3">
+                <input #box type="text" name="" id="" (keyup)="filtrar(box.value)" style="height: 75%; width: 100%;">
+              </div>
+            </div>
+
+          </div>
+          <div class="card-body">
+              <div class="table-responsive-xl">
+
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Usuario
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Nombre
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Documento
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Telefono
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(6)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-6)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Correo
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(7)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-7)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Perfiles
+                       </th>
+                      <th scope="col">Estado
+                      </th>
+                      <th scope="col">Accion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of usuariosFiltrados">
+                      <td >{{r.usuarioCuenta}}</td>
+                      <td >{{r.nombrePersona}} {{r.apellidoPersona}}</td>
+                      <td >{{r.documentoPersona}}</td>
+                      <td >{{r.celularUnoPersona}}</td>
+                      <td >{{r.correoPersona}}</td>
+                      <td >
+                          <div *ngFor="let s of r.perfilList">
+                              {{s.nombrePerfil}}&nbsp;
+                          </div>
+                      </td>
+                      <td >
+                        <p-tag styleClass="p-mr-2" *ngIf="r.estadoCuenta==0" severity="warning" value="DESHABILITADO"></p-tag>
+                        <p-tag styleClass="p-mr-2" *ngIf="r.estadoCuenta==1" severity="success" value="HABILITADO"></p-tag>
+                        <p-tag styleClass="p-mr-2" *ngIf="r.estadoCuenta==2" severity="danger" value="ELIMINADO"></p-tag>
+                      </td>
+                      <td>
+                        <button *ngIf="consult('/usuarios','/ver')" routerLink="{{'ver'+r.idCuenta}}" pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-primary">
+                        </button>
+                        <button *ngIf="consult('/usuarios','/editar')" routerLink="{{'editar'+r.idCuenta}}" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-info">
+                        </button>
+                        <button  *ngIf="consult('/usuarios','/editar')" (click)="elimin(r.idCuenta)" pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger">
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [(visible)]="displayCargaMasiva" [modal]="true" [style]="{width: '100vw'}" [draggable]="false" [resizable]="true" [closable]="false">
+  <div style="height: 1000px; width: 100%;">
+      <div class="row" >
+        <input type="file" class="form-control" (change)="leerExcel($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+      </div>
+      <div class="row">
+        <div class="card">
+          <h5>Row Editing</h5>
+              <p-table [value]="usuariosExcel" dataKey="id" editMode="row" responsiveLayout="scroll"
+              styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px">
+                  <ng-template pTemplate="header">
+                      <tr>
+                          <th>Nombres</th>
+                          <th>Apellidos</th>
+                          <th>Número Cédula</th>
+                          <th>Número Licencia</th>
+                          <th>Fecha Inicio Licencia</th>
+                          <th>Fecha Fin Licencia</th>
+                          <th>Celular</th>
+                          <th>Email</th>
+                          <th>Dirección</th>
+                          <th>Teléfono</th>
+                          <th style="width:8rem"></th>
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                      <tr [pEditableRow]="product">
+                          <td>
+                              {{product.nombres}}
+                          </td>
+                          <td>
+                              {{product.apellidos}}
+                          </td>
+                          <td>
+                              {{product.numero_cedula}}
+                        </td>
+                          <td>
+                            {{product.numero_licencia}}
+                          </td>
+                          <td>
+                            {{product.fecha_inicio_licencia}}
+                        </td>
+                        <td>
+                          {{product.fecha_fin_licencia}}
+                      </td>
+                      <td>
+                        {{product.celular}}
+                    </td>
+                    <td>
+                      {{product.email}}
+                    </td>
+                    <td>
+                      {{product.direccion}}
+                    </td>
+                    <td>
+                      {{product.telefono}}
+                    </td>
+                  </tr>
+                  </ng-template>
+              </p-table>
+          </div>
+      </div>
+      <div class="row">
+          <button class="btn btn-primary" (click)="displayCargaMasiva = false">Cerrar</button>
+          <button class="btn btn-primary" (click)="crearUsuariosCargaExcel()">Guardar</button>
+      </div>
+  </div>
+</p-dialog>
+

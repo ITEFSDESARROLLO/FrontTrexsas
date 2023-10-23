@@ -1,0 +1,61 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header " style="background-color: #004790;color :#39D5FF;text-align: center;">
+        <div class="row">
+          <div class="col-10">
+            <h2 style="font-weight:bold">Encuestas del Sistema</h2>
+          </div>
+          <div class="col-2">
+            <button class="btn" type="button" (click)="mostrarFormularioNuevoParametro()" icon="pi pi-info-circle" style="background-color: #39D5FF;">Nueva</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p-dialog [(visible)]="displayNuevoParametro" [modal]="true" [style]="{width: '50vw'}" [closable]="false">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6">
+          Encuesta
+          <select [(ngModel)]="encuestaSeleccionada" (change)="capturar()">
+            <option value="">Selecciona una opción</option>
+            <option [ngValue]="encuesta" *ngFor="let encuesta of encuestas">
+              {{encuesta.descripcionEncuesta}}
+            </option>
+        </select>
+        </div>
+        <div class="col-6">
+          Tipo Encuesta
+          <select [(ngModel)]="parametroSeleccionado" (change)="capturar()">
+            <option value="">Selecciona una opción</option>
+            <option [ngValue]="parametro" *ngFor="let parametro of tiposParametro">
+              {{parametro.parametro}}
+            </option>
+        </select>
+        </div>
+        <div class="col-2">
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <button id="accion" class="btn" type="button" (click)="guardarEncuesta()" icon="pi pi-info-circle" style="background-color: #39D5FF;">Guardar</button>
+        </div>
+        <div class="col-6">
+          <button id="accion" class="btn" type="button" (click)="cancelarFormularioNuevoParametro()" icon="pi pi-info-circle" style="background-color: #39D5FF;">Cancelar</button>
+        </div>
+      </div>
+    </div>
+</p-dialog>
+
+
+

@@ -1,0 +1,84 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header" style="background-color: #004790;text-align: center">
+                    <h3 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.title_table_correo}}</h3>
+                    <p class="card-category" style="color :#39D5FF">Lista de correos para recepción de peticiones, quejas y reclamos</p>
+                </div>
+                <div class="card-body">
+                  <div *ngIf="msc!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                      {{msc}}
+                  </div>
+                  <div style="text-align: center" >
+                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCorreo">
+                        <i class="material-icons">
+                          add_circle_outline
+                        </i>
+                         Nuevo
+                      </button>
+                  </div>
+                  <div class="form-row">
+                      <table class="table text-center table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col" style="font-weight:bold">Correo</th>
+                              <th scope="col" style="font-weight:bold">Accion</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let r of correoList">
+                              <td >{{r.correo}}</td>
+                              <td >
+                                  <button type="button" class="btn btn-danger btn-sm btn-round" (click)="eliminarCorreo(r.idCorreo)">
+                                    <i class="material-icons">
+                                    delete
+                                    </i></button>
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCorreo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Correo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="FormularioCorreo">
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.email}}" formControlName="correo" type="text" required>
+                    <mat-error *ngIf="FormularioCorreo.get('correo').errors?.required" >digite el {{labels?.email}}</mat-error>
+                    <mat-error *ngIf="FormularioCorreo.get('correo').errors?.email" >Direccion de Correo electronico no valida</mat-error>
+                  </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <div style="text-align: center" >
+            <button type="button" class="btn" id="boton" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-info" data-dismiss="modal" [disabled]="!FormularioCorreo.valid" (click)="crearCorreo()">
+              <i class="material-icons">
+                save
+              </i> Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

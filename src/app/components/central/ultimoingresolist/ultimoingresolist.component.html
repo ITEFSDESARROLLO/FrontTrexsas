@@ -1,0 +1,90 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790;text-align: center">
+            <h4 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.buscar_ultimo_ingreso}}</h4>
+            <p class="card-category" style="color :#39D5FF">{{labels?.category_ultimo_ingreso}}</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.codigo}}" type="number">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.fecha_ingreso}}" type="date">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.nombre}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-label>Estado</mat-label><br>
+                  Inactivo <mat-slide-toggle ></mat-slide-toggle> Activo
+                </div>
+              </div>
+              <div  style="text-align: center">
+                <button class="btn pull-right" id="boton">{{labels?.clean}}</button>
+                <button class="btn pull-right" id="boton">{{labels?.search}}</button>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790;text-align: center">
+            <h4 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.title_table_ultimo_ingreso}}</h4>
+          </div>
+          <div class="card-body text-center">
+            <div class="table-responsive-xl">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Fecha Ingreso</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Direccion IP</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let r of res">
+                        <td ><button type="button" class="btn btn-info btn-sm btn-round" id="boton" routerLink="{{'ver'+r.idUltimoIngresoCuenta}}">{{r.idUltimoIngresoCuenta}}</button></td>
+                        <td >{{r.fechaUltimoIngresoCuenta}}</td>
+                        <td >{{r.nombrePersona}}</td>
+                        <td >{{r.apellidoPersona}}</td>
+                        <td >{{r.ipUltimoIngresoCuenta}}</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerUltimosIngresos(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="ObtenerUltimosIngresos(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerUltimosIngresos(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

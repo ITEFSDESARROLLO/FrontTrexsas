@@ -1,0 +1,100 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+            <div class="row">
+              <div class="col-9">
+                <h2 style="font-weight:bold">{{labels?.title_table_cuenta_cobro}}</h2>
+              </div>
+              <div class="col-3">
+                <label for="">BUSCAR</label>
+                <input #box type="text" name="" id="" (keyup)="filtrar(box.value)">
+              </div>
+            </div>
+
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-x1">
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col"># Cuenta Cobro
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                      <th scope="col">Fecha
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                      <th scope="col">Nombre
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                      <th scope="col">Nit
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                      <th scope="col">Concepto
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                      <th scope="col">Valor
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(6)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-6)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                      </th>
+                      <th scope="col">Accion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of cuentasFiltradas">
+                      <td >{{r.numeroCuentaCobro}}</td>
+                      <td >{{r.fechaCuentaCobro | date}}</td>
+                      <td >{{r.nombreCuentaCobro}}</td>
+                      <td >{{r.nitCuentaCobro}}</td>
+                      <td >{{r.conceptoCuentaCobro}}</td>
+                      <td >{{r.valorCuentaCobro}}</td>
+                      <td>
+                        <div class="dropdown">
+                          <button *ngIf="consult('/cuentascobro','/ver')" pButton pRipple type="button" icon="pi pi-search" pTooltip="Visualizar" tooltipPosition="left" routerLink="{{'ver'+r.idCuentaCobro}}" class="p-button-rounded p-button-info"></button>
+                          <button *ngIf="consult('/cuentascobro','/editar')" pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top" routerLink="{{'editar'+r.idCuentaCobro}}" class="p-button-rounded p-button-pimary"></button>
+                          <button *ngIf="consult('/cuentascobro','/editar')" pButton pRipple type="button" icon="pi pi-times" pTooltip="Eliminar" tooltipPosition="top" (click)="eliminarCuenta(r.idCuentaCobro)" class="p-button-rounded p-button-danger"></button>
+                          <button pButton pRipple type="button" icon="pi pi-download" pTooltip="Descargar PDF" (click)="download(r.cuentaCobro)" class="p-button-rounded p-button-help"></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerCuentasCobro(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="ObtenerCuentasCobro(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerCuentasCobro(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

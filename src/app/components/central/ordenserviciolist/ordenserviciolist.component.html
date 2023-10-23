@@ -1,0 +1,339 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card" >
+          <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+            <div class="row">
+              <div class="col-9">
+                <h2 style="font-weight: bold; text-align: center;">
+                  <h2 style="font-weight:bold">{{labels?.title_table_orden_servicio}}</h2>
+                </h2>
+              </div>
+              <div class="col-3">
+                <label for="">BUSCAR</label>
+                <input #box type="text" name="" id="" (keyup)="filtrarO(box.value)">
+              </div>
+            </div>
+
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-xl">
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Fecha del servicio
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">No. Voucher
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                      <th scope="col">Pasajero
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                    <th scope="col">Conductor
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Vehiculo
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Valor al conductor
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(6)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-6)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Valor a facturar
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(7)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-7)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Accion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of ordenesFiltradas">
+                    <td >{{r.fechaInicioReserva | date:'MMM d, y'}}</td>
+                    <td >{{r.numeroVoucher}}</td>
+                    <td >{{r.pasajero}}</td>
+                    <td >{{r.nombrePersona}} {{r.apellidoPersona}}</td>
+                    <td >{{r.placaVehiculo}}</td>
+                    <td >{{r.valorConductorOrdenServicio}}</td>
+                    <td >{{r.valorFacturarOrdenServicio}}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button *ngIf="consult('/ordenesservicio','/ver')" pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-info" pTooltip="Visualizar" tooltipPosition="left" (click)="traerOrdenServicio(r.idOrdenServicio)"></button>
+                        <button *ngIf="!consult('/ordenesservicio','/editar')" pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" pTooltip="Eliminar" tooltipPosition="left" (click)="eliminarOrdenServicio(r.idOrdenServicio)"></button>
+                        <button pButton pRipple type="button" icon="pi pi-download" class="p-button-rounded p-button-pimary" pTooltip="Descargar PDF" (click)="download(r.ordenServicio)" ></button>
+                      </div>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+              <!--
+                                  <p-table [value]="res" [scrollable]="true" scrollHeight="400px">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th scope="col">Fecha del servicio
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">No. Voucher
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Conductor
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Vehiculo
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Valor al conductor
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(6)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-6)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Valor a facturar
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(7)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-7)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Accion</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-r>
+                  <tr>
+                    <td >{{r.fechaInicioReserva | date:'MMM d, y, h:mm:ss a'}}</td>
+                    <td >{{r.numeroVoucher}}</td>
+                    <td >{{r.nombrePersona}} {{r.apellidoPersona}}</td>
+                    <td >{{r.placaVehiculo}}</td>
+                    <td >{{r.valorConductorOrdenServicio}}</td>
+                    <td >{{r.valorFacturarOrdenServicio}}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-info" pTooltip="Visualizar" tooltipPosition="left" (click)="traerOrdenServicio(r.idOrdenServicio)"></button>
+                        <button pButton pRipple type="button" icon="pi pi-download" class="p-button-rounded p-button-pimary" pTooltip="Descargar PDF" (click)="download(r.ordenServicio)" ></button>
+
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+            </p-table>
+              -->
+
+            <p-dialog header="ORDEN DE SERVICIO" [(visible)]="displayOrdenServicio">
+                <div class="container" *ngIf="orden!=undefined">
+                      <div class=row id="formato">
+                              <div class="col-2" id="titulo">
+                                  LOGO
+                              </div>
+                              <div class="col-5" id="titulo">
+                                  <h4>
+                                    CIERRE DE SERVICIO DE TRANSPORTE
+
+                                  </h4>
+                                  900.973.521 - 5
+                              </div>
+                              <div class="col-5" id="titulo">
+                                <h4>
+                                  CONSECUTIVO
+
+                                </h4>
+                                {{orden.idOrdenServicio}}
+                            </div>
+
+                              <div class="col-2" id="titulo">
+                                Fecha
+                              </div>
+                              <div class="col-10" id="valor">
+
+                                  {{orden.reserva.fechaInicioReserva | date}}
+
+                              </div>
+                              <div class="col-2" id="titulo">
+                                CLIENTE
+                              </div>
+                              <div class="col-10" id="valor">
+
+                                  {{orden.reserva.cliente.razonSocialCliente}}
+
+                              </div>
+                              <div class="col-2" id="titulo">
+                                CÓDIGO DE RESERVA
+                              </div>
+                              <div class="col-4" id="valor">
+
+                                  {{orden.reserva.idReserva}}
+
+                              </div>
+                              <div class="col-2" id="titulo">
+                                PLACA
+                              </div>
+                              <div class="col-4" id="valor">
+
+                                  {{orden.placaVehiculo}}
+
+                              </div>
+                              <div class="col-6" id="titulo">
+                                  VALOR AL CONDUCTOR
+                              </div>
+                              <div class="col-6" id="valor">
+
+                                    {{orden.valorConductorOrdenServicio}}
+
+                              </div>
+                              <!--<div class="col-6" id="titulo">
+                                VALOR FACTURADO
+                              </div>
+                              <div class="col-6" id="valor">
+
+                                  {{orden.valorFacturarOrdenServicio}}
+
+                              </div>
+                              <div class="col-6" id="titulo">
+                                GANANCIA
+                              </div>
+                              <div class="col-6" id="valor">
+
+                                  {{orden.valorFacturarOrdenServicio - orden.valorConductorOrdenServicio}}
+
+                              </div>-->
+                                <div class="col-12" id="titulo">
+                                    <h4>
+                                      USUARIOS SERVICIO
+                                    </h4>
+                                </div>
+                                <div class="col-12">
+                                  <table class="table table-primary table-striped table-bordered" id="tabla" >
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">DOCUMENTO</th>
+                                        <th scope="col">NOMBRE USUARIO</th>
+                                        <th scope="col">CELULAR</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">{{orden.reserva.pasajero.persona.documentoPersona}}</th>
+                                        <td>{{orden.reserva.pasajero.persona.nombrePersona}} {{orden.reserva.pasajero.persona.apellidoPersona}}</td>
+                                        <td>{{orden.reserva.pasajero.persona.celularUnoPersona}}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                                <div class="col-12" id="titulo">
+                                    <h4>
+                                      TRAYECTO SERVICIO
+                                    </h4>
+                                </div>
+                                <div class="col-12" id="tabla">
+                                  <table class="table table-primary table-striped table-bordered">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">ORIGEN</th>
+                                        <th scope="col">DESTINO</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <td>{{orden.reserva.direccionOrigenReserva}}</td>
+                                        <td>{{orden.reserva.direccionDestinoReserva}}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                              <div class="col-3" id="titulo">
+                                HORA SALIDA
+                              </div>
+                              <div class="col-3">
+
+                                  {{orden.reserva.horaInicioReserva}}
+
+                              </div>
+                              <div class="col-3" id="titulo">
+                                HORA LLEGADA
+                              </div>
+                              <div class="col-3">
+
+                                  HORA TAL
+
+                              </div>
+                              <div class="col-12" id="titulo">
+                                OBSERVACIONES
+                              </div>
+                              <div class="col-12" id="observaciones">
+                                <p>
+                                  {{orden.observacionesOrdenServicio}}
+                                </p>
+                              </div>
+                              <div class="col-3" id="titulo">
+                                FIRMA USUARIO
+                              </div>
+                              <div class="col-3">
+
+                                  USUARIO
+
+                              </div>
+                              <div class="col-3" id="titulo">
+                                FIRMA CONDUCTOR
+                              </div>
+                              <div class="col-3">
+
+                                  CONDUCTOR
+
+                              </div>
+                      </div>
+                </div>
+            </p-dialog>
+          </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerOrdenesServicio(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="ObtenerOrdenesServicio(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerOrdenesServicio(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

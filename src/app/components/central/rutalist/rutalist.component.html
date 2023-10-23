@@ -1,0 +1,137 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">{{labels?.title_table_rutas}}</h4>
+            <div class="row">
+              <div class="col">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione Criterio de Búsqueda</mat-label>
+                  <mat-select [(value)]="criterioSeleccionado">
+                    <mat-option value="c">CÓDIGO</mat-option>
+                    <mat-option value="o">ORIGEN</mat-option>
+                    <mat-option value="d">DESTINO</mat-option>
+                    <mat-option value="od">ORIGEN Y DESTINO</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <div *ngIf="criterioSeleccionado!=''">
+                  <div *ngIf="criterioSeleccionado == 'c'">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>CÓDIGO DE RUTA</mat-label>
+                      <input matInput type="text" [(ngModel)]="valorCriterioSeleccionado" name="valorCriterio">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="criterioSeleccionado == 'o'">
+                      <mat-label>ORIGEN</mat-label>
+                      <p-autoComplete [(ngModel)]="ciudadSeleccionada" [showEmptyMessage]="true" [suggestions]="ciudadesFiltradas" (completeMethod)="filterCountry($event)" field="ciudad" [minLength]="1">
+                      </p-autoComplete>
+                </div>
+                <div *ngIf="criterioSeleccionado == 'd'">
+                  <mat-label>DESTINO</mat-label>
+                  <p-autoComplete [(ngModel)]="ciudadSeleccionada" [showEmptyMessage]="true" [suggestions]="ciudadesFiltradas" (completeMethod)="filterCountry($event)" field="ciudad" [minLength]="1">
+                  </p-autoComplete>
+                </div>
+                <div *ngIf="criterioSeleccionado == 'od'">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>ORIGEN</mat-label>
+                    <input matInput type="text" [(ngModel)]="valorCriterioSeleccionado" name="valorCriterio">
+                    
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>DESTINO</mat-label>
+                    <input matInput type="text" [(ngModel)]="valorCriterioSeleccionado" name="valorCriterio">
+                  </mat-form-field>
+                  
+                </div>
+                </div>
+              </div>
+              <div class="col">
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.clean}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.search}}" (click)="fitrarVinculaciones()"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round" routerLink="nuevo" text="Nueva"></button-component>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-xl">
+              <p-table [value]="res" [scrollable]="true" scrollHeight="400px">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th scope="col">Codigo
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(1)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-1)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div></th>
+                    <th scope="col">Ciudad Origen
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Ciudad Destino
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Tipo
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Fecha Registro
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                      </th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Accion</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-r>
+                  <tr >
+                    <td ><button [disabled]="!consult('/rutas','/ver')" type="button" class="btn btn-info btn-sm btn-round" routerLink="{{'ver'+r.idRuta}}">{{r.codigoRuta}}</button></td>
+                    <td >{{r.ciudadOrigen}}</td>
+                    <td >{{r.ciudadDestino}}</td>
+                    <td ><label *ngIf="r.regresoRuta==0">Ida</label>  <label *ngIf="r.regresoRuta==1">Ida y Regreso</label> </td>
+                    <td >{{r.fechaRegistroRuta}}</td>
+                    <td ><button [disabled]="!consult('/rutas','/editar')" *ngIf="r.estadoRuta==0" type="button" class="btn btn-warning btn-sm btn-round" routerLink="{{'editar'+r.idRuta}}">DESHABILITADO</button> <button [disabled]="!consult('/rutas','/editar')" *ngIf="r.estadoRuta==1" type="button" class="btn btn-success btn-sm btn-round" routerLink="{{'editar'+r.idRuta}}">HABILITADO</button> <button [disabled]="!consult('/rutas','/editar')" *ngIf="r.estadoRuta==2" type="button" class="btn btn-danger btn-sm btn-round" routerLink="{{'editar'+r.idRuta}}">ELIMINADO</button> </td>
+                    <td> 
+                      <div class="dropdown">
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm btn-round" data-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" (click)="elimin(r.idRuta)">Eliminar</a></li>
+                        </ul>
+                      </div>  
+                    </td>
+                  </tr>
+                </ng-template>
+            </p-table>
+          </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerRutas(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index ">
+            <a class="page-link" style="cursor:pointer;"  (click)="ObtenerRutas(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerRutas(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

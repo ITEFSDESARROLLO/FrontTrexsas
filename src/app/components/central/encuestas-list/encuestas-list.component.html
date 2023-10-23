@@ -1,0 +1,100 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-11">
+              <div class="card">
+                  <div class="car-header"  style="background-color: #004790;color :#39D5FF;text-align: center;">
+                      <h2 style="font-weight:bold">
+                          ENCUESTAS
+                      </h2>
+                  </div>
+                  <div class="card-body" >
+                  <p-table [value]="arregloEncuestas">
+                      <ng-template pTemplate="header" >
+                          <tr>
+                              <th style="font-weight:bold">Código Encuesta</th>
+                              <th style="font-weight:bold">Nombre de la Encuesta</th>
+                              <th style="font-weight:bold">Perfil</th>
+                              <th style="font-weight:bold">Acciones</th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-encuesta>
+                          <tr>
+
+                                  <td>{{encuesta.idEncuesta}}</td>
+                                  <td>{{encuesta.descripcionEncuesta}}</td>
+                                  <td>{{encuesta.perfilUsuario}}</td>
+                                  <td>
+                                      <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-info " routerLink="{{'editar'+encuesta.idEncuesta}}" (click)="traerPreguntasEncuesta(encuesta)" pTooltip="editar">
+                                      </button>
+                                      <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" pTooltip="eliminar" (click)="eliminarEncuesta(encuesta.idEncuesta)">
+                                      </button>
+                                  </td>
+                          </tr>
+                      </ng-template>
+                  </p-table>
+                  </div>
+
+              </div>
+              <p-dialog [(visible)]="viewPreguntasEncuesta" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+                  [draggable]="false" [resizable]="false">
+                                  <div class="card" *ngFor="let pregunta of preguntasEncuesta" >
+                                      <div class="card-body">
+                                          <div class="row">
+                                              <div class="col" (click)="editarObjetoPregunta(pregunta)">
+                                                  {{pregunta.descripcion}}
+                                              </div>
+                                              <div class="col">
+                                                  <p-table [value]="pregunta.opcionesPregunta" [(selection)]="opcionSeleccionada" [scrollable]="true" scrollHeight="200px">
+                                                      <ng-template pTemplate="header">
+                                                          <tr>
+                                                              <th>opcion</th>
+                                                              <th>descripcion</th>
+
+                                                          </tr>
+                                                      </ng-template>
+                                                      <ng-template pTemplate="body" let-opcion>
+                                                          <tr [pSelectableRow]="opcion" (click)="editarObjetoPregunta(opcion)">
+                                                              <td>
+                                                                  {{opcion.id}}
+                                                              </td>
+                                                              <td>
+                                                                  {{opcion.descripcion}}
+                                                              </td>
+                                                              <td>
+                                                              </td>
+                                                          </tr>
+                                                      </ng-template>
+                                                  </p-table>
+                                              </div>
+                                          </div>
+
+                                      </div>
+
+                                  </div>
+                                  <p-dialog [(visible)]="viewEdicionObjetoPregunta" [style]="{width: '50vw'}" [baseZIndex]="100">
+                                      <div class="card">
+                                          <div class="card-body">
+                                              <input type="text" [(ngModel)]="descripcion" name="descripcion" [value]="descripcion">
+                                          </div>
+                                          <div class="card-footer">
+
+                                          </div>
+                                      </div>
+                                  </p-dialog>
+                                  <p-dialog [(visible)]="viewEdicionObjetoPregunta" [style]="{width: '50vw'}" [baseZIndex]="100">
+                                      <div class="card">
+                                          <div class="card-body">
+                                              <input type="text" [(ngModel)]="descripcion" name="descripcion" [value]="descripcion">
+                                          </div>
+                                          <div class="card-footer">
+
+                                          </div>
+                                      </div>
+                                  </p-dialog>
+                  <p-button icon="pi pi-check" (click)="viewPreguntasEncuesta=false" label="Ok" styleClass="p-button-text"></p-button>
+              </p-dialog>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" style="background-color: #004790;text-align: center">
+                      <h3 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.marca}}</h3>
+                      <p class="card-category" style="color :#39D5FF" *ngIf="!edit && !view">{{labels?.crear_marca}}</p>
+                      <p class="card-category" style="color :#39D5FF" *ngIf="view">{{labels?.ver_marca}}</p>
+                      <p class="card-category" style="color :#39D5FF" *ngIf="edit">{{labels?.actualizar_marca}}</p>
+                  </div>
+                  <div class="card-body">
+                      <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                          {{msm}}
+                      </div>
+                      <form [formGroup]="Formulario" [hidden]="ocultar">
+                          <div class="row">
+                              <div class="col-md-7 mb-3">
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="{{labels?.marca}}" formControlName="txtNombre" type="text" required>
+                                      <mat-error >digite la {{labels?.marca}}</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-5 mb-3">
+                                  <mat-label>Estado</mat-label><br>
+                                  Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                              </div>
+                          </div>
+                          <div *ngIf="edit || view"  class="form-row">
+
+                              <div class="col-md-6 mb-3" >
+                                  <blockquote class="blockquote" *ngIf="registrador!=null">
+                                      <label >Registrado por</label>
+                                      <p class="mb-0">{{registrador.nombrePersona}} {{registrador.apellidoPersona}}</p>
+                                      <footer class="blockquote-footer"><cite title="Source Title">Fecha: </cite> {{resedit.fechaRegistroMarca}}</footer>
+                                      <footer class="blockquote-footer"><cite title="Source Title">Documento: </cite> {{registrador.documentoPersona}}</footer>
+                                  </blockquote>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                  <blockquote class="blockquote" *ngIf="actualizador!=null">
+                                      <label >Actualizado por</label>
+                                      <p class="mb-0">{{actualizador.nombrePersona}} {{actualizador.apellidoPersona}}</p>
+                                      <footer class="blockquote-footer"><cite title="Source Title">Fecha: </cite> {{resedit.fechaActualizacionMarca}}</footer>
+                                      <footer class="blockquote-footer"><cite title="Source Title">Documento: </cite> {{actualizador.documentoPersona}}</footer>
+                                  </blockquote>
+                              </div>
+                          </div>
+                          <div style="text-align: center" >
+                              <button class="btn" id="boton" type="button"  routerLink="../">Regresar</button>
+                              <button class="btn btn-info" type="button" [hidden]="view" [disabled]="!Formulario.valid" (click)="guardar()">Guardar</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

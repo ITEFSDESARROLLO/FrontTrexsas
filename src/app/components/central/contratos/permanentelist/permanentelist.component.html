@@ -1,0 +1,177 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+              <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-5">
+                  <h2 style="font-weight: bold; text-align: center;">{{labels?.title_table_contratos}}</h2>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3">
+                  <button pButton pRipple type="button" id="carga" pTooltip="CARGA MASIVA" tooltipPosition="left" label="Cargar" (click)="mostrarSubidadExcel()" class="p-button-primary"></button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-secondary">
+
+                    <th scope="col">No. Contrato
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(1)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-1)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Razon social
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Nit
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Valor
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Nombre
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Documento
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <button type="button" (click)="ordenar(6)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                          <button type="button" (click)="ordenar(-6)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                        </div>
+                    </th>
+                    <th scope="col">Telefono
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(7)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-7)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Fecha Inicio
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(8)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-8)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Fecha Vencimiento
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(9)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-9)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Accion</th>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let r of res">
+                    <td >{{r.numeracionContrato}}</td>
+                    <td >{{r.razonSocialCliente}}</td>
+                    <td >{{r.nitCliente}}</td>
+                    <td >{{r.valorContrato}}</td>
+                    <td >{{r.responsable}}</td>
+                    <td >{{r.documentoResponsable}}</td>
+                    <td >{{r.telefonoResponsable}}</td>
+                    <td >{{r.fechaInicioContrato | date}}</td>
+                    <td >{{r.fechaFinContrato | date}}</td>
+                    <td >
+                      <p-tag *ngIf="r.estadoContrato==1" styleClass="p-mr-2" severity="success" value="APROBADO"></p-tag>
+                      <p-tag *ngIf="r.estadoContrato==0" severity="danger" value="CANCELADO"></p-tag>
+                    </td>
+                    <td >
+                      <button  *ngIf="r.estadoContrato!=0 && consult('/contratos','/editar')"  (click)="inhabilitar(r.idContrato)" pTooltip="INHABILITAR CONTRATO" pButton pRipple type="button" icon="pi pi-ban" class="p-button-rounded p-button-danger">
+                      </button>
+                      <button  *ngIf="r.estadoContrato!=0 && consult('/contratos','/editar')"  routerLink="{{'editar'+r.idContrato}}" pTooltip="EDITAR" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-primary">
+                      </button>
+                      <button  *ngIf="r.estadoContrato==0 && consult('/contratos','/editar')"  (click)="habilitar(r.idContrato)" pTooltip="HABILITAR CONTRATO" pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded p-button-success">
+                      </button>
+                      <button *ngIf="!consult('/contrato','/ver')" routerLink="{{'ver'+r.idContrato}}" pTooltip="VER" pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-info"></button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-dialog [(visible)]="displayCargaMasiva" [modal]="true" [style]="{width: '100vw'}" [draggable]="false" [resizable]="true" [closable]="false">
+    <div style="height: 1000px; width: 100%;">
+        <div class="row" >
+          <div class="col">
+            <input type="file" class="form-control" (change)="leerExcel($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+          </div>
+          <div class="col" *ngIf="progreso == 100">
+            <h2>
+              {{contratosExcel.length}} registros
+            </h2>
+
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="card">
+                <p-table [value]="contratosExcel" dataKey="id" editMode="row" responsiveLayout="scroll"
+                styleClass="p-datatable-gridlines" [scrollable]="true" scrollHeight="400px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Número Contrato</th>
+                            <th>Valor Contrato</th>
+                            <th>Nit</th>
+                            <th>Nombre Responsable</th>
+                            <th>Cédula Responsable</th>
+                            <th>Teléfono Responsable</th>
+                            <th>Dirección Responsable</th>
+                            <th>Objeto Contrato</th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="product" [ngStyle]="{'background-color':product.correcto == '0' ? '#FF6C5C' : '#3edc81' }">
+                            <td>
+                                {{product.numero_contrato}}
+                            </td>
+                            <td>
+                              {{product.valor}}
+                            </td>
+                            <td>
+                                {{product.nombre_responsable}}
+                          </td>
+                            <td>
+                              {{product.cedula_responsable}}
+                            </td>
+                            <td>
+                              {{product.telefono_responsable}}
+                          </td>
+                          <td>
+                            {{product.direccion_responsable}}
+                        </td>
+                        <td>
+                          {{product.objeto_contrato}}
+                      </td>
+
+                    </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" (click)="cerrarLimpiar()">Cerrar</button>
+            <button class="btn btn-primary" (click)="crearContratosExcel()">Guardar</button>
+        </div>
+    </div>
+  </p-dialog>

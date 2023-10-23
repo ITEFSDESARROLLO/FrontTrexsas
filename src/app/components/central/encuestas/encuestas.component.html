@@ -1,0 +1,130 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                      {{msm}}
+                  </div>
+                  <div class="card-body" id="fondo" [hidden]="ocultar">
+                      <div class="row">
+                          <div class="col-md-6">
+
+                                  <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>Nombre Encuesta</mat-label>
+                                      <input matInput  [(ngModel)]="nombreEncuesta">
+                                    </mat-form-field>
+
+                          </div>
+                          <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                  <mat-label>DIRIGIDO A</mat-label>
+                                  <mat-select [(value)]="perfilSeleccionado">
+                                    <mat-option value="7">PASAJERO</mat-option>
+                                    <mat-option value="8">CLIENTE</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="card">
+                                  <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+                                      <h2 style="font-weight:bold">
+                                          CREACIÓN ENCUESTA
+                                      </h2>
+                                  </div>
+                                  <div class="card-body">
+                                      <div class="row">
+                                          <div class="col-md-8">
+                                              <mat-form-field>
+                                                  <mat-label>DESCRIPCIÓN DE LA PREGUNTA:</mat-label>
+                                                  <input matInput [(ngModel)]= "descripcionPregunta">
+                                              </mat-form-field>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <button class="btn btn-info btn-round" *ngIf="listaOpcionPreguntas.length > 0" (click) ="crearPregunta()">agregar</button>
+                                          </div>
+                                      </div>
+
+                                      <div class="row">
+                                          <div class="col-md-8">
+                                              <mat-form-field>
+                                                  <mat-label>DESCRIPCIÓN DE LA PREGUNTA:</mat-label>
+                                                  <input matInput [(ngModel)]= "descripcionOpcion">
+                                              </mat-form-field>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <button class="btn btn-info btn-round" *ngIf="descripcionPregunta!='' && descripcionPregunta!=undefined" (click) ="crearOpcionPregunta()">agregar</button>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col">
+                                              <label for="">OPCIONES</label>
+                                          </div>
+                                          <div class="col">
+                                              <ul *ngFor="let opcion of listaOpcionPreguntas">
+                                                  <div class="row" >
+                                                      <label for="">{{opcion.descripcion}}</label>
+                                                      <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" (click)="borrarOpcion(opcion)">
+                                                      </button>
+                                                  </div>
+                                              </ul>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="card">
+                                  <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+                                      <h2 style="font-weight:bold">
+                                          {{nombreEncuesta}}
+                                      </h2>
+                                  </div>
+                                  <div class="card-body">
+                                      <ul *ngFor="let pregunta of listaPreguntas">
+                                          <div class="card">
+                                              <div class="card-body">
+                                              <div class="row">
+                                                  <div class="col-5">
+                                                      {{pregunta.descripcion}}
+                                                  </div>
+                                                  <div class="col-4">
+                                                      <ul *ngFor="let opcion of pregunta.opcionesPregunta">
+                                                          <div class="row">
+                                                              <div class="col">
+                                                                  <label for="">{{opcion.descripcion}}</label>
+                                                              </div>
+                                                          </div>
+                                                      </ul>
+                                                  </div>
+                                                  <div class="col-3">
+                                                      <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" (click)="borrarPregunta(pregunta)">
+
+                                                      </button>
+                                                      <button pButton pRipple type="button" icon="pi pi-cog" class="p-button-rounded p-button-warning p-button-text" (click)="modificarPregunta(pregunta)">
+
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                              </div>
+                                          </div>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div style="text-align: center;margin-bottom: 30px;">
+                    <button pButton pRipple type="button" class="p-button-rounded" style="font-weight:bold" (click)="guardarCuestionario()">GUARDAR</button>
+                      <!--<button class="btn btn-info btn round" (click)="guardarCuestionario()">GUARDAR</button>-->
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
+</div>

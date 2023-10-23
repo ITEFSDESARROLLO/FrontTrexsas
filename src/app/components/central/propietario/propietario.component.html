@@ -1,0 +1,256 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.propietario}}</h3>
+                        <p *ngIf="!edit && !view">Convertir a {{labels?.propietario}}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                                    {{msm}}
+                                </div>
+                                <form [formGroup]="Formulario" [hidden]="ocultar">
+                                    <div class="row" [hidden]="view || edit">
+                                        <label class="col-md-2 col-form-label font-italic">{{labels?.usuario}}:</label>
+                                        <div class="col-md-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.usuario}}" (keyup)="filtrarProp()"  formControlName="prop" type="text" >
+                                                <mat-error *ngIf="Formulario.get('prop').errors?.required">digite el valor del propietario</mat-error>
+                                                <mat-error *ngIf="Formulario.get('prop').errors?.notexist">Este usuario no existe</mat-error>
+                                                <mat-error *ngIf="Formulario.get('prop').errors?.notselect">Selecciona al propietario</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-2"><button *ngIf="iduser!=-1" type="button" (click)="reestablecer()" class="btn btn-secondary btn-round">Reestablecer</button></div>
+                                        <div class="col-md-5"></div>
+                                        
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let prop of selectnopropArray">
+                                            <div class="card_book">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <p>
+                                                            <img class="img-fluid rounded-circle" width="100" src="assets/user.png" alt="">
+                                                        </p>
+                                                        <h4 routerLink="#" class="card-title">{{prop.nombrePersona}} {{prop.apellidoPersona}}</h4>
+                                                        <div>
+                                                            <p class="badge">
+                                                                Documento:
+                                                            </p>
+                                                            <span class="badge badge-pill badge-warning">{{prop.documentoPersona}}</span>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <span *ngIf="iduser==prop.idPersona" class="badge badge-pill badge-success">PROPIETARIO A CONVERTIR</span>
+                                                        </div>
+                        
+                                                        <button [disabled]="iduser==prop.idPersona" type="button" (click)="elegirProp(prop.idPersona)" class="btn btn-block btn-primary">Elegir</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="iduser!=-1" class="alert alert-warning" role="alert">
+                                        POR FAVOR CONFIRMA LA INFORMACIÓN DEL USUARIO A CONVERTIR EN PROPIETARIO
+                                    </div>
+                                    <div *ngIf="iduser!=-1 || idprop!=-1" class="form-group row">
+                                        <div *ngIf="edit || view" class="col-md-4 mb-3">
+                                            <mat-label>Estado </mat-label><br>
+                                            Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.nombres}}" readonly formControlName="nomprop" type="text" >
+                                                <mat-error >digite los nombres</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.apellidos}}" readonly formControlName="apeprop" type="text" >
+                                                <mat-error >digite los apellidos</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field >
+                                                <mat-label>Tipo de Documento</mat-label>
+                                                <mat-select formControlName="tipodocprop" readonly name="selecttipodoc" required>
+                                                <mat-option [value]="null">--</mat-option>
+                                                <mat-option *ngFor="let tipodoc of tipodocs"  [value]="tipodoc.id" >
+                                                    {{tipodoc.value}}
+                                                </mat-option>
+                                                </mat-select>
+                                                <mat-error >Escoja</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.document}}" readonly formControlName="numdocprop" type="text" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.ciudad_expedicion}}" readonly formControlName="ciudadeprop" type="text" >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.email}}" formControlName="correoprop" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.celular_uno}}" formControlName="tel1prop" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.celular_dos}}" formControlName="tel2prop" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.direccion}}" formControlName="direccionprop" type="text">
+                                                <mat-error >digite la direccion</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.ciudad}}" readonly formControlName="ciudadprop" type="text">
+                                                <mat-error >digite la ciudad</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_nacimiento}}" readonly formControlName="fechaN" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.idioma}}" readonly formControlName="idioma" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="!edit && !view" class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.usuario}}" readonly formControlName="usucuenta" type="text">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_registro}}" readonly formControlName="fechaR" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="{{labels?.fecha_actualizacion}}" readonly formControlName="fechaA" type="date">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Documento Cara 1:</label>
+                                            <div class="input-group mb-3">
+                                                <div *ngIf="!(docuno=='' || docuno=='null' || docuno==null)" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadVehCC(docuno)" type="button" >Descargar</button>
+                                                </div>&nbsp;&nbsp;
+                                                <div [hidden]="view" class="custom-file">
+                                                    <input  formControlName="archCC" type="file" name="fichero" id="formFile15" lang="es-ES" accept="image/*" (change)="cambioVehCC($event,0)"
+                                                    [ngClass]="{'custom-file-input':true, 'is-invalid': !Formulario.get('archCC').valid && (Formulario.get('archCC').touched || Formulario.get('archCC').dirty)}" value="null">
+                                                    <label class="custom-file-label" for="formFile15" data-browse="Elegir">{{archnomvehCC[0]}}</label>
+                                                    <div *ngIf="Formulario.get('archCC').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen.
+                                                    </div>
+                                                    <div *ngIf="Formulario.get('archCC').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label>Documento Cara 2:</label>
+                                            <div class="input-group mb-3">
+                                                <div *ngIf="!(docdos=='' || docdos=='null' || docdos==null)" class="input-group-prepend">
+                                                    <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadVehCC(docdos)" type="button" >Descargar</button>
+                                                </div>&nbsp;&nbsp;
+                                                <div [hidden]="view" class="custom-file">
+                                                    <input formControlName="archCC1" type="file" name="fichero" id="formFile16" lang="es-ES" accept="image/*" (change)="cambioVehCC($event,1)"
+                                                    [ngClass]="{'custom-file-input':true, 'is-invalid': !Formulario.get('archCC1').valid && (Formulario.get('archCC1').touched || Formulario.get('archCC1').dirty)} " value="null">
+                                                    <label class="custom-file-label" for="formFile16" data-browse="Elegir">{{archnomvehCC[1]}}</label>
+                                                    <div *ngIf="Formulario.get('archCC1').errors?.required" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen.
+                                                    </div>
+                                                    <div *ngIf="Formulario.get('archCC1').errors?.extension" class="invalid-tooltip invalid-feedback">
+                                                        Por favor selecciona una imagen valida Ej:".png",".jpg", ".jpeg" .
+                                                    </div>
+                                                </div>
+                    
+                                            </div>  
+                                        </div>
+                                        <div *ngIf="!(fotoper=='' || fotoper=='null')" class="col-md-4 mb-3">
+                                            <label>Foto </label><br>
+                                            <button class="btn btn-outline-secondary btn-round btn-sm" (click)="downloadVehFoto(fotoper)" type="button" >Descargar</button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="alertpen && !Formulario.valid"  class="col-md-12 alert alert-danger alert-with-icon">
+                                        <i class="material-icons" data-notify="icon">error_outline</i>
+                                        <span data-notify="message">
+                                            <b>Error:</b> Aun existen campos pendientes, revisa el formulario en busca de campos subrayados en rojo.</span>
+                                    </div>
+                                    <div class="col-md-12 mb-3" *ngIf="propietario!=undefined">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <div>
+                                                            <label for="">
+                                                                Registrado por: {{propietario.registradoPorPropietario.nombrePersona}} {{propietario.registradoPorPropietario.apellidoPersona}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Fecha: {{propietario.fechaRegistroPropietario | date}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Contacto: {{propietario.registradoPorPropietario.celularUnoPersona}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <div>
+                                                            <label for="">
+                                                                <label for="">
+                                                                    Actualizado por: {{propietario.actualizadoPorPropietario.nombrePersona}} {{propietario.actualizadoPorPropietario.apellidoPersona}}
+                                                                </label>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Fecha: {{propietario.fechaActualizacionPropietario | date}}
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label for="">
+                                                                Contacto: {{propietario.actualizadoPorPropietario.celularUnoPersona}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center">
+                                        <button-component buttonClass="btn btn-info pull-right btn-round" type="button" [hidden]="view" text="{{labels?.guardar}}" (click)="guardar()"></button-component>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

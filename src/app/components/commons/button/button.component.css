@@ -1,0 +1,6 @@
+.button {
+  border-radius: 139px 139px 139px 139px;
+  -moz-border-radius: 139px 139px 139px 139px;
+  -webkit-border-radius: 139px 139px 139px 139px;
+  text-align: right !important;
+}

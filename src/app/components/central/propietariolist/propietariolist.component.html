@@ -1,0 +1,145 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">{{labels?.title_table_propietarios}}</h4>
+            <div class="row">
+              <div class="col">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione Criterio de Búsqueda</mat-label>
+                  <mat-select [(value)]="criterioSeleccionado">
+                    <mat-option value="np">NOMBRE PROPIETARIO</mat-option>
+                    <mat-option value="dp" >DOCUMENTO</mat-option>
+                    <mat-option value="es">ESTADO</mat-option>
+                    <mat-option value="tf">TELÉFONO</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <div *ngIf="criterioSeleccionado!=''">
+                  <div *ngIf="criterioSeleccionado == 'np'">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>NOMBRE PROPIETARIO</mat-label>
+                      <input matInput type="text" [(ngModel)]="valorCriterioSeleccionado" name="valorCriterio">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="criterioSeleccionado == 'dp'">
+                    <mat-form-field appearance="fill">
+                      <mat-label>DOCUMENTO</mat-label>
+                      <input matInput type="text" [(ngModel)]="valorCriterioSeleccionado" name="valorCriterio">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="criterioSeleccionado == 'es'">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>ESTADO</mat-label>
+                    <mat-select [(ngModel)]="valorCriterioSeleccionado" name="valorCriterio">
+                      <mat-option value="1">HABILITADO</mat-option>
+                      <mat-option value="2" >ELIMINADO</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="criterioSeleccionado == 'tf'">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>TELÉFONO</mat-label>
+                    <input matInput type="text" [(ngModel)]="valorCriterioSeleccionado" name="valorCriterio">
+                  </mat-form-field>
+                </div>
+                </div>
+              </div>
+              <div class="col">
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.clean}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round"  text="{{labels?.search}}" (click)="fitrarVinculaciones()"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round" routerLink="nuevo" text="nuevo"></button-component>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-xl">
+                <table class="table">
+                  <p-table [value]="res" [scrollable]="true" scrollHeight="400px">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th scope="col">Codigo
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(1)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-1)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Nombre
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Apellido
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Documento
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Telefono
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                            <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                          </div>
+                        </th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Accion</th>
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-r>
+                    <tr >
+                      <td ><button [disabled]="!consult('/propietarios','/ver')" type="button" class="btn btn-info btn-sm btn-round" routerLink="{{'ver'+r.idPropietario}}">{{r.idPropietario}}</button></td>
+                      <td >{{r.nombrePersona}}</td>
+                      <td >{{r.apellidoPersona}}</td>
+                      <td >{{r.documentoPersona}}</td>
+                      <td >{{r.telefonoPersona}}</td>
+                      <td ><button [disabled]="!consult('/propietarios','/editar')" *ngIf="r.estadoPropietario==0" type="button" class="btn btn-warning btn-sm btn-round" routerLink="{{'editar'+r.idPropietario}}">DESHABILITADO</button> <button [disabled]="!consult('/propietarios','/editar')" *ngIf="r.estadoPropietario==1" type="button" class="btn btn-success btn-sm btn-round" routerLink="{{'editar'+r.idPropietario}}">HABILITADO</button> <button [disabled]="!consult('/propietarios','/editar')" *ngIf="r.estadoPropietario==2" type="button" class="btn btn-danger btn-sm btn-round" routerLink="{{'editar'+r.idPropietario}}">ELIMINADO</button> </td>
+                      <td> 
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split btn-sm btn-round" data-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" (click)="elimin(r.idPropietario)">Eliminar</a></li>
+                          </ul>
+                        </div>  
+                      </td>
+                    </tr>
+                  </ng-template>
+                  </p-table>
+                    <thead>
+                      
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+            <a class="page-link"  (click)="ObtenerPropietarios(pagact-1)" style="cursor:pointer;">Anterior</a>
+        </li>
+        <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index "><a class="page-link" style="cursor:pointer;"  (click)="ObtenerPropietarios(i)">{{i+1}}</a></li>
+        <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+            <a class="page-link"  (click)="ObtenerPropietarios(pagact+1)" style="cursor:pointer;">Siguiente</a>
+        </li>
+    </ul>
+</nav>

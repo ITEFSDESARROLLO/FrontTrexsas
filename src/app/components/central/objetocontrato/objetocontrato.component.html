@@ -1,0 +1,59 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h3 class="card-title">{{labels?.objeto_contrato}}</h3>
+                        <p class="card-category" *ngIf="!edit && !view">{{labels?.crear_objeto_contrato}}</p>
+                        <p class="card-category" *ngIf="view">{{labels?.ver_objeto_contrato}}</p>
+                        <p class="card-category" *ngIf="edit">{{labels?.actualizar_objeto_contrato}}</p>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                            {{msm}}
+                        </div>
+                        <form [formGroup]="Formulario" [hidden]="ocultar">
+                            <div class="row">
+                                <div class="col-md-7 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.objeto_contrato}}" formControlName="txtNombre" type="text" required>
+                                        <mat-error >digite el {{labels?.objeto_contrato}}</mat-error>
+                                    </mat-form-field> 
+                                </div>
+                                <div class="col-md-5 mb-3">
+                                    <mat-label>Estado</mat-label><br>
+                                    Inactivo <mat-slide-toggle  formControlName="swest"></mat-slide-toggle> Activo
+                                </div>
+                            </div>
+                            <div *ngIf="edit || view"  class="form-row">
+            
+                                <div class="col-md-6 mb-3" >
+                                    <blockquote class="blockquote" *ngIf="registrador!=null">
+                                        <label >Registrado por</label>
+                                        <p class="mb-0">{{registrador.nombrePersona}} {{registrador.apellidoPersona}}</p>
+                                        <footer class="blockquote-footer"><cite title="Source Title">Fecha: </cite> {{resedit.fechaRegistroObjetoContrato}}</footer>
+                                        <footer class="blockquote-footer"><cite title="Source Title">Documento: </cite> {{registrador.documentoPersona}}</footer>
+                                    </blockquote>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <blockquote class="blockquote" *ngIf="actualizador!=null">
+                                        <label >Actualizado por</label>
+                                        <p class="mb-0">{{actualizador.nombrePersona}} {{actualizador.apellidoPersona}}</p>
+                                        <footer class="blockquote-footer"><cite title="Source Title">Fecha: </cite> {{resedit.fechaActualizacionObjetoContrato}}</footer>
+                                        <footer class="blockquote-footer"><cite title="Source Title">Documento: </cite> {{actualizador.documentoPersona}}</footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <div style="text-align: center" >
+                                <button class="btn btn-primary btn-round" type="button"  routerLink="../">Regresar</button>
+                                <button class="btn btn-info btn-round" type="button" [hidden]="view" [disabled]="!Formulario.valid" (click)="guardar()">Guardar</button>
+                            </div>
+                        </form>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

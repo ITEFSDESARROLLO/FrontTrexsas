@@ -1,0 +1,20 @@
+<div class="main text-center overflow-auto">
+    <form [formGroup]="Formulario" class="form-signin rounded" (ngSubmit)="ingresar()">
+        <a href="https://trexsas.com.co/" target="_blank"><img class="mb-4 rounded img-fluid" src="assets/Nuevo.png" alt=""></a>
+        <h1 class="h3 mb-3 font-weight-normal">Recuperemos su Contraseña</h1>
+        <div *ngIf="msgsuccess" class="alert alert-success" role="alert">
+            Te enviamos un correo, para recuperar la contraseña. Si no, contactate con un administrador del sistema.
+        </div>
+        <label for="inputEmail" class="sr-only">Usuario</label>
+        <input formControlName="username" type="text" [ngClass]="{'form-control':true, 'is-invalid': Formulario.get('username')?.invalid  && (Formulario.get('username')?.touched || Formulario.get('username')?.dirty)}" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
+        <div *ngIf="msgnotfound" class="alert alert-danger" role="alert">
+            Lo siento, Este usuario NO EXISTE.
+        </div>
+        <div *ngIf="msgprinc" class="alert alert-warning" role="alert">
+            ¡Lo siento!, La cuenta aún no está vinculada a un correo principal! Contáctate con un administrador del sistema.
+        </div>
+        <button class="btn btn-lg btn-primary btn-block mt-3" [disabled]="Formulario.invalid || msgsuccess || msgprinc" >Confirmar</button>
+        <button type="button" class="btn btn-outline-dark mt-3 badge badge-pill p-2" routerLink=""><img src="assets/atras.png" class="img-fluid mr-2" alt="Responsive image" width="20" height="20">Volver</button>
+        <p class="mt-5 mb-3 "><a href="https://trexsas.com.co/" class="text-dark" target="_blank">&copy; TREX SAS Transportes Exclusivos 2021</a></p>
+    </form>
+</div>

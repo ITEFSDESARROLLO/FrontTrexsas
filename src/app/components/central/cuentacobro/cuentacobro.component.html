@@ -1,0 +1,72 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+                      <h2 style="font-weight:bold">{{labels?.cuenta_cobro}}</h2>
+                  </div>
+                  <div class="card-body">
+                      <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                          {{msm}}
+                      </div>
+                      <form [formGroup]="Formulario" [hidden]="ocultar">
+                          <div *ngIf="view || edit">
+                              <blockquote class="blockquote">
+                                  <label >Fecha:</label>
+                                  <p class="mb-0">{{fecha | date}}</p>
+                              </blockquote>
+                              <blockquote class="blockquote" *ngIf="registrador!=null">
+                                  <label >Registrado por</label>
+                                  <p class="mb-0">{{registrador.nombrePersona}} {{registrador.apellidoPersona}}</p>
+                                  <footer class="blockquote-footer"><cite title="Source Title">Documento: </cite> {{registrador.documentoPersona}}</footer>
+                              </blockquote>
+                          </div>
+                          <div class="form-row">
+                              <div class="col-md-6 mb-3" >
+                                  <mat-form-field class="example-full-width" >
+                                      <input matInput placeholder="{{labels?.name}}" formControlName="txtNombre" type="text" required>
+                                      <mat-error *ngIf="Formulario.get('txtNombre').errors?.required">digite el {{labels?.name}}</mat-error>
+                                      <mat-error *ngIf="Formulario.get('txtNombre').errors?.maxlength">campo maximo de 200 caracteres</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-6 mb-3" >
+                                <mat-form-field class="example-full-width" >
+                                    <input matInput placeholder="{{labels?.numero_cuenta_cobro}}" formControlName="nmbNumero" type="number">
+
+
+                                </mat-form-field>
+                            </div>
+                              <div class="col-md-6 mb-3" >
+                                  <mat-form-field class="example-full-width" >
+                                      <input matInput placeholder="Nit/Cedula" formControlName="txtNit" type="text" required>
+                                      <mat-error *ngIf="Formulario.get('txtNit').errors?.required">digite el Nit o Cedula</mat-error>
+                                      <mat-error *ngIf="Formulario.get('txtNit').errors?.maxlength">campo maximo de 45 caracteres</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-6 mb-3" >
+                                  <mat-form-field class="example-full-width" >
+                                      <input matInput placeholder="{{labels?.valor_facturar}}" formControlName="nmbValor" type="number" required>
+                                      <mat-error *ngIf="Formulario.get('nmbValor').errors?.required">digite el {{labels?.valor_facturar}}</mat-error>
+                                  </mat-form-field>
+                              </div>
+
+                              <div class="col-md-12 mb-3" >
+                                  <mat-form-field class="example-full-width">
+                                      <textarea matInput placeholder="{{labels?.concepto}}"  formControlName="txtConcepto" required></textarea>
+                                      <mat-error *ngIf="Formulario.get('txtConcepto').errors?.required">digite el {{labels?.concepto}}</mat-error>
+                                  </mat-form-field>
+                              </div>
+
+                          </div>
+                          <div style="text-align: center">
+                              <button [hidden]="view" pButton pRipple type="button" class="p-button-rounded" style="font-weight:bold" (click)="guardar()">Finalizar</button>
+                              <!--<button [hidden]="view" class="btn btn-primary btn-round" (click)="guardar()" type="button" >Finalizar</button>-->
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

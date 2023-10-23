@@ -1,0 +1,211 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <!--
+            <div class="row" *ngIf="!edit && !view">
+        -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+                        <div>
+                            <div class="col-md-11 mb-3">
+                                <h2 style="font-weight: bold; text-align: center;">Contrato Nuevo</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="Formulario">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field >
+                                        <mat-label *ngIf="!edit && !view">Cliente</mat-label>
+                                        <mat-label *ngIf="edit == true || view==true">Cliente : {{clienteSeleccionado.razonSocialCliente}}</mat-label>
+                                        <mat-select formControlName="slcCliente" (selectionChange)="seleccion($event.value)" required>
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let r of clientes;let i = index" [attr.data-index]="i" [value]="r" >
+                                            {{r.razonSocialCliente}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error >Escoja un Cliente</mat-error>
+                                        </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3" >
+                                    <mat-form-field class="example-full-width" *ngIf="clienteSeleccionado.nitCliente!=undefined">
+                                        <input matInput placeholder="{{labels?.nit}}"  type="text" value="{{clienteSeleccionado.nitCliente}}" readonly>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.valor_contrato}}" formControlName="nmbValorContrato" type="number">
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.fecha_inicio}}" formControlName="txtFechaInicio" type="date" required>
+                                        <mat-error >Escoja una fecha Inicio</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.fecha_fin}}"  formControlName="txtFechaFin" type="date" required>
+                                        <mat-error >Escoja una fecha fin</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.numero_contrato}}" formControlName="nmbNumeroContrato" type="text" maxlength="4" [readonly]="edit==true" required>
+                                        <mat-error *ngIf="Formulario.get('nmbNumeroContrato').errors?.required" >digite el numero del contrato</mat-error>
+                                        <mat-error *ngIf="Formulario.get('nmbNumeroContrato').errors?.pattern" >solo se aceptan valores numericos</mat-error>
+                                        <mat-error *ngIf="Formulario.get('nmbNumeroContrato').errors?.minlength" >campo minimo de 4 digitos</mat-error>
+                                        <mat-error *ngIf="Formulario.get('nmbNumeroContrato').hasError('maxlength')" >campo maximo de 4 digitos</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <mat-form-field >
+                                        <mat-label>Objeto Contrato</mat-label>
+                                        <input matInput placeholder="{{labels?.numero_contrato}}" formControlName="slcObjeto" type="text" required>
+                                        <mat-error >Escoja un Objeto de Contrato</mat-error>
+                                        </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Tipo Contrato</mat-label>
+                                        <mat-select formControlName="txtTipoContrato">
+                                        <mat-option>--</mat-option>
+                                        <mat-option [value]="1">
+                                           contrato para transporte de estudiantes
+                                        </mat-option>
+                                        <mat-option [value]="2">
+                                           contrato para transporte empresarial
+                                        </mat-option>
+                                        <mat-option [value]="3">
+                                            contrato para transporte de turistas
+                                        </mat-option>
+                                        <mat-option [value]="4">
+                                            contrato para un grupo especifico de usuarios
+                                        </mat-option>
+                                        <mat-option [value]="5">
+                                            contrato para transporte de usuarios del servicio de salud
+                                        </mat-option>
+
+                                        </mat-select>
+                                        <mat-error>Debe escoger el tipo de contrato</mat-error>
+
+                                      </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    Ciudad
+                                    <br>
+                                    <p-autoComplete name="ciudad" [showEmptyMessage]="true" [suggestions]="ciudadesFiltradas" (completeMethod)="filtrarCiudades($event)" field="ciudad" [minLength]="1" formControlName="txtCiudadContrato" required></p-autoComplete>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.nombre_responsable}}" formControlName="txtNombre" type="text" required>
+                                        <mat-error >Digite nombre del responsable</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.cedula_responsable}}" formControlName="txtDocumento" type="number" required>
+                                        <mat-error >Digite apellido del responsable</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="telefono celular" formControlName="txtTelefono"  type="number" required>
+                                        <mat-error >Digite telefono del responsable</mat-error>
+                                        <mat-error *ngIf="Formulario.get('nmbNumeroContrato').errors?.minlength" >campo minimo de 10 digitos</mat-error>
+                                        <mat-error *ngIf="Formulario.get('nmbNumeroContrato').hasError('maxlength')" >campo maximo de 10 digitos</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="{{labels?.direccion_responsable}}" formControlName="txtDireccion" type="text" required>
+                                        <mat-error >Digite la direccion del responsable</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                            </div>
+                        <div class="clearfix"></div>
+                        </form>
+                        <div class="col-md-12 mb-3" *ngIf="!edit">
+                            <select class="form-control" [(ngModel)]="pasajeroSeleccionado" (change)="agregarPasajero()">
+                            <option value="">Seleccione Pasajero</option>
+                            <option *ngFor="let pasajero of pasajeros" [ngValue]="pasajero">
+                                {{ pasajero.persona.nombrePersona }} {{pasajero.persona.apellidoPersona}} {{pasajero.persona.documentoPersona}}
+                            </option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-12 mb-3" *ngIf="!edit" [disabled]="view==true">
+                            <table class="table">
+                                <thead class=" text-secondary">
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Apellido</th>
+                                    <th scope="col">Documento</th>
+                                    <th scope="col">Accion</th>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let r of pasajerosMostrar">
+                                    <td >{{r.persona.nombrePersona}}</td>
+                                    <td >{{r.persona.apellidoPersona}}</td>
+                                    <td >{{r.persona.documentoPersona}}</td>
+                                    <td ><button type="button" class="btn btn-danger btn-sm" (click)="eliminarPasajero(r)">
+                                        <span class="material-icons">
+                                    delete
+                                    </span></button></td>
+                                </tr>
+                                </tbody>
+                                </table>
+                        </div>
+                        <div class="col-md-12 mb-3" *ngIf="edit">
+                            <p-toast></p-toast>
+                            <select class="form-control" [(ngModel)]="pasajeroSeleccionado" (change)="agregarPasajeroEditar()">
+                            <option value="">Seleccione Pasajero</option>
+                            <option *ngFor="let pasajero of pasajeros" [ngValue]="pasajero">
+                                {{ pasajero.persona?.nombrePersona }} {{pasajero.persona?.apellidoPersona}} {{pasajero.persona?.documentoPersona}}
+                            </option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3" *ngIf="edit">
+                            <table class="table">
+                                <thead class=" text-secondary">
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Apellido</th>
+                                    <th scope="col">Documento</th>
+                                    <th scope="col">Accion</th>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let r of pasajerosMostrar">
+                                    <td >{{r.persona?.nombrePersona}}</td>
+                                    <td >{{r.persona?.apellidoPersona}}</td>
+                                    <td >{{r.persona?.documentoPersona}}</td>
+                                    <td ><button type="button" class="btn btn-danger btn-sm" (click)="eliminarPasajeroEditar(r,r.idPasajero)">
+                                        <span class="material-icons">
+                                    delete
+                                    </span></button></td>
+                                </tr>
+                                </tbody>
+                                </table>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div style="text-align: center">
+
+                            <button class="btn btn-round" style="background-color: #004790;" (click)="GuardarContrato()">CREAR CONTRATO</button>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

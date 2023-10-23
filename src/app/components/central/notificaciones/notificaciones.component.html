@@ -1,0 +1,142 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" style="background-color: #004790;color :#39D5FF;text-align: center;">
+                      <h2 style="font-weight:bold">Nueva Notificación</h2>
+                  </div>
+                  <div class="card-body">
+                      <div *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">
+                          {{msm}}
+                      </div>
+                      <form [formGroup]="formulario" >
+                          <div class="form-row">
+
+                              <div class="col-md-7 mb-3">
+                                  <div>
+                                      <mat-form-field class="example-full-width" >
+                                          <input matInput placeholder="TÍTULO" formControlName="txtTituloNotificacion" type="text" required>
+                                          <mat-error *ngIf="formulario.get('txtTituloNotificacion').errors?.required">digite el nombre de la capacitación</mat-error>
+                                      </mat-form-field>
+                                  </div>
+                                  <div>
+                                      <textarea [rows]="18" [cols]="65" placeholder="DESCRIPCIÓN" formControlName="txtDescripcionNotificacion" type="text" required pInputTextarea></textarea>
+                                      <mat-error *ngIf="formulario.get('txtDescripcionNotificacion').errors?.required">digite la Descripción</mat-error>
+                                  </div>
+                              </div>
+                              <div class="col-md-5 mb-3">
+                                  <div>
+                                      <mat-form-field appearance="fill" *ngIf="edit==false">
+                                          <mat-label>Seleccione el tipo de Notificación</mat-label>
+                                          <mat-select [(value)]="tipoNotificacion" >
+                                            <mat-option value="2" (click)="crearListaPerfilesNotificacioneMasivas()">Masivo</mat-option>
+                                            <mat-option value="1" (click)="crearNotificacionIndividual()">Individual</mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+
+                                          <mat-label appearance="fill" *ngIf="edit==true && tipoNotificacion=='2'">MASIVO</mat-label>
+
+
+                                          <mat-label appearance="fill" *ngIf="edit==true && tipoNotificacion=='1'">INDIVIDUAL</mat-label>
+
+                                  </div>
+                                  <div>
+                                      <div>
+                                          <mat-form-field appearance="fill" *ngIf="edit == false && tipoNotificacion=='2'">
+                                              <mat-label>Va dirigida a: </mat-label>
+                                              <mat-select >
+                                                  <mat-option *ngFor="let perfil of perfilesNotificacionesMasivas" [value]="perfil.idPerfil" (click)="guardarPerfilSeleccionado(perfil)">
+                                                      {{perfil.perfil}}
+                                                  </mat-option>
+                                              </mat-select>
+                                          </mat-form-field>
+                                          <mat-form-field appearance="fill" *ngIf="edit == true && tipoNotificacion=='2'">
+                                              <mat-label>Va dirigida a: </mat-label>
+                                              <mat-select >
+                                                  <mat-option *ngFor="let perfil of perfilesNotificacionesMasivas" [value]="perfil.idPerfil" (click)="guardarPerfilSeleccionado(perfil)">
+                                                      {{perfil.nombrePerfil}}
+                                                  </mat-option>
+                                              </mat-select>
+                                          </mat-form-field>
+
+                                          <mat-list *ngIf="edit == true">
+                                              <mat-list-item *ngFor="let perfilSeleccionado of perfilesSeleccionados">
+                                                  <div class="row">
+                                                      <div class="col-md-8">
+                                                          {{perfilSeleccionado.nombrePerfil}}
+                                                      </div>
+                                                      <div class="col-6 col-md-4">
+                                                          <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-raised p-button-danger" (click)="borrarPerfilLista(perfilSeleccionado)">
+
+                                                          </button>
+                                                      </div>
+                                                  </div>
+                                              </mat-list-item>
+                                          </mat-list>
+                                          <mat-list *ngIf="edit == false">
+                                              <mat-list-item *ngFor="let perfilSeleccionado of perfilesSeleccionados">
+                                                  <div class="row">
+                                                      <div class="col-md-8">
+                                                          {{perfilSeleccionado.perfil}}
+                                                      </div>
+                                                      <div class="col-6 col-md-4">
+                                                          <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-raised p-button-danger" (click)="borrarPerfilLista(perfilSeleccionado)">
+
+                                                          </button>
+                                                      </div>
+                                                  </div>
+                                              </mat-list-item>
+                                          </mat-list>
+                                      </div>
+
+                                      <div *ngIf="tipoNotificacion=='1'">
+                                          <mat-form-field appearance="fill">
+                                              <mat-label>Va dirigido a: </mat-label>
+                                              <mat-select [(value)]="perfilSeleccionadoIndividual">
+                                                <mat-option value="2" (click)="traerUsuarioPerfiles(2)">Conductor</mat-option>
+                                                <mat-option value="3" (click)="traerUsuarioPerfiles(3)">Propietario</mat-option>
+                                                <mat-option value="7" (click)="traerUsuarioPerfiles(7)">Pasajero</mat-option>
+                                                <mat-option value="8" (click)="traerUsuarioPerfiles(8)">Cliente</mat-option>
+                                              </mat-select>
+                                          </mat-form-field>
+                                          <label *ngIf="perfilSeleccionadoIndividual!=undefined && perfilSeleccionadoIndividual!=8"for="">{{perfilSeleccionadoIndividual}}</label>
+                                          <mat-form-field appearance="fill" *ngIf="res.length>0 && perfilSeleccionadoIndividual!=8">
+                                              <mat-label>Va dirigida a: </mat-label>
+                                              <mat-select [(value)]="usuarioSeleccionado" name="usuarioSeleccionado">
+                                                  <mat-option *ngFor="let usuario of res" [value]="usuario">
+                                                      {{ usuario.nombrePersona }} {{usuario.apellidoPersona}}
+                                                  </mat-option>
+                                              </mat-select>
+                                          </mat-form-field>
+                                          <label *ngIf="perfilSeleccionadoIndividual!=undefined && perfilSeleccionadoIndividual==8"for="">{{perfilSeleccionadoIndividual}}</label>
+                                          <mat-form-field appearance="fill" *ngIf="res.length>0 && perfilSeleccionadoIndividual==8">
+                                              <mat-label>Va dirigida a: </mat-label>
+                                              <mat-select [(value)]="usuarioSeleccionado" name="usuarioSeleccionado">
+                                                  <mat-option *ngFor="let usuario of res" [value]="usuario">
+                                                      {{ usuario.razonSocialCliente }} {{usuario.correo}}
+                                                  </mat-option>
+                                              </mat-select>
+                                          </mat-form-field>
+                                          <label *ngIf="usuarioSeleccionado!=undefined && perfilSeleccionadoIndividual!=2"for="">{{usuarioSeleccionado.nombrePersona}} {{usuarioSeleccionado.apellidoPersona}}</label>
+                                          <label *ngIf="usuarioSeleccionado!=undefined && perfilSeleccionadoIndividual==2"for="">{{usuario.razonSocialCliente}}</label>
+
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card-footer" style="text-align: center">
+                              <div *ngIf="(formulario.get('txtDescripcionNotificacion').errors?.required !=true && formulario.get('txtTituloNotificacion').errors?.required!=true) && (perfilesSeleccionados.length >0 || usuarioSeleccionado!=undefined)">
+                                  <button class="btn btn-info btn-round" (click)="guardar2()">Guardar</button>
+                              </div>
+                          </div>
+
+                      </form>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

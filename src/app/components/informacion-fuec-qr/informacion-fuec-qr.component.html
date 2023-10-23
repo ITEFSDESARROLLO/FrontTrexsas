@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="row" id="contenedor">
+    <div class="col-md-6 col-sm-12">
+      <h3>
+        Numeración Contrato:
+      </h3>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      {{fuec?.contrato.numeracionContrato}}
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>
+        Cliente:
+      </h3>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      {{fuec?.contrato.cliente.razonSocialCliente}}
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>
+        Objeto Contrato:
+      </h3>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      {{fuec?.contrato.objetoContrato}}
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>
+        Ciudad Contrato
+      </h3>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      {{fuec?.contrato.ciudad.ciudad}}
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <h3>
+        Origen:
+      </h3>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      {{fuec?.ciudadOrigen.ciudad}}
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <h3>
+        Destino
+      </h3>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      {{fuec?.ciudadDestino.ciudad}}
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>
+        Placa
+      </h3>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      {{fuec?.vehiculo.placaVehiculo}}
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>
+        Fecha Inicio
+      </h3>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      {{fuec?.fechaInicioFuec}}
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>
+        Fecha Fin
+      </h3>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      {{fuec?.fechaFinFuec}}
+    </div>
+    <div class="col-md-12 col-sm-12">
+      <h3>
+        Conductores
+      </h3>
+    </div>
+    <div class="col-md-12 col-sm-12">
+      <ol *ngIf="fuec?.conductorList?.length >0" >
+        <li *ngFor="let conductor of fuec?.conductorList">
+          {{conductor.nombrePersona}}
+          {{conductor.apellidoPersona}}
+          {{conductor.documentoPersona}}
+        </li>
+      </ol>
+    </div>
+    <div class="col-md-12 col-sm-12">
+      <h3>
+        Pasajeros
+      </h3>
+    </div>
+    <div class="col-md-12 col-sm-12">
+      <ol *ngIf="fuec?.pasajeroList?.length >0">
+        <li *ngFor="let pasajero of fuec?.pasajeros">
+
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>

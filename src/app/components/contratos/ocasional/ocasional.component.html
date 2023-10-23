@@ -1,0 +1,160 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row" [hidden]="crearContrato">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">{{labels?.buscar_contrato_ocasional}}</h4>
+            <p class="card-category">{{labels?.contrato_ocasional_category}}</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.numero_contrato}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.nit}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.numero_contrato}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.nombre_responsable}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.cedula_responsable}}">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div [hidden]="crearContrato" style="text-align: right">
+                <button-component buttonClass="btn btn-info pull-right btn-round" (click)="LimpiarContrato()" text="{{labels?.clean}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round" (click)="BuscarContrato()" text="{{labels?.search}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round" (click)="CrearContrato()" text="{{labels?.crear_contrato_ocasional}}"></button-component>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" [hidden]="!showTable">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title ">{{labels?.title_table_contratos}}</h4>
+            <p class="card-category">{{labels?.subtitle_table_contratos_o}}</p>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-secondary">
+                  <th scope="col">No. Contrato</th>
+                  <th scope="col">Vehiculo</th>
+                  <th scope="col">Razon Social</th>
+                  <th scope="col">Nit</th>
+                  <th scope="col">Valor</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Cédula Responsable</th>
+                  <th scope="col">Teléfono Responsable</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Fecha Aprobación</th>
+                  <th scope="col">Firma</th>
+                  <th scope="col">Foto</th>
+                  <th scope="col">Fecha Inicio</th>
+                  <th scope="col">Fecha Vencimiento</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of res">
+                    <td ><button type="button" class="btn btn-info" routerLink="{{'ver'+r.idContrato}}">{{r.codigoContrato}}</button></td>
+                    <td >{{r.placaVehiculo}}</td>
+                    <td >{{r.razonSocialCliente}}</td>
+                    <td >{{r.nitCliente}}</td>
+                    <td >{{r.valor}}</td>
+                    <td >{{r.nombrePersona}}</td>
+                    <td >{{r.cedulaPersona}}</td>
+                    <td >{{r.telefonoPersona}}</td>
+                    <td ><button *ngIf="r.estadoContrato==0" type="button" class="btn btn-warning" routerLink="{{'editar'+r.idContrato}}">DESHABILITADO</button> <button *ngIf="r.estadoContrato==1" type="button" class="btn btn-success" routerLink="{{'editar'+r.idContrato}}">HABILITADO</button> <button *ngIf="r.estadoContrato==2" type="button" class="btn btn-danger" routerLink="{{'editar'+r.idContrato}}">ELIMINADO</button> </td>
+                    <td >{{r.fechaAprobacion}}</td>
+                    <td >{{r.firma}}</td>
+                    <td >{{r.fotoPersona}}</td>
+                    <td >{{r.fechaInicioContrato}}</td>
+                    <td >{{r.fechaVencimientoContrato}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" [hidden]="!crearContrato">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">{{labels?.crear_contrato_ocasional}}</h4>
+            <p class="card-category">{{labels?.contrato_ocasional_category}}</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.placa}}">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" [hidden]="continuar">
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.numero_contrato}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.nit}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.nombre_responsable}}">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{labels?.cedula_responsable}}">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div style="text-align: right">
+                <button-component buttonClass="btn btn-info pull-right btn-round" (click)="CancelarContrato()" text="{{labels?.cancel}}"></button-component>
+                <button-component buttonClass="btn btn-info pull-right btn-round" (click)="GuardarContrato()" text="{{labels?.continue}}"></button-component>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nav aria-label="Page navigation example" [hidden]="!showTable">
+  <ul class="pagination justify-content-center">
+    <li [ngClass]="{'page-item':true, 'disabled': pagact==0 }">
+      <a class="page-link"  (click)="ObtenerContratos(pagact-1)" style="cursor:pointer;">Anterior</a>
+    </li>
+    <li  [ngClass]="{'page-item':true, 'active': pagact==i }"  *ngFor="let m of maxpag; let i = index "><a class="page-link" style="cursor:pointer;"  (click)="ObtenerContratos(i)">{{i+1}}</a></li>
+    <li [ngClass]="{'page-item':true, 'disabled': pagact>=maxpag.length-1 }">
+      <a class="page-link"  (click)="ObtenerContratos(pagact+1)" style="cursor:pointer;">Siguiente</a>
+    </li>
+  </ul>
+</nav>

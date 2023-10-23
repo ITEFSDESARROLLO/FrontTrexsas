@@ -1,0 +1,198 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+            <div class="row">
+              <div  class="col-lg-7 col-md-7 col-sm-3" >
+
+                <h2 style="font-weight: bold; text-align: center;">
+                  CLIENTES
+                </h2>
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-3">
+                <button type="button" class="btn"(click)="mostrarDialogoSubida()" icon="pi pi-info-circle" label="Show" style="background-color: #22A7F0;">CARGA MASIVA</button>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-2">
+                <label  style="color: #39d5ff;" for="">BUSCAR:</label>
+                <input #box type="text" name="" id="" (keyup)="filtrar(box.value)">
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-xl">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Razon Social
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(2)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-2)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Nit
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(3)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-3)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Direccion
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(4)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-4)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Telefono
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(5)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-5)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Manera Finalizar Servicio
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" (click)="ordenar(6)" class="btnp btn btn-info btn-sm">&#8595;</button>
+                        <button type="button" (click)="ordenar(-6)" class="btnp btn btn-info btn-sm">&#8593;</button>
+                      </div>
+                    </th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Accion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let r of clientesFiltrados">
+                    <td >{{r.razonSocialCliente}}</td>
+                    <td >{{r.nitCliente}}</td>
+                    <td >{{r.direccionCliente}}</td>
+                    <td >{{r.celularUnoCliente}}</td>
+                    <td ><div *ngIf="r.finalizarServicioCliente==0">Simple (deslizando el dedo)</div><div *ngIf="r.finalizarServicioCliente==1">QR (escaneando el codigo)</div></td>
+                    <td >
+                      <p-tag styleClass="p-mr-2" *ngIf="r.estadoCuenta==0" severity="warning" value="DESHABILITADO"></p-tag>
+                      <p-tag styleClass="p-mr-2" *ngIf="r.estadoCuenta==1" severity="success" value="HABILITADO"></p-tag>
+                      <p-tag styleClass="p-mr-2" *ngIf="r.estadoCuenta==2" severity="danger" value="ELIMINADO"></p-tag>
+                    </td>
+                    <th scope="row">
+                          <button pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-primary" *ngIf="!consult('/clientes','/ver')" routerLink="{{'ver'+r.idCuenta}}"></button>
+                          <button pButton pRipple icon="pi pi-pencil" type="button" class="p-button-rounded p-button-info" *ngIf="!consult('/clientes','/editar')" routerLink="{{'editar'+r.idCuenta}}"></button>
+                          <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" *ngIf="!consult('/clientes','/editar')" (click)="elimin(r.idCuenta)"></button>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p-dialog [(visible)]="displaySubida" [modal]="true" [style]="{width: '95vw'}" [draggable]="false" [resizable]="false">
+        <div class="row" style="height: 700px;">
+          <div class="col-12">
+            <input type="file" class="form-control" (change)="addfile($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+          </div>
+          <div class="col-12">
+            <p-table [value]="products2" dataKey="id" editMode="row" responsiveLayout="scroll">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Razon Social</th>
+                  <th>NIT/CÉDULA</th>
+                  <th>DIRECCIÓN</th>
+                  <th>CIUDAD</th>
+                  <th>EMAIL</th>
+                  <th>CELULAR 1</th>
+                  <th>CELULAR 2</th>
+                  <th>
+                    acciones
+                  </th>
+              </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                  <tr [pEditableRow]="product" [ngStyle]="{'background-color': product?.correcto==1? 'lightgreen' : 'lightcoral'}">
+                      <td>
+                          <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                  <input pInputText type="text" [(ngModel)]="product.RazonSocial">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                  {{product.RazonSocial}}
+                              </ng-template>
+                          </p-cellEditor>
+                      </td>
+                      <td>
+                          <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                  <input pInputText type="text" [(ngModel)]="product.NIT" required>
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                  {{product.NIT}}
+                              </ng-template>
+                          </p-cellEditor>
+                      </td>
+
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.Direccion" required>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.Direccion}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete [(ngModel)]="product.Ciudad" [showEmptyMessage]="true" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" field="ciudad" [minLength]="1"></p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{product?.Ciudad?.ciudad}}
+                          </ng-template>
+                      </p-cellEditor>
+                  </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.Email" required>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.Email}}
+                          </ng-template>
+                      </p-cellEditor>
+                  </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.Celular_1" required>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.Celular_1}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                    <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="product.Celular_2" required>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{product.Celular_2}}
+                          </ng-template>
+                      </p-cellEditor>
+                    </td>
+                      <td style="text-align:center">
+                          <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)" class="p-button-rounded p-button-text"></button>
+                          <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                          <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                      </td>
+                  </tr>
+              </ng-template>
+          </p-table>
+          </div>
+          <div>
+            <button class="btn btn-primary" (click)="guardarClientes()">guardar</button>
+          </div>
+        </div>
+
+
+      </p-dialog>
+    </div>
+  </div>
+</div>

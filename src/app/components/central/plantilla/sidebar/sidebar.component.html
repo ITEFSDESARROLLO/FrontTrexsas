@@ -1,0 +1,441 @@
+<div class="logo">
+    <a class="simple-text" routerLink="">
+            <img src="/assets/img/TrexLogo.png" width="160" height="40"/>
+    </a>
+</div>
+<!--
+  <div class="logo">
+    <a class="simple-text" routerLink="">
+        <div class="logo-img">
+            <img src="/assets/img/Trexico.png"/>
+        </div>
+        Trex S.A.S
+    </a>
+</div>
+-->
+<div class="sidebar-wrapper" style="padding: 5px;">
+  <div *ngIf="isMobileMenu()">
+    <form class="navbar-form">
+      <span class="bmd-form-group">
+        <div class="input-group no-border">
+          <input type="text" value="" class="form-control" placeholder="Search...">
+          <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+            <i class="material-icons">search</i>
+            <div class="ripple-container"></div>
+          </button>
+        </div>
+      </span>
+    </form>
+    <ul class="nav navbar-nav nav-mobile-menu">
+        <li class="nav-item dropdown">
+          <a class="nav-link mat  erial-icons" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">person</i>
+              <p>
+                  <span class="d-lg-none d-md-block">Cuenta</span>
+              </p>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a (click)="cerrarsesion()" class="dropdown-item itemnav" href="javascript:void(0)"><i class="material-icons logo">logout </i> Cerrar Sesión</a>
+          </div>
+        </li>
+    </ul>
+
+  </div>
+    <ul class="nav">
+      <mat-accordion >
+
+        <li class="nav-item">
+          <mat-expansion-panel *ngIf="consult('/vinculaciones','/') || consult('/vinculaciones','/nuevo')">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          <mat-icon id="icono">link</mat-icon>vinculaciones
+                        </button>
+                      </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/vinculaciones','/') " routerLink="vinculaciones">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                  </a>
+              </li>
+          </mat-expansion-panel>
+      </li>
+
+        <li class="nav-item">
+            <mat-expansion-panel *ngIf="consult('/vehiculos','/') || consult('/vehiculos','/nuevo')">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 class="mb-0">
+                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <mat-icon id="icono">directions_car</mat-icon>VEHICULOS
+                          </button>
+                        </h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/vehiculos','/nuevo')" routerLink="vehiculos/nuevo">
+                  <i class="material-icons">open_in_new</i>
+                  Nueva
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" *ngIf="consult('/vehiculos','/') " routerLink="vehiculos">
+                    <i class="material-icons">fact_check</i>
+                    Gestionar
+                    </a>
+                </li>
+            </mat-expansion-panel>
+        </li>
+
+        <li class="nav-item">
+
+            <mat-expansion-panel *ngIf="consult('/clientes','/') || consult('/clientes','/nuevo')" >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseEigth" aria-expanded="false" aria-controls="collapseEigth">
+                          <mat-icon id="icono">supervised_user_circle</mat-icon>CLIENTES
+                        </button>
+                      </h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/clientes','/nuevo')" routerLink="clientes/nuevo">
+                    <i class="material-icons">open_in_new</i>
+                    Nuevo
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/clientes','/')" routerLink="clientes">
+                    <i class="material-icons">fact_check</i>
+                    Gestionar
+                  </a>
+                </li>
+            </mat-expansion-panel>
+
+        </li>
+        <li class="nav-item">
+
+            <mat-expansion-panel *ngIf="consult('/usuarios','/') || consult('/usuarios','/nuevo')">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                          <mat-icon id="icono">person</mat-icon>USUARIOS
+                        </button>
+                      </h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/usuarios','/nuevo')" routerLink="usuarios/nuevo">
+                    <i class="material-icons">open_in_new</i>
+                    Nuevo
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/usuarios','/')" routerLink="usuarios">
+                    <i class="material-icons">fact_check</i>
+                    Gestionar
+                  </a>
+                </li>
+            </mat-expansion-panel>
+
+        </li>
+        <li class="nav-item">
+
+            <mat-expansion-panel *ngIf="consult('/fuecs','/')" >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                          <mat-icon id="icono">assignment_turned_in</mat-icon>FUEC
+                        </button>
+                      </h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/fuecs','/nuevo')" routerLink="fuecs/nuevo">
+                    <i class="material-icons">open_in_new</i>
+                     Nuevo
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/fuecs','/')" routerLink="fuecs">
+                    <i class="material-icons">fact_check</i>
+                    Gestionar
+                  </a>
+                </li>
+            </mat-expansion-panel>
+
+        </li>
+        <li class="nav-item">
+
+            <mat-expansion-panel *ngIf="consult('/contratos','/') || consult('/contratos','/nuevo')" >
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseSeven">
+                          <mat-icon id="icono">assignment</mat-icon>CONTRATOS
+                        </button>
+                      </h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/contratos','/nuevo')" routerLink="contratos/nuevo">
+                    <i class="material-icons">open_in_new</i>
+                    Nuevo
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="consult('/contratos','/')" routerLink="contratos">
+                    <i class="material-icons">dashboard</i>
+                    Gestionar
+                  </a>
+                </li>
+            </mat-expansion-panel>
+
+        </li>
+        <li class="nav-item">
+
+          <mat-expansion-panel *ngIf="consult('/reservas','/') || consult('/reservas','/nuevo')" >
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <mat-icon id="icono">flash_on</mat-icon>Servicios
+                      </button>
+                    </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                <a class="nav-link"  *ngIf="consult('/reservas','/nuevo')" routerLink="reservas/nuevo">
+                  <i class="material-icons">open_in_new</i>
+                  Nuevo
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  *ngIf="consult('/reservas','/')" routerLink="reservas">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                </a>
+              </li>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf="consult('/reservasPasajero','/')" >
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                      Reservas
+                    </button>
+                  </h2>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <li class="nav-item">
+              <a class="nav-link" *ngIf="consult('/reservasPasajero','/')" routerLink="reservasPasajeros">
+                <i class="material-icons">fact_check</i>
+                mis reservas
+              </a>
+            </li>
+        </mat-expansion-panel>
+
+      </li>
+      <li class="nav-item">
+
+        <mat-expansion-panel *ngIf="consult('/ordenesservicio','/') || consult('/ordenesservicio','/nuevo')" >
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                      <mat-icon id="icono">edit</mat-icon>Ordenes de Servicio
+                    </button>
+                  </h2>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <li class="nav-item">
+              <a class="nav-link" *ngIf="consult('/ordenesservicio','/')" routerLink="ordenesservicio">
+                <i class="material-icons">fact_check</i>
+                Gestionar
+              </a>
+            </li>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="consult('/ordenesConductor','/')" >
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h2 class="mb-0">
+                  <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    <mat-icon id="icono">edit</mat-icon>Ordenes de Servicio prueba
+                  </button>
+                </h2>
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="consult('/ordenesConductor','/')" routerLink="ordenesConductor">
+              <i class="material-icons">fact_check</i>
+              Órdenes
+            </a>
+          </li>
+      </mat-expansion-panel>
+
+        </li>
+
+          <li class="nav-item">
+          <mat-expansion-panel *ngIf="consult('/facturas','/') || consult('/facturas','/nuevo')">
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <mat-icon id="icono">receipt</mat-icon>Facturas
+                      </button>
+                    </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/facturas','/nuevo')" routerLink="facturas/nuevo">
+                  <i class="material-icons">open_in_new</i>
+                  Nuevo
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/facturas','/')" routerLink="facturas">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                </a>
+              </li>
+            </mat-expansion-panel>
+        </li>
+
+
+        <li class="nav-item">
+          <mat-expansion-panel *ngIf="consult('/cuentascobro','/') || consult('/cuentascobro','/nuevo')" >
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <mat-icon id="icono"> attach_money</mat-icon>Cuentas de cobro
+                      </button>
+                    </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/cuentascobro','/nuevo')" routerLink="cuentascobro/nuevo">
+                  <i class="material-icons">open_in_new</i>
+                  Nuevo
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/cuentascobro','/')" routerLink="cuentascobro">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                </a>
+              </li>
+            </mat-expansion-panel>
+        </li>
+
+
+        <!--
+        <li class="nav-item">
+          <mat-expansion-panel *ngIf="consult('/pqr','/') || consult('/pqr','/nuevo')" >
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <mat-icon id="icono"> comment</mat-icon>PQR
+                      </button>
+                    </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/pqr','/nuevo')" routerLink="pqr/nuevo">
+                  <i class="material-icons">dashboard</i>
+                  Nuevo
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/pqr','/')" routerLink="pqr">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                </a>
+              </li>
+            </mat-expansion-panel>
+        </li>
+        <li class="nav-item">
+          <mat-expansion-panel *ngIf="consult('/capacitaciones','/') || consult('/capacitaciones','/nuevo')" >
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <mat-icon id="icono">library_books</mat-icon>Capacitaciones
+                      </button>
+                    </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/capacitaciones','/nuevo')" routerLink="capacitaciones/nuevo">
+                  <i class="material-icons">dashboard</i>
+                  Nuevo
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/capacitaciones','/')" routerLink="capacitaciones">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                </a>
+              </li>
+            </mat-expansion-panel>
+        </li>
+        <li class="nav-item">
+          <mat-expansion-panel *ngIf="consult('/encuestas','/') || consult('/encuestas','/nuevo')" >
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <mat-icon id="icono">question_answer</mat-icon>Encuestas
+                      </button>
+                    </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/encuestas','/nuevo')" routerLink="encuestas/nuevo">
+                  <i class="material-icons">dashboard</i>
+                  Nuevo
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/encuestas','/')" routerLink="encuestas">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                </a>
+              </li>
+            </mat-expansion-panel>
+        </li>
+        <li class="nav-item">
+          <mat-expansion-panel *ngIf="consult('/notificaciones','/') || consult('/notificaciones','/nuevo')" >
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <mat-icon id="icono">notifications_active</mat-icon>Notificaciones
+                      </button>
+                    </h2>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/notificaciones','/nuevo')" routerLink="notificaciones/nuevo">
+                  <i class="material-icons">dashboard</i>
+                  Nuevo
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" *ngIf="consult('/notificaciones','/')" routerLink="notificaciones">
+                  <i class="material-icons">fact_check</i>
+                  Gestionar
+                </a>
+              </li>
+            </mat-expansion-panel>
+        </li> -->
+      </mat-accordion>
+    </ul>
+</div>
