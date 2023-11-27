@@ -17,8 +17,8 @@ export class LoginService {
     this.adverttoken=false;
     //this.url = 'http://181.143.139.108:8080/trexsas-desarrollo/'
     //this.url = "http://localhost:8081/trexsas-desarrollo/"
-    this.url = 'http://localhost:8080/'
-    //this.url = 'C:\Users\ITEFS-BACKEND\Downloads'
+   this.url = 'http://localhost:8080/'
+  //this.url = 'C:\Users\ITEFS-BACKEND\Downloads'
   }
 
   getadvert(){
@@ -119,6 +119,8 @@ export class LoginService {
     const url_api = this.url+`vehiculo/marca`;
     return this.http.get(url_api);
   };
+
+  
 
   ObtenerTipoCombustibles():Observable<any> {
     // TODO: obtener token

@@ -1,112 +1,73 @@
-<div id="lienzo">
-    <div class="d-flex flex-column overflow-auto h-100 p-0 m-0">
-        <header class="masthead mb-auto">
-        </header>
-        <form [formGroup]="Formulario" class="form-signin rounded mx-auto text-center" >
-            <div class="card">
-                <div class="card-header">
-                    <a href="https://trexsas.com.co/" target="_blank"><img class="mb-4 rounded img-fluid" src="assets/Nuevo.png" alt=""></a>
+<div id="lienzo" class="d-flex flex-column overflow-auto h-100 p-0 m-0">
+    <header class="masthead mb-auto">
+        <!-- Encabezado del formulario (si es necesario) -->
+    </header>
+
+    <form [formGroup]="Formulario" class="form-signin rounded mx-auto text-center">
+        <div class="card">
+            <div class="card-header"style="background-color:    #296fb0">
+                <a href="https://trexsas.com.co/" target="_blank">
+                    <img class="mb-4 rounded img-fluid" src="assets/nuevo1.png" alt="">
+                </a>
+            </div>
+            <div class="card-body" >
+                <p class="lead" style="font-weight: bold;">Sistema TREX SAS</p>
+
+                
+
+                <!-- Mensaje de sesión cerrada -->
+                <div *ngIf="msgnottoken" class="alert alert-warning" role="alert">
+                    Lo siento, la sesión fue cerrada. Vuelve a iniciar sesión.
                 </div>
-                <div class="card-body">
-                    <p class="lead">Bienvenido a</p><h1 class="display-4"> <strong>TREX SAS</strong></h1>
-                    <div *ngIf="msgnottoken" class="alert alert-warning" role="alert">
-                        Lo siento!, la sesión fue cerrada!, vuelve a iniciar sesión.
-                    </div>
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="{{labels?.usuario}}" formControlName="username" type="text">
-                        <mat-error >digite el {{labels?.usuario}}</mat-error>
-                    </mat-form-field>
-                    <div>
-                        <p-password formControlName="pass" [toggleMask]="true" [feedback]="false"></p-password>
-                    </div>
-
-                    <!--
-                        <mat-form-field class="example-full-width">
-                        <input matInput placeholder="{{labels?.clave}}" formControlName="pass" type="password">
-                        <mat-error >digite el {{labels?.clave}}</mat-error>
-                    </mat-form-field>
-                    -->
-
+                <!-- Campos de usuario y contraseña -->
+                <mat-form-field class="example-full-width" appearance="outline" color="white">
+                    <mat-label>{{labels?.usuario}}</mat-label>
+                    <mat-icon matPrefix>account_circle</mat-icon>
+                    <input matInput formControlName="username" type="text" placeholder="Usuario">
+                  </mat-form-field>
+                  
+                  <!-- Campo de contraseña -->
+                  <mat-form-field class="example-full-width" appearance="outline" color="white">
+                    <label mat-label>{{labels?.contrasena}}</label>
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input matInput formControlName="pass" type="password" placeholder="Contraseña">
+                  </mat-form-field>
+                  
+                <!-- Mensajes de error -->
                 <div *ngIf="msgnotfound" class="alert alert-danger" role="alert">
-                        Lo siento, Las credenciales no coinciden.
-                    </div>
-                    <div *ngIf="msgnotaccess" class="alert alert-danger" role="alert">
-                        Cuenta desactivada o Eliminada, comunícate con un usuario administrador para solucionar el inconveniente.
-                        Usuario o contraseña incorrectos.
-                    </div>
-                    <div class="form-group form-check text-dark">
-                            <label class="form-check-label">
-                                <input  class="form-check-input position-static" type="checkbox" id="editafil"  aria-label="...">
-                                <span class="form-check-sign">
-                                    <span class="check"> </span>
-                                </span>
-                            </label>Mantener sesión iniciada
-                        <input type="checkbox" class="form-check-input" id="record">
-                        <label class="form-check-label" for="record"></label>
-                    </div>
-                    <button (click)="ingresar()" class="btn btn-lg btn-info btn-block btn-round" [disabled]="!Formulario.valid">
-                        <i class="large material-icons">keyboard_tab</i>
-                        Ingresar</button>
-                    <button type="button" class="btn btn-link text-dark" routerLink="recoverypass">¿Olvidaste la contraseña?</button>
-                    <p class="mt-5 mb-3 "><a href="https://trexsas.com.co/" class="text-dark" target="_blank">&copy; TREX SAS Transportes Exclusivos 2021</a></p>
+                    Las credenciales no coinciden.
                 </div>
+                <div *ngIf="msgnotaccess" class="alert alert-danger" role="alert">
+                    Cuenta desactivada o eliminada. Comunícate con un administrador.
+                </div>
+
+                <!-- Opciones de sesión -->
+                <div class="form-group form-check text-dark">
+                    <label class="form-check-label">
+                        <input class="form-check-input position-static" type="checkbox" id="editafil" aria-label="...">
+                        <span class="form-check-sign">
+                            <span class="check"> </span>
+                        </span>
+                        Mantener sesión iniciada
+                    </label>
+                    <input type="checkbox" class="form-check-input" id="record">
+                    <label class="form-check-label" for="record"></label>
+                </div>
+                <!-- Botón de ingreso -->
+                <button (click)="ingresar()" class="btn btn-info btn-rounded custom-btn" [disabled]="!Formulario.valid">
+                    Ingresar
+                  </button>
+                  
+                <!-- Enlace para recuperar contraseña -->
+                <button type="button" class="btn btn-link text-dark" routerLink="recoverypass">¿Olvidaste la contraseña?</button>
+                <!-- Pie de página del formulario -->
             </div>
+        </div>
+    </form>
 
-
-        </form>
-        <footer class="mt-auto p-2 rounded text-center footerc">
-            <div class="inner">
-                <p>&copy; 2021 | Gestión de Transporte Especial | Un sistema de <a href="http://itefs.com">ITEFS SAS</a> | sistemas@itefs.com .</p>
-            </div>
-        </footer>
-    <!--
-    <div class="row text-centerh">
-        <header class="masthead mb-auto">
-        </header>
-        <form [formGroup]="Formulario" class="form-signin rounded col-12 " >
-            <a href="https://trexsas.com.co/" target="_blank"><img class="mb-4 rounded img-fluid" src="assets/Nuevo.png" alt=""></a>
-            <h1 class="h3 mb-3 font-weight-normal">¡Bienvenido a TREX!</h1>
-            <div *ngIf="msgnottoken" class="alert alert-warning" role="alert">
-                Lo siento!, la sesión fue cerrada!, vuelve a iniciar sesión.
-            </div>
-
-            <label for="inputEmail" class="sr-only">Usuario</label>
-            <input formControlName="username" type="text" [ngClass]="{'form-control':true, 'is-invalid': !Formulario.get('username')?.valid  && (Formulario.get('username')?.touched || Formulario.get('username')?.dirty)}" type="email" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
-
-            <label for="inputPassword" class="sr-only">Contraseña</label>
-            <input formControlName="pass" type="text" [ngClass]="{'form-control':true, 'is-invalid': !Formulario.get('pass')?.valid  && (Formulario.get('pass')?.touched || Formulario.get('pass')?.dirty)}" type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
-            <div *ngIf="msgnotfound" class="alert alert-danger" role="alert">
-                Lo siento, Las credenciales no coinciden.
-            </div>
-            <div *ngIf="msgnotaccess" class="alert alert-danger" role="alert">
-                Cuenta desactivada o Eliminada, comunícate con un usuario administrador para solucionar el inconveniente.
-                Usuario o contraseña incorrectos.
-            </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="record">
-                <label class="form-check-label" for="record">Mantener sesión iniciada</label>
-            </div>
-            <button (click)="ingresar()" class="btn btn-lg btn-primary btn-block" [disabled]="!Formulario.valid">Ingresar</button>
-            <button type="button" class="btn btn-link text-dark" routerLink="recoverypass">¿Olvidaste la contraseña?</button>
-            <p class="mt-5 mb-3 "><a href="https://trexsas.com.co/" class="text-dark" target="_blank">&copy; TREX SAS Transportes Exclusivos 2021</a></p>
-
-        </form>
-        <footer class="mastfoot mt-auto">
-            <div class="inner">
-                <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-            </div>
-        </footer>
-    </div>-->
-
-
-
-    </div>
+    <footer class="mt-auto p-2 rounded text-center footerc">
+        <div class="inner">
+            <p>&copy; 2021 | Gestión de Transporte Especial | Un sistema de <a href="http://itefs.com">ITEFS SAS</a> | sistemas@itefs.com .</p>
+        </div>
+    </footer>
 </div>
-
-
-<!--<footer class="block mastfoot mt-auto">
-    <div class="inner">
-      <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-    </div>
-</footer>-->
-

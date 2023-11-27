@@ -535,11 +535,11 @@ export class VehiculoComponent implements OnInit {
   /**
    * Obtiene los modelos
    */
-  obtenerModelo(): void {
-    var fechaac = new Date();
-    fechaac.setFullYear(fechaac.getFullYear() + 1); // Se suma 1 al año actual
-    for (var i = fechaac.getFullYear(); i >= 1900; i--) {
-      this.modeloveh.push({ value: "" + i });
+  obtenerModelo():void{
+    var fechaac=new Date();
+    for(var i=fechaac.getFullYear();i>=1900;i--){
+      this.modeloveh.push({value:""+i});
+      //console.log(i);
     }
   }
 
@@ -674,7 +674,6 @@ export class VehiculoComponent implements OnInit {
       .ObtenerTipoCombustibles()
       .subscribe((tipocombustible: Array<TipoCombustibleInterface>) => {
         this.tipocom = tipocombustible;
-        console.log("combus",tipocombustible);
       });
   }
 
@@ -743,7 +742,6 @@ export class VehiculoComponent implements OnInit {
    */
   filtrarCond():void{
     this.conductselect=[];
-    console.log(this.conductselect);
     for(var i=0;i<this.conduct.length;i++){
       if( this.conductlist.findIndex(element=>element.idConductor==this.conduct[i].idConductor)==-1 ){
         this.conductselect.push(this.conduct[i]);
@@ -1161,8 +1159,8 @@ export class VehiculoComponent implements OnInit {
         json.tarjetaOperacion={};
         json.tarjetaOperacion.idTarjetaOperacion=this.resVehEdit.tarjetaOperacionList.idTarjetaOperacion;
         json.tarjetaOperacion.numeroTarjetaOperacion=this.Formulario.get("numTO")?.value;
-        json.tarjetaOperacion.fechaVencimientoTarjetaOperacion=this.Formulario.get("fechaFinTO")?.value;
-        json.tarjetaOperacion.fechaExpedicionTarjetaOperacion=this.Formulario.get("fechainITO")?.value;
+        json.tarjetaOperacion.fechaVencimientoTarjetaOperacion=this.Formulario.get("fechainiTO")?.value;
+        json.tarjetaOperacion.fechaExpedicionTarjetaOperacion=this.Formulario.get("fechafinTO")?.value;
         json.tarjetaOperacion.unoTarjetaOperacion=this.nombreArchivoTarjetaOperacion;
         json.revisionTecnicomecanica={};
         json.revisionTecnicomecanica.idRevisionTecnicomecanica=this.resVehEdit.revisionTecnicomecanicaList.idRevisionTecnicomecanica;
@@ -1204,7 +1202,6 @@ export class VehiculoComponent implements OnInit {
         json.soat.aseguradora={};
         json.soat.aseguradora.idAseguradora=this.Formulario.get("aseguradoraSOAT")?.value;
         json.vehiculo=veh;
-        console.log("llego hasta aqui",this.resVehEdit.convenioList.length);
         if(this.resVehEdit.convenioList.length!=0){
           json.convenio={};
           json.convenio.idConvenio=this.resVehEdit.convenioList.idConvenio;

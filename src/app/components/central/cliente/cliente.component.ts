@@ -68,7 +68,8 @@ export class ClienteComponent implements OnInit {
     this.obtenerCiudades();
     this.Formulario=new FormGroup({
       razon:new FormControl('',[Validators.required]),
-      nit:new FormControl('',[Validators.required,Validators.pattern(numberpattern)]),
+      nit:new FormControl('',[Validators.required]),
+      //nit: new FormControl('', [Validators.required, Validators.pattern(numberpattern)])
       direccion:new FormControl('',[Validators.required]),
       enviop:new FormControl(false,),
       swest:new FormControl(true,),
@@ -76,7 +77,7 @@ export class ClienteComponent implements OnInit {
       selectedC:new FormControl('',[Validators.required]),
       archlogo:new FormControl(''),
       correo:new FormControl('',[Validators.required, Validators.email]),
-      tel1:new FormControl('',[Validators.required,this.validtel]),
+      tel1:new FormControl('',[Validators.required]),
       tel2:new FormControl('',[this.validtel]),
     },{
       validators:[this.checkC.bind(this)]

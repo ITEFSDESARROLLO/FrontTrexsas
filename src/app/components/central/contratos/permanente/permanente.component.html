@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header" style="background-color: #004790; color: #39d5ff;">
+                    <div class="card-header" style="background-color: #048ABF; color: #ffffff;">
                         <div>
                             <div class="col-md-11 mb-3">
                                 <h2 style="font-weight: bold; text-align: center;">Contrato Nuevo</h2>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="{{labels?.numero_contrato}}" formControlName="nmbNumeroContrato" type="text" maxlength="4" [readonly]="edit==true" required>
+                                        <input matInput placeholder="{{labels?.numero_contrato}}" formControlName="nmbNumeroContrato" type="text" maxlength="6" [readonly]="edit==true" required>
                                         <mat-error *ngIf="Formulario.get('nmbNumeroContrato').errors?.required" >digite el numero del contrato</mat-error>
                                         <mat-error *ngIf="Formulario.get('nmbNumeroContrato').errors?.pattern" >solo se aceptan valores numericos</mat-error>
                                         <mat-error *ngIf="Formulario.get('nmbNumeroContrato').errors?.minlength" >campo minimo de 4 digitos</mat-error>
@@ -199,7 +199,7 @@
                     <div class="card-footer">
                         <div style="text-align: center">
 
-                            <button class="btn btn-round" style="background-color: #004790;" (click)="GuardarContrato()">CREAR CONTRATO</button>
+                            <button class="btn btn-round" style="background-color: #F28705;" (click)="GuardarContrato()">CREAR CONTRATO</button>
                           </div>
                     </div>
                 </div>

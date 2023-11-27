@@ -67,7 +67,7 @@ export class PermanenteComponent implements OnInit {
       txtFechaFin:new FormControl( '',[Validators.required]),
       txtTipoContrato:new FormControl ('',Validators.required),
       txtCiudadContrato:new FormControl('',Validators.required),
-      nmbNumeroContrato:new FormControl( '',[Validators.required,Validators.pattern(numberpattern)]),
+      nmbNumeroContrato:new FormControl( '',[Validators.required]),
 
     });
   }
@@ -282,7 +282,7 @@ export class PermanenteComponent implements OnInit {
               console.log("Creado Satisfactoriamente");
               Swal.fire({
                 title: 'ÉXTIO',
-                text: 'CONTRATO EDITAdO CON ÉXITO',
+                text: 'CONTRATO EDITADO CON ÉXITO',
                 icon:'success',
                 showConfirmButton:true
               }).then(respuesta =>

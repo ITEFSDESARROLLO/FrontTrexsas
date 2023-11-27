@@ -1,6 +1,6 @@
 #icono
 {
-    color: black;
+    color: rgb(0, 0, 0);
 }
 
 #contenedor_imagen
@@ -12,19 +12,19 @@
 
 .mat-expansion-panel
 {
-    margin: 1px;
+    margin: 5px;
 }
 
 
 
 button{
     font-size: 12px;
-    color: black;
+    color: rgb(0, 0, 0);
     font-weight: bold;
     width: 170px;
     padding: 0px;
 }
 
 .material-icons{
-  color: #ffffff;
+  color: #000000;
 }

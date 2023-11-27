@@ -26,7 +26,7 @@ export class UsuarioComponent implements OnInit {
   edit:boolean;
   view:boolean;
   iduser:number;
-  tipodocs:any;
+  tipodocs: any[] = [];
   perf:Array<any>;
   perfileslist:any;
   docuno="";
@@ -380,7 +380,7 @@ export class UsuarioComponent implements OnInit {
             correo:res.cuenta.persona.correoPersona,
             tel1:res.cuenta.persona.celularUnoPersona,
             tel2:res.cuenta.persona.celularDosPersona,
-            selectedC:res.cuenta.persona.ciudadPersona.ciudad,
+           // selectedC:res.cuenta.persona.ciudadPersona.ciudad,
             usucuenta:res.cuenta.usuarioCuenta,
             passusuario:"",
             tipoPersona:res.cuenta.persona.tipoPersona
@@ -390,7 +390,7 @@ export class UsuarioComponent implements OnInit {
         });
     }
 
-    this.obtenerTipoDoc();
+      this.obtenerTipoDoc();
       this.obtenerRH();
       this.obtenerGenero();
       this.obtenerCaja();
@@ -549,11 +549,11 @@ export class UsuarioComponent implements OnInit {
   /**
    * Obtener los tipos de documentos.
    */
-  obtenerTipoDoc():void{
-    this.tipodocs.push({id:"CC",value:"Cedula de Ciudadania"});
-    this.tipodocs.push({id:"TI",value:"Tajeta de Identidad"});
-    this.tipodocs.push({id:"CE",value:"Cedula de Extranjeria"});
-    this.tipodocs.push({id:"NIT",value:"NIT"});
+  obtenerTipoDoc(): void {
+    this.tipodocs.push({ id: "CC", value: "Cedula de Ciudadania" });
+    this.tipodocs.push({ id: "TI", value: "Tarjeta de Identidad" });
+    this.tipodocs.push({ id: "CE", value: "Cedula de Extranjeria" });
+    this.tipodocs.push({ id: "NIT", value: "NIT" });
   }
 
   /**
@@ -706,18 +706,18 @@ export class UsuarioComponent implements OnInit {
         JSON.persona.apellidoPersona=this.Formulario.get('ape')?.value;
         JSON.persona.tipoDocPersona=this.Formulario.get('tipodoc')?.value;
         JSON.persona.documentoPersona=this.Formulario.get('numdoc')?.value;
-        JSON.persona.ciudadPersona={};
+        //JSON.persona.ciudadPersona={};
         //JSON.persona.ciudadPersona.idCiudad=this.inputc[1];
-        console.log("ciudad e ",this.Formulario.get('ciudade')?.value);
-        JSON.persona.ciudadPersona=this.Formulario.get('ciudade')?.value;
+        //console.log("ciudad e ",this.Formulario.get('ciudade')?.value);
+        //JSON.persona.ciudadPersona=this.Formulario.get('ciudade')?.value;
         JSON.persona.direccionPersona=this.Formulario.get('direccion')?.value;
         JSON.persona.observacionesPersona=this.Formulario.get('obsv')?.value;
         JSON.persona.fechaNacimientoPersona=this.Formulario.get('fechaN')?.value;
         JSON.persona.correoPersona=this.Formulario.get('correo')?.value;
         JSON.persona.celularUnoPersona=this.Formulario.get('tel1')?.value;
         JSON.persona.celularDosPersona=this.Formulario.get('tel2')?.value;
-        JSON.persona.ciudadExpedicionPersona={};
-        console.log("ciudad r ",this.Formulario.get('selectedC')?.value);
+       // JSON.persona.ciudadExpedicionPersona={};
+        //console.log("ciudad r ",this.Formulario.get('selectedC')?.value);
         //JSON.persona.ciudadExpedicionPersona.idCiudad=this.inputc[0];
         JSON.persona.ciudadExpedicionPersona=this.Formulario.get('selectedC')?.value;
         JSON.persona.documentoUnoPersona=this.resCC?.documentoUnoAfiliacion;
@@ -751,8 +751,8 @@ export class UsuarioComponent implements OnInit {
         JSON.persona.apellidoPersona=this.Formulario.get('ape')?.value;
         JSON.persona.tipoDocPersona=this.Formulario.get('tipodoc')?.value;
         JSON.persona.documentoPersona=this.Formulario.get('numdoc')?.value;
-        JSON.persona.ciudadPersona={};
-        JSON.persona.ciudadPersona.idCiudad=this.inputc[1];
+        //JSON.persona.ciudadPersona={};
+        //JSON.persona.ciudadPersona.idCiudad=this.inputc[1];
         JSON.persona.direccionPersona=this.Formulario.get('direccion')?.value;
         JSON.persona.observacionesPersona=this.Formulario.get('obsv')?.value;
         JSON.persona.fechaNacimientoPersona=this.Formulario.get('fechaN')?.value;
@@ -863,7 +863,7 @@ export class UsuarioComponent implements OnInit {
       console.log(this.Formulario.get('ape').errors);
       console.log(this.Formulario.get('tipodoc').errors);
       console.log(this.Formulario.get('numdoc').errors);
-      console.log(this.Formulario.get('ciudade').errors);
+    //  console.log(this.Formulario.get('ciudade').errors);
       console.log(this.Formulario.get('direccion').errors);
       console.log(this.Formulario.get('obsv').errors);
       console.log(this.Formulario.get('fechaN').errors);
@@ -1724,16 +1724,16 @@ export class UsuarioComponent implements OnInit {
               cuenta.persona.apellidoPersona=this.Formulario.get('ape')?.value;
               cuenta.persona.tipoDocPersona=this.Formulario.get('tipodoc')?.value;
               cuenta.persona.documentoPersona=this.Formulario.get('numdoc')?.value;
-              cuenta.persona.ciudadPersona={};
-              cuenta.persona.ciudadPersona.idCiudad=this.inputc[1];
+              //cuenta.persona.ciudadPersona={};
+              //cuenta.persona.ciudadPersona.idCiudad=this.inputc[1];
               cuenta.persona.direccionPersona=this.Formulario.get('direccion')?.value;
               cuenta.persona.observacionesPersona=this.Formulario.get('obsv')?.value;
               cuenta.persona.fechaNacimientoPersona=this.Formulario.get('fechaN')?.value;
               cuenta.persona.correoPersona=this.Formulario.get('correo')?.value;
               cuenta.persona.celularUnoPersona=this.Formulario.get('tel1')?.value;
               cuenta.persona.celularDosPersona=this.Formulario.get('tel2')?.value;
-              cuenta.persona.ciudadExpedicionPersona={};
-              cuenta.persona.ciudadExpedicionPersona.idCiudad=this.inputc[0];
+             // cuenta.persona.ciudadExpedicionPersona={};
+              //cuenta.persona.ciudadExpedicionPersona.idCiudad=this.inputc[0];
               cuenta.persona.documentoUnoPersona=this.nombreArchivoCedulaUsuario;
               cuenta.persona.tipoPersona = this.Formulario.get('tipoPersona')?.value;
               //cuenta.persona.fotoPersona=this.nombreArchivoFotoUsuario;
@@ -1770,7 +1770,7 @@ export class UsuarioComponent implements OnInit {
                         {
                           this.router.navigate['/central/usuarios'];
                         }
-                      });
+                    });
                   }
                 }
               )

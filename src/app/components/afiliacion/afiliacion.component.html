@@ -4,11 +4,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header" style="background-color: #004790;text-align: center">
-                        <h3 class="card-title" style="font-weight:bold; color :#39D5FF">{{labels?.afiliacion}}</h3>
-                        <p class="card-category" style="color :#39D5FF" *ngIf="!edit && !view">{{labels?.crear_afiliacion}}</p>
-                        <p class="card-category" style="color :#39D5FF" *ngIf="view">{{labels?.ver_afiliacion}}</p>
-                        <p class="card-category" style="color :#39D5FF" *ngIf="edit">{{labels?.actualizar_afiliacion}}</p>
+                    <div class="card-header" style="background-color: #048ABF;text-align: center">
+                        <h3 class="card-title" style="font-weight:bold; color :#048ABF">{{labels?.afiliacion}}</h3>
+                        <p class="card-category" style="color :#048ABF" *ngIf="!edit && !view">{{labels?.crear_afiliacion}}</p>
+                        <p class="card-category" style="color :#048ABF" *ngIf="view">{{labels?.ver_afiliacion}}</p>
+                        <p class="card-category" style="color :#048ABF" *ngIf="edit">{{labels?.actualizar_afiliacion}}</p>
                     </div>
                     <div class="card-body">
                         <div  *ngIf="msm!=''" [ngClass]="{'alert':true, 'alert-warning': !ocultar, 'alert-success': ocultar }" class="alert alert-warning" role="alert">

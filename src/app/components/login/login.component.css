@@ -1,12 +1,10 @@
 
-
-
 #lienzo{
-    background-color: #f5f5f5;
+  
     background-position: center;
     background-size: cover;
-    background-image: url('/assets/background.jpg');
-    height: 100%;
+    background-image: url('/assets/fondo26.png');
+    height: 10%;
 }
 #foot{
     display: block;
@@ -23,21 +21,24 @@
 
 
 }
+/* En tu archivo CSS */
+.lead {
+    font-weight: bold;
+}
+
 
 .form-signin {
-  width: 100%;
     max-width: 330px;
-    padding: 15px;
-    background-color: #f5f5f5b0;
+  
 }
 .form-signin .checkbox {
-    font-weight: 400;
+    font-weight: 330;
 }
 .form-signin .form-control {
     position: relative;
     box-sizing: border-box;
-    padding: 10px;
-    font-size: 16px;
+    padding: 1px;
+    font-size: 5px;
 }
 .form-signin .form-control:focus {
     z-index: 2;
@@ -48,7 +49,7 @@
     border-bottom-left-radius: 0;
 }
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
+    margin-bottom: -1px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -60,3 +61,30 @@
 .card{
     margin: 0px;
 }
+.custom-button {
+    background-color: #ff0000;
+    color: #721313;
+    }
+    .display-4 {
+        font-family: 'OtraFuente', sans-serif; /* Reemplaza 'OtraFuente' con el nombre de la fuente que desees utilizar */
+    }
+    /* Estilos personalizados para el label con texto blanco */
+.custom-form-field mat-label {
+    color: white; /* Cambia el color del texto del label a blanco */
+  }
+  
+  /* Estilos personalizados para la caja de texto con bordes redondeados */
+/* Estilos personalizados para el label blanco */
+/* Estilos personalizados para el botón blanco */
+.custom-btn {
+  background-color: #296fb0; /* Fondo blanco */
+  color: rgb(255, 255, 255); /* Texto negro (puedes ajustar esto según tus preferencias) */
+  border-color: white; /* Borde blanco */
+}
+
+/* Estilo adicional para cambiar el color del texto cuando el botón está deshabilitado */
+.custom-btn:disabled {
+  color: #ffffff; /* Color de texto gris cuando está deshabilitado (puedes ajustar esto según tus preferencias) */
+}
+
+  

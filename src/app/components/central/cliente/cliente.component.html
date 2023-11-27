@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header" style="background-color: #004790; color: #39d5ff; height: 100px;">
+                    <div class="card-header" style="background-color: #048ABF;color: #ffffff; height: 100px;">
                         <h3 style="font-weight: bold; text-align: center;">
                           NUEVO CLIENTE
                         </h3>
@@ -32,6 +32,7 @@
                                                 <mat-error *ngIf="Formulario.get('nit').errors?.pattern" >Solo numeros</mat-error>
                                                 <mat-hint align="end">Digite el NIT sin puntos ni digito de verificacion</mat-hint>
                                             </mat-form-field>
+                                            
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <mat-form-field class="example-full-width">
@@ -151,7 +152,7 @@
                                         </div>
                                     </div>
                                     <div style="text-align: center">
-                                        <button class="btn btn-round" style="background-color: #004790; color: white;" (click)="guardar()">{{labels?.guardar}}</button>
+                                        <button class="btn btn-round" style="background-color: #F28705; color: white;" (click)="guardar()">{{labels?.guardar}}</button>
                                       </div>
                                 </form>
                             </div>
